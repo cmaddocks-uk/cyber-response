@@ -34,7 +34,7 @@ setTimeout(() => {
 
   // 1. Check tabs exist
   const tabBtns = doc.querySelectorAll('nav.tabs button');
-  if(tabBtns.length !== 6) issues.push(`Expected 6 tab buttons, got ${tabBtns.length}`);
+  if(tabBtns.length !== 7) issues.push(`Expected 7 tab buttons, got ${tabBtns.length}`);
 
   // 2. Check readiness questions render
   const readinessCards = doc.querySelectorAll('#readinessQuestions .card');

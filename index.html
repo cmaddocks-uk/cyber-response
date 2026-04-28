@@ -387,6 +387,7 @@
       <button data-tab="readiness">Readiness</button>
       <button data-tab="plan">Plan Builder</button>
       <button data-tab="output">Your Plan</button>
+      <button data-tab="governor">Governor Report</button>
       <button data-tab="changelog">Changelog</button>
       <button data-tab="about">About</button>
     </nav>
@@ -408,7 +409,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.4.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.5.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Two-column hero -->
@@ -435,7 +436,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.4.0 current</span>
+        <span class="status-pill status-ok">✅ v1.5.0 current</span>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
         <a class="status-link" href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener noreferrer">🛡️ NCSC ↗</a>
@@ -452,6 +453,7 @@
 
         <button class="btn-cta" onclick="goTab('readiness')">▶ Start readiness check</button>
         <button class="btn-cta-secondary" onclick="goTab('plan')">📋 Skip to plan builder</button>
+        <button class="btn-cta-secondary" onclick="goTab('governor')" style="margin-top:8px">📊 View governor report</button>
 
         <div class="divider"></div>
 
@@ -508,8 +510,9 @@
     <h3 style="margin-top:18px">Priority actions</h3>
     <div id="rActions"></div>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="window.print()">🖨️ Print readiness report</button>
+      <button class="btn btn-primary" onclick="goTab('governor')">📊 Generate governor report &rarr;</button>
       <button class="btn btn-secondary" onclick="goTab('plan')">Continue to plan builder &rarr;</button>
+      <button class="btn btn-secondary" onclick="window.print()">🖨️ Print readiness report</button>
     </div>
   </div>
 
@@ -573,13 +576,40 @@
 </section>
 
 <!-- ============================================================== -->
-<!-- CHANGELOG                                                       -->
+<!-- GOVERNOR REPORT                                                 -->
 <!-- ============================================================== -->
-<section id="tab-changelog" class="tab-panel hidden">
+<section id="tab-governor" class="tab-panel hidden">
+
+  <div class="card no-print">
+    <h2>Governor / Trustee Report</h2>
+    <p class="muted">A one-page, plain-English summary of cyber response readiness designed for governing body and trustee meetings. Helps demonstrate assurance against the Ofsted "<em>How do you assure yourselves...</em>" line of questioning during inspection.</p>
+    <p class="muted" style="font-size:13px"><strong>Best practice:</strong> ensure this report is minuted &mdash; Ofsted inspectors will look for evidence that cyber assurance has taken place at governor level.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print governor report</button>
+      <button class="btn btn-secondary" onclick="goTab('readiness')">&larr; Back to readiness check</button>
+    </div>
+  </div>
+
+  <div id="governorReport" class="plan-doc"></div>
+
+</section>
 
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.5.0 <span class="muted" style="font-weight:normal; font-size:13px">— 28 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>Governor / Trustee Report added.</strong> Inspired by the governor report in the DfE Self-Assessment Tool that Helen specifically validated against Ofsted's "How do you assure yourselves..." line of questioning.</p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">New Governor Report tab</strong> &mdash; one-page printable summary in plain English, designed for governing body and trustee meetings.</li>
+      <li><strong style="color:var(--text)">Plain-English readiness summary</strong> &mdash; readiness % score, RAG breakdown, and an overall verdict that adapts to the school's score (Strong / Reasonable / Significant gaps).</li>
+      <li><strong style="color:var(--text)">Priority Areas for Governor Oversight</strong> &mdash; lowest-scoring areas surfaced first, in language that doesn't require IT background.</li>
+      <li><strong style="color:var(--text)">"How do you assure yourselves..." questions</strong> &mdash; for each non-green readiness area, a specific Ofsted-style question governors should ask SLT at the next meeting.</li>
+      <li><strong style="color:var(--text)">Suggested minute wording</strong> &mdash; ready-to-use text for the governor meeting minutes, since Helen specifically highlighted that minuting evidences cyber assurance during Ofsted inspection.</li>
+      <li><strong style="color:var(--text)">For SLT / For Governors split</strong> in the Recommended Next Steps, mirroring the Self-Assessment Tool's pattern.</li>
+    </ul>
   </div>
 
   <div class="card">
@@ -699,7 +729,7 @@
 <footer>
   <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px">
     <div style="text-align:left">
-      Cyber Incident Response Planner v1.4.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
+      Cyber Incident Response Planner v1.5.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
       <a href="https://cmaddocks-uk.github.io/cyber-response" target="_blank" rel="noopener noreferrer">cmaddocks-uk.github.io/cyber-response</a> &middot;
       <a href="#" onclick="goTab('changelog'); return false">Changelog</a> &middot;
       <a href="#" onclick="goTab('about'); return false">About</a>
@@ -1134,6 +1164,7 @@ function goTab(name){
   document.getElementById("tab-"+name).classList.remove("hidden");
   document.querySelectorAll("nav.tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
   if(name === "output") generatePlan();
+  if(name === "governor") generateGovernorReport();
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
@@ -2414,6 +2445,228 @@ function setupScrollSpy(sections, nav){
 
   window.addEventListener("scroll", _scrollSpyHandler, {passive:true});
   _scrollSpyHandler(); // run once
+}
+
+/* ============================================================== */
+/* GOVERNOR REPORT                                                 */
+/* ============================================================== */
+
+// Plain-English summary of each readiness question for governors,
+// plus the specific "How do you assure yourselves..." question they
+// should ask SLT at the next meeting if this area isn't fully green.
+const GOV_PLAIN = {
+  R1: {
+    label: "Written response plan",
+    plain: "Whether the school has a written plan for responding to a cyber attack, accessible to the people who would need it.",
+    govQ: "How do you assure yourselves that the school has an up-to-date, written cyber incident response plan, and that key staff know where to find it — including a hard copy stored off-network?"
+  },
+  R2: {
+    label: "Plan tested in last 12 months",
+    plain: "Whether the response plan has been tested through a tabletop exercise so the school knows it actually works.",
+    govQ: "How do you assure yourselves that the response plan has been tested in the last twelve months and that lessons learned have been incorporated?"
+  },
+  R3: {
+    label: "Up-to-date contact list",
+    plain: "Whether the school has named contacts for incident response, with multiple ways to reach each person if email is down.",
+    govQ: "How do you assure yourselves that the incident contact list is current, with at least two contact methods per key role, and stored where it can be reached if the network is unavailable?"
+  },
+  R4: {
+    label: "Severity grading",
+    plain: "Whether the school has agreed in advance how it will judge how serious an incident is — so the right people get involved at the right time.",
+    govQ: "How do you assure yourselves that there are clear criteria for grading the severity of a cyber incident, and that staff know how to apply them?"
+  },
+  R5: {
+    label: "Decision authority",
+    plain: "Whether it is documented who has authority to take systems offline, engage external help, contact the press and notify the regulator — including named deputies.",
+    govQ: "How do you assure yourselves that critical incident decisions — including taking systems offline, engaging external responders and ICO notification — have named decision-makers and named deputies?"
+  },
+  R6: {
+    label: "Ransomware & data breach playbooks",
+    plain: "Whether the school has step-by-step playbooks for the most likely incident types, particularly ransomware and personal data breaches.",
+    govQ: "How do you assure yourselves that the school has tested playbooks for at least the top three most likely incident types, including ransomware and personal data breach?"
+  },
+  R7: {
+    label: "Immutable / off-site backups",
+    plain: "Whether the school's backups can survive a ransomware attack and whether restoration is regularly tested.",
+    govQ: "How do you assure yourselves that the school's backups are immutable or air-gapped (cannot be encrypted in a ransomware attack) and that restoration is tested at least termly with the result logged?"
+  },
+  R8: {
+    label: "Reporting routes",
+    plain: "Whether the school knows how and when to report incidents to NCSC, Action Fraud, the ICO (within 72 hours if personal data is involved), and the DfE / RPA.",
+    govQ: "How do you assure yourselves that the school knows the four UK reporting routes, including the 72-hour ICO notification deadline for personal data breaches?"
+  },
+  R9: {
+    label: "Communication templates",
+    plain: "Whether the school has pre-prepared, SLT-approved letters and statements for parents, staff, the ICO and governors — ready to adapt during an incident.",
+    govQ: "How do you assure yourselves that pre-approved communication templates exist for parents, staff, the ICO and governors, and that they are reviewed at least annually?"
+  },
+  R10: {
+    label: "Annual staff cyber training",
+    plain: "Whether all staff with network access — including supply, agency and at least one governor — have had cyber security training in the last twelve months.",
+    govQ: "How do you assure yourselves that all staff with network access have received cyber training in the last twelve months, and that they know specifically how to report a suspected incident?"
+  },
+  R11: {
+    label: "Multi-factor authentication (MFA)",
+    plain: "Whether MFA is enforced on all staff accounts that can access personal data or sensitive systems — not just senior leaders.",
+    govQ: "How do you assure yourselves that MFA is enforced for all staff accounts with access to personal data or sensitive systems, with documented exceptions and compensating controls?"
+  },
+  R12: {
+    label: "Post-incident learning",
+    plain: "Whether the school captures lessons learned after every incident and feeds them back into the plan so the same thing doesn't happen twice.",
+    govQ: "How do you assure yourselves that every incident — major or minor — triggers a documented review and that lessons learned are incorporated into the next version of the plan?"
+  }
+};
+
+function generateGovernorReport(){
+  const out = document.getElementById("governorReport");
+  if(!out) return;
+
+  const p = state.plan;
+  const r = state.readiness;
+  const totalAnswered = Object.keys(r).length;
+
+  // Compute scores
+  let total = 0, red = 0, amber = 0, green = 0, max = READINESS.length * 3;
+  const scores = READINESS.map(q => {
+    const s = r[q.id];
+    if(s == null) return {id: q.id, score: null, rag: "unanswered"};
+    total += s;
+    let rag;
+    if(s >= 3){ green++; rag = "green"; }
+    else if(s >= 2){ amber++; rag = "amber"; }
+    else { red++; rag = "red"; }
+    return {id: q.id, score: s, rag};
+  });
+  const pct = totalAnswered > 0 ? Math.round((total / max) * 100) : 0;
+
+  // Overall verdict
+  let verdict, verdictColor, verdictText;
+  if(totalAnswered < READINESS.length){
+    verdict = "Not yet complete";
+    verdictColor = "var(--muted)";
+    verdictText = `The readiness check has not been fully completed (${totalAnswered} of ${READINESS.length} questions answered). A complete readiness check is recommended before this report is presented to governors.`;
+  } else if(red === 0 && amber <= 2){
+    verdict = "Strong readiness";
+    verdictColor = "var(--green)";
+    verdictText = "The school has a mature cyber incident response capability with a small number of areas to maintain or improve. Governors should seek assurance that testing and training continue at the agreed cadence and that any remaining amber items have a named owner and target date.";
+  } else if(red <= 2){
+    verdict = "Reasonable readiness — gaps to address";
+    verdictColor = "var(--amber)";
+    verdictText = "The school has foundations in place but a small number of red areas need urgent attention. Governors should request a written action plan from the SLT digital lead with timescales and resource implications for each red area.";
+  } else {
+    verdict = "Significant gaps in readiness";
+    verdictColor = "var(--red)";
+    verdictText = "Several core elements of cyber incident response are missing or incomplete. Governors should treat this as a strategic risk requiring an urgent SLT response with a costed remediation plan presented at the next meeting.";
+  }
+
+  // Priority items — red first then amber, capped at 5
+  const priorityIds = scores
+    .filter(s => s.rag === "red" || s.rag === "amber")
+    .sort((a, b) => (a.rag === "red" ? 0 : 1) - (b.rag === "red" ? 0 : 1))
+    .slice(0, 5);
+
+  // Governor questions — only for non-green (or welcome message if all green)
+  const governorQuestionIds = scores.filter(s => s.rag !== "green" && s.rag !== "unanswered").map(s => s.id);
+
+  out.innerHTML = `
+    <!-- HEADER -->
+    <div style="margin-bottom:24px; padding-bottom:18px; border-bottom:3px solid var(--navy)">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px">
+        <div>
+          <h1 style="font-size:22px; font-weight:800; color:var(--navy); margin:0 0 4px">Cyber Incident Response &mdash; Governor Summary</h1>
+          <p style="font-size:13px; color:var(--muted); margin:0">${emptyOr(p.meta.schoolName, "School / college name")}${p.meta.trustName ? ` &middot; ${escapeHtml(p.meta.trustName)}` : ""} &middot; ${emptyOr(p.meta.planDate, "report date")}</p>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:12px; color:var(--muted); margin-bottom:2px">Readiness</div>
+          <div style="font-size:36px; font-weight:800; color:${verdictColor}; line-height:1">${pct}%</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:2px">${green} green &middot; ${amber} amber &middot; ${red} red</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VERDICT -->
+    <div style="background:#f7f9fc; border-radius:10px; padding:16px 20px; margin-bottom:24px; border-left:5px solid ${verdictColor}">
+      <h2 style="font-size:15px; font-weight:700; color:var(--navy); margin:0 0 6px">${verdict}</h2>
+      <p style="font-size:13px; color:var(--text); margin:0; line-height:1.6">${verdictText}</p>
+    </div>
+
+    ${priorityIds.length > 0 ? `
+    <!-- PRIORITY AREAS -->
+    <div style="margin-bottom:24px">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; padding-bottom:6px; border-bottom:2px solid var(--navy)">
+        <h2 style="font-size:14px; font-weight:800; color:var(--navy); margin:0; flex:1; text-transform:uppercase; letter-spacing:.04em">Priority Areas for Governor Oversight</h2>
+        <span style="font-size:11px; color:var(--muted)">Lowest scoring first</span>
+      </div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:12px; line-height:1.5">The following areas need the most attention. Governors should seek written assurance from SLT that plans are in place, resourced and have clear timescales.</p>
+      <div style="display:flex; flex-direction:column; gap:8px">
+        ${priorityIds.map(s => {
+          const gp = GOV_PLAIN[s.id];
+          const ragColor = s.rag === "red" ? "var(--red)" : "var(--amber)";
+          const ragBg = s.rag === "red" ? "var(--red-bg)" : "var(--amber-bg)";
+          return `
+            <div style="display:flex; gap:12px; padding:12px 14px; background:${ragBg}; border-left:4px solid ${ragColor}; border-radius:0 6px 6px 0">
+              <div style="flex-shrink:0">
+                <span style="display:inline-block; padding:2px 8px; background:${ragColor}; color:#fff; font-size:10px; font-weight:700; border-radius:4px; letter-spacing:.04em; text-transform:uppercase">${s.rag}</span>
+              </div>
+              <div style="flex:1">
+                <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:2px">${gp.label}</div>
+                <div style="font-size:12px; color:var(--text); line-height:1.5">${gp.plain}</div>
+              </div>
+            </div>
+          `;
+        }).join("")}
+      </div>
+    </div>
+    ` : ""}
+
+    <!-- GOVERNOR QUESTIONS -->
+    <div style="background:#eaf2fd; border:1px solid #cdd9ed; border-radius:10px; padding:16px 20px; margin-bottom:24px">
+      <h2 style="font-size:13px; font-weight:700; color:var(--navy); margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em">Questions Governors Should Ask at the Next Meeting</h2>
+      <p style="font-size:12px; color:var(--muted); margin:0 0 10px; font-style:italic">Phrased to support the Ofsted-style "How do you assure yourselves..." line of inquiry.</p>
+      <ol style="padding-left:20px; margin:0; display:flex; flex-direction:column; gap:8px">
+        ${governorQuestionIds.length === 0 && totalAnswered === READINESS.length ? `
+          <li style="font-size:13px; color:var(--green); font-weight:600; line-height:1.6">All twelve readiness areas are currently green. Governors should still seek assurance that testing, training and the response plan itself are reviewed at least annually and that lessons from any incident are incorporated.</li>
+        ` : governorQuestionIds.map(id => {
+          const gp = GOV_PLAIN[id];
+          return `<li style="font-size:13px; color:var(--text); line-height:1.6"><strong style="color:var(--navy)">${gp.label}:</strong> ${gp.govQ}</li>`;
+        }).join("")}
+      </ol>
+    </div>
+
+    <!-- NEXT STEPS -->
+    <div style="background:var(--navy); border-radius:10px; padding:16px 20px; margin-bottom:20px">
+      <h2 style="font-size:13px; font-weight:700; color:#fff; margin:0 0 10px; text-transform:uppercase; letter-spacing:.04em">Recommended Next Steps</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
+        <div style="background:rgba(255,255,255,.08); border-radius:8px; padding:12px 14px">
+          <div style="font-size:11px; font-weight:700; color:#7fb4ff; margin-bottom:4px; letter-spacing:.04em">FOR SLT</div>
+          <p style="font-size:12px; color:rgba(255,255,255,.85); line-height:1.5; margin:0">Review the full readiness check and Cyber Incident Response Plan. Present a written response to governors at the next available meeting with planned actions and timescales for each area not currently rated green.</p>
+        </div>
+        <div style="background:rgba(255,255,255,.08); border-radius:8px; padding:12px 14px">
+          <div style="font-size:11px; font-weight:700; color:#7fb4ff; margin-bottom:4px; letter-spacing:.04em">FOR GOVERNORS</div>
+          <p style="font-size:12px; color:rgba(255,255,255,.85); line-height:1.5; margin:0">Ensure this report is minuted &mdash; this evidences cyber assurance during Ofsted inspection. Request a written action plan from the SLT digital lead for any red or amber area, including investment implications and target dates.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASSURANCE CHECKBOX (for minutes) -->
+    <div style="background:#fff; border:1px dashed var(--muted); border-radius:8px; padding:14px 18px; margin-bottom:20px">
+      <h3 style="font-size:12px; font-weight:700; color:var(--navy); margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em">For the meeting minutes</h3>
+      <p style="font-size:12px; color:var(--text); line-height:1.6; margin:0 0 8px">Governors received and considered the Cyber Incident Response readiness report dated ${emptyOr(p.meta.planDate, "[date]")}. The report indicated <strong>${green} green, ${amber} amber and ${red} red</strong> areas. The Chair / cyber link governor will follow up with the SLT digital lead on outstanding red/amber items by [date].</p>
+      <p style="font-size:11px; color:var(--muted); font-style:italic; margin:0">Suggested wording &mdash; adapt as appropriate.</p>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="margin-top:24px; padding-top:14px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:8px">
+      <div>
+        <p style="font-size:10px; font-weight:700; color:var(--navy); margin:0 0 2px">Cyber Incident Response Planner &middot; Governor Summary</p>
+        <p style="font-size:10px; color:var(--muted); margin:0">Built for UK schools and colleges &middot; cmaddocks-uk.github.io/cyber-response</p>
+      </div>
+      <div style="text-align:right">
+        <p style="font-size:10px; color:var(--muted); margin:0 0 2px">Frameworks: NCSC &middot; DfE Digital Standards 2030 &middot; DfE RPA &middot; Ofsted</p>
+        <p style="font-size:10px; color:var(--muted); margin:0">Plan version ${escapeHtml(p.meta.planVersion)} &middot; Approved by ${emptyOr(p.meta.approvedBy, "[approver]")}</p>
+      </div>
+    </div>
+  `;
 }
 
 function generatePlaybooks(pbs){
