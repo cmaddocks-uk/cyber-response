@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Cyber Incident Response Planner — for UK Schools &amp; Colleges</title>
-<meta name="description" content="A free planning tool for UK schools and colleges to assess cyber response readiness and generate a tailored Cyber Incident Response Plan, mapped to NCSC, DfE Digital Standards 2030 and DfE RPA guidance.">
+<meta name="description" content="A free planning tool for UK schools and colleges to assess cyber response readiness and generate a tailored Cyber Incident Response Plan, mapped to NCSC, DfE Digital Standards 2030, DfE RPA and Ofsted inspection guidance.">
 <style>
   :root{
     --navy:#0b2545;
@@ -66,6 +66,7 @@
   .pill-ncsc{background:#e8efff; color:#1f4ed8}
   .pill-dfe{background:#fff4e6; color:#a04500}
   .pill-rpa{background:#e7f5ec; color:#0a6a30}
+  .pill-ofsted{background:#f3e8ff; color:#6b21a8}
   .pill-cyber{background:#fbe9e7; color:#b42318}
   .pill-leadership{background:#fff4e6; color:#a04500}
   .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px}
@@ -97,14 +98,14 @@
   /* Forms */
   label.field{display:block; margin-bottom:14px}
   label.field > .lbl{display:block; font-weight:600; margin-bottom:4px; font-size:14px; color:var(--navy-2)}
-  label.field > .hint{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+  label.field > .hint{display:block; font-size:12px; color:var(--muted); margin-bottom:6px; min-height:16px}
   input[type=text], input[type=email], input[type=tel], input[type=date], textarea, select{
     width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:6px;
     font-size:14px; font-family:inherit; background:#fff; color:var(--text);
   }
   input:focus, textarea:focus, select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(31,111,235,.15)}
   textarea{min-height:80px; resize:vertical}
-  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:start}
   @media(max-width:680px){.grid-2{grid-template-columns:1fr}}
   /* Question block */
   .qblock{border-left:3px solid var(--accent); padding:12px 16px; margin-bottom:14px; background:#fafbfc; border-radius:0 6px 6px 0}
@@ -216,7 +217,8 @@
     <div class="badges" style="justify-content:center">
       <span class="pill pill-ncsc">NCSC Incident Management</span>
       <span class="pill pill-dfe">DfE Digital Standards 2030</span>
-      <span class="pill pill-rpa">DfE RPA Cyber Cover</span>
+      <span class="pill pill-rpa">DfE Risk Protection Arrangement</span>
+      <span class="pill pill-ofsted">Ofsted Inspection Toolkit</span>
     </div>
     <div class="btn-row" style="justify-content:center; margin-top:20px">
       <button class="btn btn-primary" onclick="goTab('readiness')">Start readiness check &rarr;</button>
@@ -310,12 +312,7 @@
 
   <div id="planSections"></div>
 
-  <div class="card">
-    <div class="btn-row">
-      <button class="btn btn-primary" onclick="generatePlan(); goTab('output')">📄 Generate plan &rarr;</button>
-      <button class="btn btn-secondary" onclick="goTab('readiness')">&larr; Back to readiness</button>
-    </div>
-  </div>
+  <div class="card" id="sectionFooter"></div>
 
 </section>
 
@@ -353,6 +350,7 @@
       <li><strong>NCSC Incident Management</strong> &mdash; the structure of the plan (key contacts, severity, categorisation, escalation, playbooks, post-incident review) follows the NCSC's published guidance for organisations of any size.</li>
       <li><strong>DfE Digital Standards 2030 &mdash; Cyber Security core standard</strong> &mdash; questions reflect the DfE's stated expectations on risk assessment, training, MFA, response planning, asset registers and patching.</li>
       <li><strong>DfE Risk Protection Arrangement (RPA) Cyber Response Plan template</strong> &mdash; structure aligns with the impact assessment, communication templates and recovery event recording required by RPA cyber cover.</li>
+      <li><strong>Ofsted Inspection Toolkit (November 2025)</strong> &mdash; Ofsted does not directly inspect cyber security, but several aspects of cyber response intersect with the safeguarding evaluation (Met/Not Met) and leadership and management areas. These cross-overs are flagged in the readiness check.</li>
     </ul>
 
     <h3 style="margin-top:18px">Privacy</h3>
@@ -371,6 +369,7 @@
       <li><a href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener">NCSC &mdash; Incident Management collection</a></li>
       <li><a href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges/cyber-security-standards-for-schools-and-colleges" target="_blank" rel="noopener">GOV.UK &mdash; Cyber security standards for schools and colleges</a></li>
       <li><a href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener">GOV.UK &mdash; Risk Protection Arrangement (RPA) for schools</a></li>
+      <li><a href="https://www.gov.uk/government/publications/education-inspection-framework/education-inspection-framework-for-use-from-november-2025" target="_blank" rel="noopener">Ofsted &mdash; Education Inspection Framework (from November 2025)</a></li>
       <li><a href="https://www.ncsc.gov.uk/section/education-skills/schools" target="_blank" rel="noopener">NCSC &mdash; Cyber security for schools</a></li>
       <li><a href="https://report.ncsc.gov.uk/" target="_blank" rel="noopener">NCSC &mdash; Report a cyber incident</a></li>
       <li><a href="https://ico.org.uk/for-organisations/report-a-breach/" target="_blank" rel="noopener">ICO &mdash; Report a personal data breach</a></li>
@@ -397,7 +396,7 @@
 // Readiness questions: 12 questions, 4 options each (RAG: 0=red, 1=red, 2=amber, 3=green)
 const READINESS = [
   {id:"R1", text:"Do you have a written cyber incident response plan that is accessible to the people who would need to use it?",
-    frameworks:["NCSC","DfE","RPA"],
+    frameworks:["NCSC","DfE","RPA","Ofsted"],
     opts:[
       "No written plan exists",
       "An informal plan exists but is not documented or shared",
@@ -481,7 +480,7 @@ const READINESS = [
     ]
   },
   {id:"R7", text:"Do you have a documented backup strategy that includes immutable or air-gapped copies that cannot be encrypted in a ransomware attack?",
-    frameworks:["DfE","RPA"],
+    frameworks:["DfE","RPA","Ofsted"],
     opts:[
       "Backups exist but all are connected to the network",
       "Some backups are off-site but not immutable or air-gapped",
@@ -495,7 +494,7 @@ const READINESS = [
     ]
   },
   {id:"R8", text:"Do you know how to report a cyber incident to (a) NCSC, (b) Action Fraud, (c) the ICO if personal data is involved, and (d) the DfE / RPA?",
-    frameworks:["DfE","RPA"],
+    frameworks:["DfE","RPA","Ofsted"],
     opts:[
       "Do not know the reporting routes",
       "Aware of one or two reporting routes but no documented procedure",
@@ -523,7 +522,7 @@ const READINESS = [
     ]
   },
   {id:"R10", text:"Have all staff with network access received cyber security training in the last 12 months — and do they know specifically how to report a suspected incident?",
-    frameworks:["DfE"],
+    frameworks:["DfE","Ofsted"],
     opts:[
       "No formal training",
       "Training delivered but more than 12 months ago",
@@ -747,8 +746,18 @@ document.getElementById("tabs").addEventListener("click", e => {
 /* ============================================================== */
 
 function frameworkBadges(arr){
-  const map = {NCSC:"pill-ncsc", DfE:"pill-dfe", RPA:"pill-rpa"};
-  const labels = {NCSC:"NCSC", DfE:"DfE Std 2030", RPA:"DfE RPA"};
+  const map = {
+    NCSC:"pill-ncsc",
+    DfE:"pill-dfe",
+    RPA:"pill-rpa",
+    Ofsted:"pill-ofsted"
+  };
+  const labels = {
+    NCSC:"NCSC Incident Management",
+    DfE:"DfE Digital Standards 2030",
+    RPA:"DfE Risk Protection Arrangement",
+    Ofsted:"Ofsted Inspection Toolkit"
+  };
   return arr.map(f => `<span class="pill ${map[f]}">${labels[f]}</span>`).join(" ");
 }
 
@@ -886,17 +895,50 @@ function showSection(id){
   currentSection = id;
   document.querySelectorAll("#sectionNav button").forEach(b => b.classList.toggle("active", b.dataset.section === id));
   document.querySelectorAll(".plan-section").forEach(el => el.classList.toggle("hidden", el.dataset.section !== id));
+  renderSectionFooter();
+}
+
+function renderSectionFooter(){
+  const footer = document.getElementById("sectionFooter");
+  if(!footer) return;
+  const idx = SECTIONS.findIndex(s => s.id === currentSection);
+  const isFirst = idx === 0;
+  const isLast = idx === SECTIONS.length - 1;
+  const prev = isFirst ? null : SECTIONS[idx - 1];
+  const next = isLast ? null : SECTIONS[idx + 1];
+
+  // Strip HTML entities from titles for display
+  const cleanTitle = t => t.replace(/&amp;/g, "&");
+
+  let leftBtn = isFirst
+    ? `<button class="btn btn-secondary" onclick="goTab('readiness')">&larr; Back to readiness</button>`
+    : `<button class="btn btn-secondary" onclick="showSection('${prev.id}'); window.scrollTo({top:0, behavior:'smooth'})">&larr; Previous: ${cleanTitle(prev.title)}</button>`;
+
+  let rightBtn = isLast
+    ? `<button class="btn btn-primary" onclick="generatePlan(); goTab('output')">📄 Generate plan &rarr;</button>`
+    : `<button class="btn btn-primary" onclick="showSection('${next.id}'); window.scrollTo({top:0, behavior:'smooth'})">Next: ${cleanTitle(next.title)} &rarr;</button>`;
+
+  footer.innerHTML = `
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap">
+      <div>${leftBtn}</div>
+      <div class="muted" style="font-size:13px">Step ${idx + 1} of ${SECTIONS.length}</div>
+      <div>${rightBtn}</div>
+    </div>
+  `;
 }
 
 function field(label, key, type, hint, options){
   // key is dot-path like "plan.meta.schoolName"
   const val = getPath(state, key) || "";
   const id = "f_" + key.replace(/\./g, "_");
+  // Always render a hint span (empty if not provided) so all fields have
+  // identical vertical structure and inputs align across grid columns.
+  const hintHtml = `<span class="hint">${hint ? escapeHtml(hint) : "&nbsp;"}</span>`;
   if(type === "textarea"){
     return `
       <label class="field">
         <span class="lbl">${label}</span>
-        ${hint ? `<span class="hint">${hint}</span>` : ""}
+        ${hintHtml}
         <textarea id="${id}" oninput="setPath(state, '${key}', this.value); saveState()">${escapeHtml(val)}</textarea>
       </label>`;
   }
@@ -904,7 +946,7 @@ function field(label, key, type, hint, options){
     return `
       <label class="field">
         <span class="lbl">${label}</span>
-        ${hint ? `<span class="hint">${hint}</span>` : ""}
+        ${hintHtml}
         <select id="${id}" onchange="setPath(state, '${key}', this.value); saveState()">
           ${options.map(o => `<option value="${escapeHtml(o)}" ${val === o ? 'selected' : ''}>${escapeHtml(o)}</option>`).join("")}
         </select>
@@ -913,7 +955,7 @@ function field(label, key, type, hint, options){
   return `
     <label class="field">
       <span class="lbl">${label}</span>
-      ${hint ? `<span class="hint">${hint}</span>` : ""}
+      ${hintHtml}
       <input type="${type}" id="${id}" value="${escapeHtml(val)}" oninput="setPath(state, '${key}', this.value); saveState()">
     </label>`;
 }
@@ -1612,8 +1654,9 @@ function generatePlan(){
       <thead><tr><th>Framework</th><th>Coverage</th></tr></thead>
       <tbody>
         <tr><td><strong>NCSC Incident Management</strong></td><td>Sections 2 (CIRT roles), 3 (key contacts), 4 (severity), 5 (escalation), 6 (process), 7 (playbooks), 10 (post-incident review)</td></tr>
-        <tr><td><strong>DfE Cyber Security core standard (one of 6 core Digital and Technology Standards by 2030)</strong></td><td>Cyber risk planning, response plan, asset/system inventory, post-incident review, hard-copy storage</td></tr>
+        <tr><td><strong>DfE Digital Standards 2030 &mdash; Cyber Security core standard</strong></td><td>Cyber risk planning, response plan, asset/system inventory, post-incident review, hard-copy storage</td></tr>
         <tr><td><strong>DfE Risk Protection Arrangement (RPA) cyber response plan</strong></td><td>Sections 3 (external contacts incl. RPA), 6 (incident process), 8 (communication templates), 9 (recovery), 10 (review form)</td></tr>
+        <tr><td><strong>Ofsted Inspection Toolkit (November 2025)</strong></td><td>Indirect crossover: backups protect safeguarding records (Met/Not Met area); staff training on cyber reporting supports the school's safeguarding culture; leadership oversight of cyber risk falls within Leadership and Management. Ofsted does not directly inspect cyber security.</td></tr>
         <tr><td><strong>UK GDPR / Data Protection Act 2018</strong></td><td>Section 5 (ICO notification authority), 8.3 (ICO template), 72-hour notification deadline</td></tr>
       </tbody>
     </table>
