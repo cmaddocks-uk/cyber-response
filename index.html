@@ -171,7 +171,7 @@
   .plan-doc .empty{color:var(--muted); font-style:italic; font-size:13px}
   /* Home hero (matches DfE Self-Assessment Tool layout) */
   .home-hero{
-    display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;
+    display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch;
   }
   @media(max-width:920px){.home-hero{grid-template-columns:1fr}}
   .home-hero-left{
@@ -180,6 +180,8 @@
     padding:22px; box-shadow:var(--shadow);
     display:flex; flex-direction:column; gap:18px;
   }
+  /* Push the status bar to the bottom of the left column so column heights match */
+  .home-hero-left .home-status{margin-top:auto}
   .feature-pills{display:flex; flex-wrap:wrap; gap:8px}
   .feature-pill{
     display:inline-block; padding:6px 14px; border-radius:999px;
@@ -379,14 +381,14 @@
           <div class="cat-tile" onclick="goTab('plan'); showSection('maintenance')"><span class="cat-icon" style="background:#f3e8ff; color:#6b21a8">🔄</span> Plan maintenance</div>
         </div>
       </div>
-
-      <!-- Feedback callout -->
-      <div class="feedback-callout">
-        <h3 style="margin:0 0 6px; display:flex; align-items:center; gap:8px">💬 Help us improve this tool</h3>
-        <p style="margin:0 0 12px; font-size:13px">Tried the tool? We'd love to know what you think. Your feedback shapes future versions and helps the school IT community get the most from it.</p>
-        <a class="btn-feedback" href="https://github.com/cmaddocks-uk/cyber-response/issues/new" target="_blank" rel="noopener">💭 Share Your Feedback</a>
-      </div>
     </div>
+  </div>
+
+  <!-- Feedback callout — full width, underneath both columns -->
+  <div class="feedback-callout" style="margin-top:18px">
+    <h3 style="margin:0 0 6px; display:flex; align-items:center; gap:8px">💬 Help us improve this tool</h3>
+    <p style="margin:0 0 12px; font-size:13px">Tried the tool? We'd love to know what you think. Your feedback shapes future versions and helps the school IT community get the most from it.</p>
+    <a class="btn-feedback" href="https://github.com/cmaddocks-uk/cyber-response/issues/new" target="_blank" rel="noopener">💭 Share your feedback</a>
   </div>
 
 </section>
