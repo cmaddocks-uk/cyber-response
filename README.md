@@ -1,6 +1,8 @@
 # Cyber Incident Response Planner — for UK Schools & Colleges
 
-A free, single-file, browser-based planning tool for UK schools and colleges. Assesses cyber response readiness and generates a tailored **Cyber Incident Response Plan** mapped to NCSC, DfE Digital Standards 2030, and DfE Risk Protection Arrangement (RPA) cyber cover requirements.
+**Current version:** 1.1.0 — see [in-app changelog](https://cmaddocks-uk.github.io/cyber-response/#changelog).
+
+A free, single-file, browser-based planning tool for UK schools and colleges. Assesses cyber response readiness and generates a tailored **Cyber Incident Response Plan** mapped to NCSC, DfE Digital Standards 2030, DfE Risk Protection Arrangement (RPA), and the Ofsted Inspection Toolkit (where cyber response intersects with safeguarding and leadership).
 
 🌐 **Live tool:** [cmaddocks-uk.github.io/cyber-response](https://cmaddocks-uk.github.io/cyber-response)
 
