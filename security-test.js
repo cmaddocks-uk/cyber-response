@@ -115,7 +115,7 @@ setTimeout(() => {
   }
   if(planOut.includes('<svg') && !planOut.includes('&lt;svg')) issues.push("Raw <svg> tag found in plan output");
 
-  // ---- 8. CSP meta tag is present ----
+  // ---- 8. CSP meta tag is present and correctly scoped ----
   const csp = doc.querySelector('meta[http-equiv="Content-Security-Policy"]');
   if(!csp) issues.push("No CSP meta tag");
   else {
@@ -123,6 +123,30 @@ setTimeout(() => {
     if(!content.includes("default-src 'none'")) issues.push("CSP missing default-src 'none'");
     if(!content.includes("frame-ancestors 'none'")) issues.push("CSP missing frame-ancestors 'none'");
     if(!content.includes("base-uri 'none'")) issues.push("CSP missing base-uri 'none'");
+
+    // connect-src should be locked to just GoatCounter — nothing else.
+    // If anyone adds another remote endpoint without thinking about it,
+    // this test will catch it.
+    const connectMatch = content.match(/connect-src ([^;]+);/);
+    if(!connectMatch) issues.push("CSP has no connect-src directive");
+    else {
+      const connectSrc = connectMatch[1].trim();
+      const allowed = connectSrc.split(/\s+/);
+      const expected = ["https://cyber-response.goatcounter.com"];
+      const unexpected = allowed.filter(s => s !== "'none'" && s !== "'self'" && !expected.includes(s));
+      if(unexpected.length > 0) issues.push(`CSP connect-src has unexpected entries: ${unexpected.join(", ")}`);
+    }
+
+    // script-src should similarly only include 'self', 'unsafe-inline' and gc.zgo.at
+    const scriptMatch = content.match(/script-src ([^;]+);/);
+    if(!scriptMatch) issues.push("CSP has no script-src directive");
+    else {
+      const scriptSrc = scriptMatch[1].trim();
+      const allowed = scriptSrc.split(/\s+/);
+      const expected = ["'self'", "'unsafe-inline'", "https://gc.zgo.at"];
+      const unexpected = allowed.filter(s => !expected.includes(s));
+      if(unexpected.length > 0) issues.push(`CSP script-src has unexpected entries: ${unexpected.join(", ")}`);
+    }
   }
 
   // ---- 9. All target=_blank links have noopener noreferrer ----

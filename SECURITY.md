@@ -2,7 +2,7 @@
 
 ## Threat model
 
-The Cyber Incident Response Planner is a single-file static HTML application served by GitHub Pages. It has no backend, no authentication, no remote data fetching, no analytics, no cookies, and no shared state between users.
+The Cyber Incident Response Planner is a single-file static HTML application served by GitHub Pages. It has no backend, no authentication, and no shared state between users. The only remote endpoint contacted by the tool is GoatCounter (privacy-friendly anonymous analytics — no cookies, no fingerprinting, GDPR-compliant). No user-entered plan data is ever transmitted; only an anonymous page-view ping.
 
 Each user's data lives in their own browser session (`sessionStorage`) and is wiped on tab close. Saved progress is downloaded as a local JSON file.
 
@@ -23,7 +23,7 @@ The realistic security concerns for this kind of tool are therefore:
 | JSON import — unknown fields | Schema-driven merge silently drops keys not present in the expected state shape |
 | JSON import — type confusion | Each field type-checked against the schema; mismatches fall back to the default |
 | JSON import — DoS via large input | 1MB file size cap, 50KB string field cap, 200-item array cap |
-| Remote script / data injection | CSP `default-src 'none'`, `connect-src 'none'`, `script-src 'self' 'unsafe-inline'` |
+| Remote script / data injection | CSP `default-src 'none'`, `script-src` and `connect-src` allow only `'self'`, inline, and the GoatCounter endpoint &mdash; nothing else |
 | Tabnabbing | All `target="_blank"` links use `rel="noopener noreferrer"` |
 | Referrer leakage | `<meta name="referrer" content="strict-origin-when-cross-origin">` |
 | Clickjacking | CSP `frame-ancestors 'none'` |

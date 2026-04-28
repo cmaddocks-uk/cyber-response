@@ -2,7 +2,7 @@
 
 [![Security Policy](https://img.shields.io/badge/security-policy-green)](SECURITY.md)
 
-**Current version:** 1.6.0 — see [in-app changelog](https://cmaddocks-uk.github.io/cyber-response/#changelog).
+**Current version:** 1.0.0 — see [in-app changelog](https://cmaddocks-uk.github.io/cyber-response/#changelog).
 
 A free, single-file, browser-based planning tool for UK schools and colleges. Assesses cyber response readiness and generates a tailored **Cyber Incident Response Plan** mapped to NCSC, DfE Digital Standards 2030, DfE Risk Protection Arrangement (RPA), and the Ofsted Inspection Toolkit (where cyber response intersects with safeguarding and leadership).
 
@@ -20,13 +20,14 @@ Companion to the [DfE Digital Standards 2030 — Self-Assessment Tool](https://c
 
 ## Privacy
 
-- Runs entirely in your browser. No server, no analytics, no cookies, no tracking.
+- Runs entirely in your browser. Plan data never leaves your device.
 - Data is held in the browser session only. Closing the tab wipes it.
 - Save progress to a local JSON file (and re-import later) when you want to persist.
+- Anonymous page-view counts via [GoatCounter](https://www.goatcounter.com/help/gdpr) — privacy-friendly, GDPR-compliant, no cookies, no fingerprinting, no advertising trackers.
 
 ## Security
 
-The tool is hardened against common single-page-app risks: a strict Content Security Policy blocks any remote scripts or network calls, JSON imports are validated against a schema (preventing prototype pollution and type confusion), all user input is HTML-escaped before rendering, and external links use `rel="noopener noreferrer"`.
+The tool is hardened against common single-page-app risks: a Content Security Policy locks down remote content (only the GoatCounter analytics endpoint is permitted; everything else is blocked), JSON imports are validated against a schema (preventing prototype pollution and type confusion), all user input is HTML-escaped before rendering, and external links use `rel="noopener noreferrer"`.
 
 See [SECURITY.md](SECURITY.md) for the threat model and how to report issues. An automated security test suite (`security-test.js`) covers XSS injection, prototype pollution, schema validation and link hardening — run it with `node security-test.js`.
 

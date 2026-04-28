@@ -6,21 +6,25 @@
 
 <!--
   Content Security Policy — defence-in-depth.
-  This tool is fully self-contained: no external scripts, no remote data,
-  no images, no fonts. The CSP below enforces that.
 
-  - default-src 'none'         — block everything by default
-  - script-src 'self' 'unsafe-inline' — allow our inline event handlers and
-    the inline <script> block, but no remote scripts. (The inline scripts
-    are part of this single-file app; with no remote inputs they are safe.)
-  - style-src 'self' 'unsafe-inline' — same for our inline <style>
-  - img-src 'self' data:       — allow our (currently zero) images and data URIs
-  - connect-src 'none'         — no fetch/XHR allowed at all
-  - form-action 'none'         — no form submissions
-  - frame-ancestors 'none'     — cannot be embedded as an iframe (clickjacking)
-  - base-uri 'none'            — prevents <base> tag injection
+  This tool is fully self-contained except for one explicitly trusted
+  third party: GoatCounter, used for privacy-friendly page-view counts
+  (no cookies, no fingerprinting, GDPR-compliant). The CSP below allows:
+
+  - default-src 'none'              — block everything by default
+  - script-src 'self' 'unsafe-inline' https://gc.zgo.at — our inline scripts
+                                       plus the GoatCounter counter script
+  - style-src 'self' 'unsafe-inline' — our inline styles
+  - img-src 'self' data: https://cyber-response.goatcounter.com — pixel beacon
+  - connect-src https://cyber-response.goatcounter.com — analytics beacon
+  - form-action 'none'              — no form submissions
+  - frame-ancestors 'none'          — cannot be embedded as an iframe
+  - base-uri 'none'                 — prevents <base> tag injection
+
+  Everything else (fetch, remote scripts, frames) is still blocked.
+  GoatCounter dashboard: https://cyber-response.goatcounter.com
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cyber-response.goatcounter.com; connect-src https://cyber-response.goatcounter.com; form-action 'none'; frame-ancestors 'none'; base-uri 'none';">
 
 <!-- Other defence-in-depth headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -383,6 +387,10 @@
   /* Hidden */
   .hidden{display:none !important}
 </style>
+
+<!-- GoatCounter analytics — privacy-friendly, no cookies, no fingerprinting -->
+<!-- Dashboard: https://cyber-response.goatcounter.com -->
+<script data-goatcounter="https://cyber-response.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -678,8 +686,9 @@
 
     <h4 style="margin:12px 0 4px; font-size:14px; color:var(--navy)">Privacy &amp; security</h4>
     <ul style="padding-left:20px; margin:0">
-      <li>Browser-only &mdash; no server, no analytics, no cookies, no tracking</li>
-      <li>Strict Content Security Policy &mdash; no remote scripts, no fetch / XHR, no iframe embedding</li>
+      <li>Browser-only &mdash; your plan data never leaves your device, and is wiped when you close the tab</li>
+      <li>No cookies, no fingerprinting, no advertising trackers. Anonymous page-view counts via <a href="https://www.goatcounter.com/help/gdpr" target="_blank" rel="noopener noreferrer">GoatCounter</a> (privacy-friendly, GDPR-compliant) so the author can see how the tool is being used &mdash; nothing more</li>
+      <li>Content Security Policy locks down remote content to only the GoatCounter analytics endpoint &mdash; no other remote scripts, fetch / XHR or iframe embedding allowed</li>
       <li>JSON imports validated against schema (blocks prototype pollution, type confusion and DoS via oversized inputs)</li>
       <li>All user input HTML-escaped before rendering; external links use <code>rel="noopener noreferrer"</code></li>
       <li>Threat model documented in <a href="https://github.com/cmaddocks-uk/cyber-response/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">SECURITY.md</a>; automated functional and security test suites in the repo</li>
@@ -788,16 +797,16 @@
       <h3>🔒 Privacy</h3>
       <ul style="font-size:14px; padding-left:20px; margin:0">
         <li><strong>No server.</strong> The tool runs entirely in your browser.</li>
-        <li><strong>No analytics, cookies or tracking.</strong> Nothing is sent anywhere.</li>
-        <li><strong>Browser-only data.</strong> Held in your browser session and wiped on tab close.</li>
-        <li><strong>Save to file.</strong> Progress is saved as a JSON file directly to your device.</li>
-        <li><strong>Open source.</strong> Anyone can review the source code.</li>
+        <li><strong>Your plan data never leaves your device.</strong> Held in your browser session and wiped on tab close.</li>
+        <li><strong>Save to file.</strong> Progress is saved as a JSON file directly to your device. The author cannot see it.</li>
+        <li><strong>Anonymous page-view counts only.</strong> A privacy-friendly analytics service (<a href="https://www.goatcounter.com/help/gdpr" target="_blank" rel="noopener noreferrer">GoatCounter</a>) records that someone visited a page. No cookies, no fingerprinting, no advertising trackers, GDPR-compliant.</li>
+        <li><strong>Open source.</strong> Anyone can review the source code on GitHub.</li>
       </ul>
     </div>
     <div class="card">
       <h3>🛡️ Security posture</h3>
       <ul style="font-size:14px; padding-left:20px; margin:0">
-        <li>Strict Content Security Policy &mdash; no remote scripts, no fetch / XHR</li>
+        <li>Content Security Policy locks down remote content to a single trusted analytics endpoint &mdash; nothing else can load</li>
         <li>JSON imports validated against schema (blocks prototype pollution and type confusion)</li>
         <li>All user input HTML-escaped before rendering</li>
         <li>External links use <code>rel="noopener noreferrer"</code></li>
