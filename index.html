@@ -1,0 +1,1734 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cyber Incident Response Planner — for UK Schools &amp; Colleges</title>
+<meta name="description" content="A free planning tool for UK schools and colleges to assess cyber response readiness and generate a tailored Cyber Incident Response Plan, mapped to NCSC, DfE Digital Standards 2030 and DfE RPA guidance.">
+<style>
+  :root{
+    --navy:#0b2545;
+    --navy-2:#13315c;
+    --accent:#1f6feb;
+    --bg:#f7f9fc;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#5b6a82;
+    --line:#e3e8ef;
+    --green:#0a8a3a;
+    --amber:#b45309;
+    --red:#b42318;
+    --green-bg:#e7f5ec;
+    --amber-bg:#fdf3e2;
+    --red-bg:#fbe9e7;
+    --shadow:0 1px 2px rgba(15,23,42,.04), 0 4px 12px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .container{max-width:1080px; margin:0 auto; padding:0 20px}
+  /* Top bar */
+  header.topbar{
+    background:var(--navy); color:#fff; padding:14px 0; border-bottom:3px solid var(--accent);
+  }
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px; letter-spacing:.01em}
+  .brand .logo{font-size:20px}
+  .brand .pipe{opacity:.4; padding:0 4px}
+  .brand .sub{opacity:.85; font-weight:500}
+  nav.tabs{display:flex; gap:2px; flex-wrap:wrap}
+  nav.tabs button{
+    background:transparent; color:#fff; border:1px solid transparent; border-bottom:none;
+    padding:8px 14px; border-radius:6px 6px 0 0; cursor:pointer; font-size:13px; font-weight:600;
+    transition:background .15s;
+  }
+  nav.tabs button:hover{background:rgba(255,255,255,.08)}
+  nav.tabs button.active{background:var(--bg); color:var(--navy)}
+  /* Main */
+  main{padding:28px 0 60px}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:24px; margin-bottom:18px; box-shadow:var(--shadow);
+  }
+  h1{font-size:28px; font-weight:800; color:var(--navy); letter-spacing:-.02em; margin:0 0 8px}
+  h2{font-size:20px; font-weight:700; color:var(--navy); margin:0 0 10px}
+  h3{font-size:16px; font-weight:700; color:var(--navy); margin:0 0 8px}
+  h4{font-size:14px; font-weight:700; color:var(--navy-2); margin:0 0 6px; text-transform:uppercase; letter-spacing:.04em}
+  p{margin:0 0 12px}
+  .muted{color:var(--muted); font-size:13px}
+  .pill{display:inline-block; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:.02em; text-transform:uppercase}
+  .pill-ncsc{background:#e8efff; color:#1f4ed8}
+  .pill-dfe{background:#fff4e6; color:#a04500}
+  .pill-rpa{background:#e7f5ec; color:#0a6a30}
+  .pill-cyber{background:#fbe9e7; color:#b42318}
+  .pill-leadership{background:#fff4e6; color:#a04500}
+  .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px}
+  /* RAG badges */
+  .rag{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:6px; font-weight:700; font-size:12px}
+  .rag.green{background:var(--green-bg); color:var(--green)}
+  .rag.amber{background:var(--amber-bg); color:var(--amber)}
+  .rag.red{background:var(--red-bg); color:var(--red)}
+  .rag .dot{width:8px;height:8px;border-radius:50%}
+  .rag.green .dot{background:var(--green)}
+  .rag.amber .dot{background:var(--amber)}
+  .rag.red .dot{background:var(--red)}
+  /* Buttons */
+  .btn{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:10px 18px; border-radius:6px; font-size:14px; font-weight:600;
+    border:1px solid transparent; cursor:pointer; transition:all .15s; text-decoration:none;
+  }
+  .btn-primary{background:var(--accent); color:#fff}
+  .btn-primary:hover{background:#1657b8; text-decoration:none}
+  .btn-secondary{background:#fff; color:var(--navy); border-color:var(--line)}
+  .btn-secondary:hover{background:#f0f4fa; text-decoration:none}
+  .btn-ghost{background:transparent; color:var(--navy); border-color:transparent}
+  .btn-ghost:hover{background:#f0f4fa}
+  .btn-danger{background:#fff; color:var(--red); border-color:#f4c5c0}
+  .btn-danger:hover{background:#fbe9e7}
+  .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+  .btn-sm{padding:6px 12px; font-size:13px}
+  /* Forms */
+  label.field{display:block; margin-bottom:14px}
+  label.field > .lbl{display:block; font-weight:600; margin-bottom:4px; font-size:14px; color:var(--navy-2)}
+  label.field > .hint{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+  input[type=text], input[type=email], input[type=tel], input[type=date], textarea, select{
+    width:100%; padding:9px 12px; border:1px solid var(--line); border-radius:6px;
+    font-size:14px; font-family:inherit; background:#fff; color:var(--text);
+  }
+  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(31,111,235,.15)}
+  textarea{min-height:80px; resize:vertical}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  @media(max-width:680px){.grid-2{grid-template-columns:1fr}}
+  /* Question block */
+  .qblock{border-left:3px solid var(--accent); padding:12px 16px; margin-bottom:14px; background:#fafbfc; border-radius:0 6px 6px 0}
+  .qblock .qhead{display:flex; align-items:start; justify-content:space-between; gap:10px; margin-bottom:8px; flex-wrap:wrap}
+  .qblock .qid{font-size:11px; font-weight:700; color:var(--accent); letter-spacing:.05em}
+  .qblock .qtext{font-weight:600; margin:4px 0 8px; color:var(--text)}
+  .qblock .qopts label{display:block; padding:8px 10px; margin-bottom:5px; border:1px solid var(--line); border-radius:5px; cursor:pointer; font-size:13px; background:#fff; transition:all .12s}
+  .qblock .qopts label:hover{border-color:var(--accent); background:#f5f9ff}
+  .qblock .qopts label.selected{border-color:var(--accent); background:#eaf2fd; box-shadow:inset 3px 0 0 var(--accent)}
+  .qblock .qopts input{margin-right:8px; vertical-align:middle}
+  .qblock details{margin-top:8px}
+  .qblock details summary{cursor:pointer; font-size:12px; color:var(--accent); font-weight:600; padding:4px 0}
+  .qblock details summary:hover{text-decoration:underline}
+  .qblock .tip{margin-top:6px; padding:8px 12px; background:#fff8ec; border-left:2px solid var(--amber); font-size:13px; border-radius:0 4px 4px 0}
+  .qblock .action{margin-top:6px; padding:8px 12px; background:#eaf2fd; border-left:2px solid var(--accent); font-size:13px; border-radius:0 4px 4px 0}
+  /* Progress bar */
+  .progress{height:8px; background:#e3e8ef; border-radius:4px; overflow:hidden; margin:8px 0}
+  .progress > div{height:100%; background:linear-gradient(90deg, var(--accent), #4287f5); transition:width .3s}
+  /* Score panel */
+  .score-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin:14px 0}
+  .score-cell{padding:14px; background:#f7f9fc; border:1px solid var(--line); border-radius:8px; text-align:center}
+  .score-cell .num{font-size:28px; font-weight:800; color:var(--navy)}
+  .score-cell .lab{font-size:12px; color:var(--muted); margin-top:2px; text-transform:uppercase; letter-spacing:.04em; font-weight:600}
+  /* Section nav (within Plan Builder) */
+  .section-nav{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:18px; padding:10px; background:#fff; border:1px solid var(--line); border-radius:8px}
+  .section-nav button{
+    background:transparent; border:1px solid var(--line); padding:6px 12px; border-radius:5px;
+    font-size:12px; cursor:pointer; color:var(--navy-2); font-weight:600;
+  }
+  .section-nav button:hover{background:#f0f4fa}
+  .section-nav button.active{background:var(--navy); color:#fff; border-color:var(--navy)}
+  .section-nav button.complete{border-color:var(--green); color:var(--green)}
+  .section-nav button.complete::before{content:"✓ "; }
+  /* Repeater rows */
+  .repeater .row{display:grid; gap:8px; padding:12px; margin-bottom:10px; background:#fafbfc; border:1px solid var(--line); border-radius:6px; position:relative}
+  .repeater .row .remove{position:absolute; top:8px; right:8px; background:transparent; border:none; color:var(--red); cursor:pointer; font-size:18px; line-height:1; padding:2px 6px; border-radius:4px}
+  .repeater .row .remove:hover{background:#fbe9e7}
+  /* Severity table */
+  table.sev{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px}
+  table.sev th, table.sev td{border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top}
+  table.sev th{background:#f0f4fa; font-weight:700; color:var(--navy-2); font-size:12px; text-transform:uppercase; letter-spacing:.03em}
+  table.sev tr.sev-1 td:first-child{background:#fbe9e7; color:var(--red); font-weight:700}
+  table.sev tr.sev-2 td:first-child{background:#fdf3e2; color:var(--amber); font-weight:700}
+  table.sev tr.sev-3 td:first-child{background:#fffdf0; color:#8a6d00; font-weight:700}
+  table.sev tr.sev-4 td:first-child{background:#e7f5ec; color:var(--green); font-weight:700}
+  /* Callout */
+  .callout{padding:14px 16px; border-radius:8px; margin:14px 0; border-left:4px solid var(--accent); background:#eaf2fd}
+  .callout.warn{border-color:var(--amber); background:#fdf3e2}
+  .callout.info{border-color:var(--accent); background:#eaf2fd}
+  .callout.note{border-color:var(--muted); background:#f0f4fa}
+  .callout h4{margin-top:0}
+  /* Plan output */
+  .plan-doc{background:#fff; padding:24px 28px; border:1px solid var(--line); border-radius:8px}
+  .plan-doc h2{border-bottom:2px solid var(--navy); padding-bottom:6px; margin-top:24px}
+  .plan-doc h2:first-child{margin-top:0}
+  .plan-doc h3{margin-top:18px; color:var(--navy-2)}
+  .plan-doc table{width:100%; border-collapse:collapse; margin:8px 0; font-size:13px}
+  .plan-doc table th, .plan-doc table td{border:1px solid var(--line); padding:6px 10px; text-align:left}
+  .plan-doc table th{background:#f0f4fa; font-weight:700}
+  .plan-doc .empty{color:var(--muted); font-style:italic; font-size:13px}
+  /* Footer */
+  footer{padding:20px 0; text-align:center; font-size:12px; color:var(--muted); border-top:1px solid var(--line); background:#fff; margin-top:30px}
+  footer a{color:var(--accent)}
+  /* Print */
+  @media print{
+    header.topbar, nav.tabs, footer, .no-print, .btn-row, .section-nav{display:none !important}
+    body{background:#fff}
+    .card{box-shadow:none; border:none; padding:0; margin-bottom:18px; page-break-inside:avoid}
+    .plan-doc{border:none; padding:0}
+  }
+  /* Hidden */
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <span class="logo">🛡️</span>
+      <span>Cyber Incident Response Planner</span>
+      <span class="pipe">|</span>
+      <span class="sub">UK Schools &amp; Colleges</span>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="home" class="active">Home</button>
+      <button data-tab="readiness">Readiness</button>
+      <button data-tab="plan">Plan Builder</button>
+      <button data-tab="output">Your Plan</button>
+      <button data-tab="about">About</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="container">
+
+<!-- ============================================================== -->
+<!-- HOME                                                            -->
+<!-- ============================================================== -->
+<section id="tab-home" class="tab-panel">
+
+  <div class="card" style="text-align:center; padding:36px 24px">
+    <div style="font-size:42px; margin-bottom:8px">🛡️</div>
+    <h1 style="font-size:32px; margin-bottom:10px">Cyber Incident Response Planner</h1>
+    <p style="font-size:15px; color:var(--muted); max-width:640px; margin:0 auto 18px">
+      A free planning tool for UK schools and colleges. Assess your current readiness against NCSC, DfE and RPA expectations &mdash; and generate a tailored <strong style="color:var(--navy)">Cyber Incident Response Plan</strong> ready to print, share with governors, and store offline.
+    </p>
+    <div class="badges" style="justify-content:center">
+      <span class="pill pill-ncsc">NCSC Incident Management</span>
+      <span class="pill pill-dfe">DfE Digital Standards 2030</span>
+      <span class="pill pill-rpa">DfE RPA Cyber Cover</span>
+    </div>
+    <div class="btn-row" style="justify-content:center; margin-top:20px">
+      <button class="btn btn-primary" onclick="goTab('readiness')">Start readiness check &rarr;</button>
+      <button class="btn btn-secondary" onclick="goTab('plan')">Skip to plan builder</button>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h3>📋 What this tool does</h3>
+      <p style="font-size:14px">Walks you through the core elements of a working cyber incident response plan &mdash; key contacts, severity grading, escalation, playbooks, communications, recovery and post-incident review.</p>
+      <p style="font-size:14px; margin-bottom:0">Each answer feeds into a printable plan document tailored to your school. There is also a separate readiness check that scores your current state against best practice.</p>
+    </div>
+    <div class="card">
+      <h3>🔒 Your data stays in your browser</h3>
+      <p style="font-size:14px">Everything you enter is held locally in your browser session only &mdash; nothing is sent anywhere. You can save your progress to your device and re-import it later.</p>
+      <p style="font-size:14px; margin-bottom:0">If you close the tab without saving, your data is gone. This is by design.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Who is this for?</h3>
+    <p style="font-size:14px">Any UK state, independent or further education setting that needs to write or review a cyber incident response plan &mdash; including:</p>
+    <ul style="font-size:14px; padding-left:20px; margin:0">
+      <li>Senior leadership team digital leads</li>
+      <li>Network managers and in-house IT support staff</li>
+      <li>Multi-academy trust IT directors</li>
+      <li>Business managers and bursars working on RPA renewals</li>
+      <li>Governors and trustees seeking assurance on cyber resilience</li>
+    </ul>
+  </div>
+
+  <div class="card" style="background:#f0f4fa; border-color:#cdd9ed">
+    <h3>What this tool is <em>not</em></h3>
+    <p style="font-size:14px; margin-bottom:0">It is not a substitute for the NCSC's incident management guidance, the DfE Cyber Security Standards, or your insurer's specific requirements. It is a structured aid to <em>writing</em> a plan and <em>checking</em> your readiness &mdash; not a guarantee of compliance. Always validate the final plan with your IT support, DPO, SLT and governing body.</p>
+  </div>
+
+</section>
+
+<!-- ============================================================== -->
+<!-- READINESS                                                       -->
+<!-- ============================================================== -->
+<section id="tab-readiness" class="tab-panel hidden">
+
+  <div class="card">
+    <h2>Readiness check</h2>
+    <p class="muted">Twelve questions on the current state of your incident response capability. Each maps to NCSC guidance, the DfE Digital Standards 2030, and the DfE Risk Protection Arrangement (RPA) cyber cover requirements.</p>
+    <div class="progress"><div id="readinessProgress" style="width:0%"></div></div>
+    <p class="muted" id="readinessStatus" style="margin-bottom:0">0 of 12 answered</p>
+  </div>
+
+  <div id="readinessQuestions"></div>
+
+  <div class="card" id="readinessResultCard" style="display:none">
+    <h2>Your readiness summary</h2>
+    <div class="score-grid">
+      <div class="score-cell"><div class="num" id="rScore">0</div><div class="lab">Score (out of 36)</div></div>
+      <div class="score-cell"><div class="num" id="rPct">0%</div><div class="lab">Readiness</div></div>
+      <div class="score-cell"><div class="num" id="rRed" style="color:var(--red)">0</div><div class="lab">Red gaps</div></div>
+      <div class="score-cell"><div class="num" id="rAmber" style="color:var(--amber)">0</div><div class="lab">Amber gaps</div></div>
+      <div class="score-cell"><div class="num" id="rGreen" style="color:var(--green)">0</div><div class="lab">Green</div></div>
+    </div>
+    <div id="rOverallBanner"></div>
+    <h3 style="margin-top:18px">Priority actions</h3>
+    <div id="rActions"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print readiness report</button>
+      <button class="btn btn-secondary" onclick="goTab('plan')">Continue to plan builder &rarr;</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================== -->
+<!-- PLAN BUILDER                                                    -->
+<!-- ============================================================== -->
+<section id="tab-plan" class="tab-panel hidden">
+
+  <div class="card">
+    <h2>Plan builder</h2>
+    <p class="muted">Work through each section to build your school's Cyber Incident Response Plan. You can save your progress to a file at any time and continue later. Empty fields will appear as <em>"to be completed"</em> in the final plan &mdash; useful as a working draft.</p>
+    <div class="btn-row" style="margin-top:6px">
+      <button class="btn btn-secondary btn-sm" onclick="exportSession()">💾 Save progress to file</button>
+      <button class="btn btn-secondary btn-sm" onclick="document.getElementById('importFile').click()">📁 Load saved file</button>
+      <button class="btn btn-danger btn-sm" onclick="resetAll()">🗑️ Reset all data</button>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importSession(event)">
+    </div>
+  </div>
+
+  <div class="section-nav" id="sectionNav"></div>
+
+  <div id="planSections"></div>
+
+  <div class="card">
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="generatePlan(); goTab('output')">📄 Generate plan &rarr;</button>
+      <button class="btn btn-secondary" onclick="goTab('readiness')">&larr; Back to readiness</button>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============================================================== -->
+<!-- PLAN OUTPUT                                                     -->
+<!-- ============================================================== -->
+<section id="tab-output" class="tab-panel hidden">
+
+  <div class="card no-print">
+    <h2>Your Cyber Incident Response Plan</h2>
+    <p class="muted">Below is your generated plan. Print it as a hard copy to keep alongside your business continuity documentation (recommended by NCSC and DfE). You can also save the working data file to re-edit later.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print plan</button>
+      <button class="btn btn-secondary" onclick="exportSession()">💾 Save working data</button>
+      <button class="btn btn-secondary" onclick="goTab('plan')">&larr; Back to edit</button>
+    </div>
+  </div>
+
+  <div id="planOutput" class="plan-doc"></div>
+
+</section>
+
+<!-- ============================================================== -->
+<!-- ABOUT                                                           -->
+<!-- ============================================================== -->
+<section id="tab-about" class="tab-panel hidden">
+
+  <div class="card">
+    <h2>About this tool</h2>
+    <p>The <strong>Cyber Incident Response Planner</strong> is a free, browser-based tool for UK schools and colleges. It is a companion to the <a href="https://cmaddocks-uk.github.io/digital-standards-2030/" target="_blank" rel="noopener">DfE Digital Standards 2030 &mdash; Self-Assessment Tool</a>, focusing specifically on the cyber response and recovery layer.</p>
+    <p>It is built and maintained by Christopher Maddocks, a former ANME Ambassador, as a contribution to the UK education community.</p>
+
+    <h3 style="margin-top:18px">What it maps against</h3>
+    <ul style="padding-left:20px">
+      <li><strong>NCSC Incident Management</strong> &mdash; the structure of the plan (key contacts, severity, categorisation, escalation, playbooks, post-incident review) follows the NCSC's published guidance for organisations of any size.</li>
+      <li><strong>DfE Digital Standards 2030 &mdash; Cyber Security core standard</strong> &mdash; questions reflect the DfE's stated expectations on risk assessment, training, MFA, response planning, asset registers and patching.</li>
+      <li><strong>DfE Risk Protection Arrangement (RPA) Cyber Response Plan template</strong> &mdash; structure aligns with the impact assessment, communication templates and recovery event recording required by RPA cyber cover.</li>
+    </ul>
+
+    <h3 style="margin-top:18px">Privacy</h3>
+    <p>This tool runs entirely in your browser. No data is sent to any server. There is no analytics, no cookies, no tracking. If you save your progress to a file, that file is created and downloaded directly by your browser. If you close the tab without saving, your data is lost.</p>
+
+    <h3 style="margin-top:18px">Contributing &amp; feedback</h3>
+    <p>This tool is open source. The repository is hosted on GitHub at <code>cmaddocks-uk.github.io/cyber-response</code>. Issues, suggestions and pull requests are welcome.</p>
+
+    <h3 style="margin-top:18px">Disclaimer</h3>
+    <p style="font-size:13px; color:var(--muted)">This tool is provided as-is, without warranty. It is not legal, regulatory or insurance advice. Always validate your plan with your IT support, Data Protection Officer, senior leadership team and insurer before relying on it. The author is not affiliated with the DfE, NCSC, RPA or any government body.</p>
+  </div>
+
+  <div class="card">
+    <h3>Sources &amp; further reading</h3>
+    <ul style="padding-left:20px; font-size:14px">
+      <li><a href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener">NCSC &mdash; Incident Management collection</a></li>
+      <li><a href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges/cyber-security-standards-for-schools-and-colleges" target="_blank" rel="noopener">GOV.UK &mdash; Cyber security standards for schools and colleges</a></li>
+      <li><a href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener">GOV.UK &mdash; Risk Protection Arrangement (RPA) for schools</a></li>
+      <li><a href="https://www.ncsc.gov.uk/section/education-skills/schools" target="_blank" rel="noopener">NCSC &mdash; Cyber security for schools</a></li>
+      <li><a href="https://report.ncsc.gov.uk/" target="_blank" rel="noopener">NCSC &mdash; Report a cyber incident</a></li>
+      <li><a href="https://ico.org.uk/for-organisations/report-a-breach/" target="_blank" rel="noopener">ICO &mdash; Report a personal data breach</a></li>
+    </ul>
+  </div>
+
+</section>
+
+</div><!-- /container -->
+</main>
+
+<footer>
+  <div class="container">
+    Cyber Incident Response Planner &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser &middot;
+    <a href="https://cmaddocks-uk.github.io/cyber-response" target="_blank" rel="noopener">cmaddocks-uk.github.io/cyber-response</a>
+  </div>
+</footer>
+
+<script>
+/* ============================================================== */
+/* DATA MODELS                                                     */
+/* ============================================================== */
+
+// Readiness questions: 12 questions, 4 options each (RAG: 0=red, 1=red, 2=amber, 3=green)
+const READINESS = [
+  {id:"R1", text:"Do you have a written cyber incident response plan that is accessible to the people who would need to use it?",
+    frameworks:["NCSC","DfE","RPA"],
+    opts:[
+      "No written plan exists",
+      "An informal plan exists but is not documented or shared",
+      "A documented plan exists but is only stored online or only known to IT staff",
+      "A documented plan exists, is stored both online and as a hard copy off-site/off-network, and key staff know where to find it"
+    ],
+    actions:[
+      "Start the plan builder in this tool to draft a baseline plan today. NCSC requires this as the starting point of incident management.",
+      "Move from informal to documented. Use the plan builder, then have it reviewed by SLT, IT and your DPO.",
+      "Print a hard copy and store it off-site. NCSC and the DfE RPA both require an offline copy because if your network is compromised, you may not be able to access an online-only plan."
+    ]
+  },
+  {id:"R2", text:"Has your incident response plan been tested in the last 12 months (e.g. tabletop exercise, walkthrough, or NCSC Exercise in a Box)?",
+    frameworks:["NCSC","DfE","RPA"],
+    opts:[
+      "Never tested",
+      "Tested more than 2 years ago",
+      "Tested in the last 13–24 months",
+      "Tested in the last 12 months — and lessons learned were captured and incorporated"
+    ],
+    actions:[
+      "Run a basic tabletop within the next term. NCSC's free 'Exercise in a Box' is designed for organisations like schools.",
+      "Schedule an annual exercise as a recurring item in your IT calendar. The DfE expects this as part of business continuity.",
+      "Document what worked and what didn't. RPA expects evidence that lessons learned have been incorporated into the next version."
+    ]
+  },
+  {id:"R3", text:"Do you have an up-to-date contact list for incident response, including at least two contact methods for each key person, stored where it is accessible if email and the network are down?",
+    frameworks:["NCSC","RPA"],
+    opts:[
+      "No structured contact list exists",
+      "A list exists but only has one contact method per person, or is only stored on the network",
+      "A list exists with multiple contact methods, but is not stored offline",
+      "A list exists with at least two contact methods per key role, stored both online and as a hard copy off-network, reviewed termly"
+    ],
+    actions:[
+      "Build the contacts list in the plan builder. Include personal mobile numbers (with consent) so you can still reach people if work systems are down.",
+      "Add at least one alternative contact method for every key role. NCSC specifically calls this out — losing email during the very incident you're responding to is common.",
+      "Print a copy and store it off-network. A list locked inside an encrypted file share during a ransomware attack is no use."
+    ]
+  },
+  {id:"R4", text:"Have you defined incident severity levels (e.g. critical / major / minor) with clear criteria for each?",
+    frameworks:["NCSC"],
+    opts:[
+      "No severity levels defined",
+      "Levels are mentioned informally but not written down",
+      "Levels are documented but criteria are vague or untested",
+      "Severity levels are documented with clear, measurable criteria covering availability, confidentiality and integrity impacts"
+    ],
+    actions:[
+      "Use the severity matrix in the plan builder — it follows NCSC's three-axis approach (availability, confidentiality, integrity).",
+      "Convert your informal understanding into written criteria. Without these, the wrong people get woken up at 3am — or no one does.",
+      "Test your criteria against a recent incident or near-miss. If you can't classify it confidently, the criteria need refining."
+    ]
+  },
+  {id:"R5", text:"Is it clearly documented who has authority to make critical decisions during an incident — including taking systems offline, contacting the press, and engaging external incident responders?",
+    frameworks:["NCSC","RPA"],
+    opts:[
+      "No documented decision authority",
+      "Some decisions are documented but not all key ones (e.g. nothing on press or external responders)",
+      "Decision authority is documented but not deputised — single point of failure if the named person is unavailable",
+      "Decision authority is documented for all critical decisions, with named deputies for each, and authority levels match the severity of the incident"
+    ],
+    actions:[
+      "Use the decision authority section of the plan builder. Without this, ransomware decisions get stuck waiting for the headteacher who is on holiday.",
+      "Add deputies for every authority. NCSC specifically warns that ideally you should include at least 2 people for every key role.",
+      "Spell out who can authorise paying a ransom. Note: the DfE Academy Trust Handbook 2025 prohibits ransom payments for academies."
+    ]
+  },
+  {id:"R6", text:"Do you have playbooks (specific step-by-step guidance) for the most likely incident types in a school environment — particularly ransomware and data breach?",
+    frameworks:["NCSC"],
+    opts:[
+      "No playbooks",
+      "Generic playbook exists but no specific guidance for ransomware or data breach",
+      "Playbooks exist for ransomware and data breach but are not tested",
+      "Tested playbooks exist for at least the top 3-5 most likely incident types, including ransomware, data breach and account compromise"
+    ],
+    actions:[
+      "Start with a ransomware playbook in the plan builder — it is the highest-impact and most common incident type for UK schools.",
+      "Add a data breach playbook. Under UK GDPR you have 72 hours to report a notifiable breach to the ICO — this is too short to figure out from scratch.",
+      "Test each playbook annually with the relevant team. NCSC recommends starting with the top 3-5 most likely incident types."
+    ]
+  },
+  {id:"R7", text:"Do you have a documented backup strategy that includes immutable or air-gapped copies that cannot be encrypted in a ransomware attack?",
+    frameworks:["DfE","RPA"],
+    opts:[
+      "Backups exist but all are connected to the network",
+      "Some backups are off-site but not immutable or air-gapped",
+      "At least one immutable or air-gapped backup exists but restoration has not been tested in the last year",
+      "Backups follow the 3-2-1 rule (3 copies, 2 different media, 1 off-site/immutable), AND restoration is tested at least termly with the result logged"
+    ],
+    actions:[
+      "Speak to your IT provider this term about adding an immutable/air-gapped backup. This is the single biggest determinant of whether a school recovers from ransomware.",
+      "Review against the DfE 3-2-1 rule. Cyber Essentials and IASME Cyber Assurance certification both require this.",
+      "Schedule termly restoration tests and log the result. An untested backup is not a backup."
+    ]
+  },
+  {id:"R8", text:"Do you know how to report a cyber incident to (a) NCSC, (b) Action Fraud, (c) the ICO if personal data is involved, and (d) the DfE / RPA?",
+    frameworks:["DfE","RPA"],
+    opts:[
+      "Do not know the reporting routes",
+      "Aware of one or two reporting routes but no documented procedure",
+      "All reporting routes documented but not all timeframes captured (especially the 72-hour ICO deadline)",
+      "All reporting routes documented with timeframes, named reporters, and contact details — including the NCSC reporting service and ICO 72-hour deadline"
+    ],
+    actions:[
+      "Add the four reporting routes (NCSC, Action Fraud, ICO, DfE/RPA) to the External Contacts section of your plan.",
+      "Document the ICO 72-hour deadline prominently. Missing it is a regulatory breach in its own right.",
+      "If you have RPA cover, contact RPA before engaging external IR providers — they may have appointed responders and rules around expense recovery."
+    ]
+  },
+  {id:"R9", text:"Do you have prepared communication templates (parents, staff, ICO, governors, suppliers) ready to adapt during an incident?",
+    frameworks:["RPA","NCSC"],
+    opts:[
+      "No templates prepared",
+      "Some informal templates but not structured or approved",
+      "Templates exist but only for some audiences (e.g. parents but not ICO or suppliers)",
+      "Templates exist for parents, staff, ICO, governors and key suppliers, pre-approved by SLT and DPO, and stored where they are accessible offline"
+    ],
+    actions:[
+      "Use the communication templates section of the plan builder — RPA's reference template includes example templates for parent letters, staff briefings and ICO notification.",
+      "Get the templates pre-approved by your DPO and SLT now, not during the incident. Drafting a parent letter while ransomware is encrypting your files is a bad time.",
+      "Print copies for the offline incident folder."
+    ]
+  },
+  {id:"R10", text:"Have all staff with network access received cyber security training in the last 12 months — and do they know specifically how to report a suspected incident?",
+    frameworks:["DfE"],
+    opts:[
+      "No formal training",
+      "Training delivered but more than 12 months ago",
+      "Training in the last 12 months but reporting route is unclear or not part of the training",
+      "All staff (including supply, agency and at least one governor) have had training in the last 12 months that explicitly covers how to report a suspected incident"
+    ],
+    actions:[
+      "Roll out NCSC's free 'Top Tips for Staff' or equivalent training. The DfE expects this annually.",
+      "Refresh the training and ensure it includes the reporting route. Most incidents in schools are first spotted by staff — they need to know what to do in the next 5 minutes, not who to email next week.",
+      "Include at least one governor in the training. The DfE explicitly requires this."
+    ]
+  },
+  {id:"R11", text:"Is multi-factor authentication (MFA) enforced for all staff accounts with access to personal data, sensitive systems, or admin functions?",
+    frameworks:["DfE"],
+    opts:[
+      "MFA is not in use",
+      "MFA available but only used by some staff voluntarily",
+      "MFA enforced for senior leaders and IT admins but not all staff handling sensitive data",
+      "MFA enforced for all staff accounts with access to personal data, sensitive systems or admin functions, with documented exceptions and compensating controls"
+    ],
+    actions:[
+      "Enable MFA across staff accounts as a top priority. The DfE standard explicitly requires this and the absence of MFA is the single most common factor in school account compromises.",
+      "Convert from voluntary to enforced MFA. Voluntary MFA does not protect the accounts that don't use it — and those are the ones that get compromised.",
+      "Extend MFA to all staff with access to sensitive data, not just SLT. Office staff and SENCo accounts often hold the most sensitive personal data."
+    ]
+  },
+  {id:"R12", text:"Do you have a process for capturing and learning lessons after every incident, no matter how minor, and feeding those into the plan?",
+    frameworks:["NCSC","RPA"],
+    opts:[
+      "No post-incident review process",
+      "Reviews happen for major incidents only, informally",
+      "Reviews are documented for major incidents but rarely lead to plan updates",
+      "Every incident triggers a documented review using a standard form, and findings drive scheduled updates to the plan"
+    ],
+    actions:[
+      "Add the post-incident review form (provided in this tool's plan builder) to your incident process. RPA requires this.",
+      "Review minor incidents too — they are early warnings of bigger ones.",
+      "Schedule a formal plan review at least annually, plus after any incident. Lessons learned that don't change the plan are wasted lessons."
+    ]
+  }
+];
+
+// Plan builder sections
+const SECTIONS = [
+  {id:"meta", title:"School details"},
+  {id:"team", title:"Response team"},
+  {id:"contacts_external", title:"External contacts"},
+  {id:"severity", title:"Severity &amp; triage"},
+  {id:"escalation", title:"Escalation &amp; authority"},
+  {id:"playbooks", title:"Playbooks"},
+  {id:"comms", title:"Communications"},
+  {id:"recovery", title:"Recovery &amp; backups"},
+  {id:"review", title:"Post-incident review"},
+  {id:"maintenance", title:"Plan maintenance"}
+];
+
+/* ============================================================== */
+/* STATE                                                           */
+/* ============================================================== */
+
+let state = loadState() || initState();
+
+function initState(){
+  return {
+    readiness:{}, // qid -> 0..3
+    plan:{
+      meta:{
+        schoolName:"", trustName:"", urn:"", planVersion:"1.0", planDate:new Date().toISOString().slice(0,10), nextReview:"",
+        approvedBy:"", approverRole:""
+      },
+      team:{
+        leadName:"", leadRole:"Senior Leadership Team Digital Lead", leadPhone:"", leadEmail:"", leadAlt:"",
+        deputyName:"", deputyRole:"", deputyPhone:"", deputyEmail:"", deputyAlt:"",
+        itLeadName:"", itLeadRole:"", itLeadPhone:"", itLeadEmail:"", itLeadAlt:"",
+        dpoName:"", dpoOrg:"", dpoPhone:"", dpoEmail:"",
+        commsLeadName:"", commsLeadRole:"", commsLeadPhone:"", commsLeadEmail:"",
+        members:[]
+      },
+      external:{
+        itProvider:{name:"", contact:"", phone:"", email:"", outOfHours:""},
+        ncscReport:"https://report.ncsc.gov.uk/ — phone 0300 020 0973",
+        actionFraud:"0300 123 2040 — actionfraud.police.uk",
+        ico:"0303 123 1113 — ico.org.uk/for-organisations/report-a-breach (within 72 hours of becoming aware of a personal data breach)",
+        rpa:"",
+        cyberInsurer:"",
+        dfeContact:"",
+        localAuthority:"",
+        miSupplier:"",
+        broadbandSupplier:"",
+        legalAdviser:"",
+        otherSuppliers:[]
+      },
+      severity:{
+        s1Desc:"Critical: total or near-total loss of teaching, MIS, finance or safeguarding systems; confirmed compromise of personal data; ransomware confirmed.",
+        s2Desc:"Major: significant disruption to multiple systems or year groups; suspected (not yet confirmed) data compromise; significant phishing or account compromise.",
+        s3Desc:"Moderate: localised disruption to one system or area; isolated account compromise with no data loss; failed phishing attempts targeting staff.",
+        s4Desc:"Minor: single user or device affected; suspicious activity blocked by existing controls; awareness/training-related events."
+      },
+      escalation:{
+        decisionTakeOffline:"", decisionTakeOfflineDeputy:"",
+        decisionEngageExternal:"", decisionEngageExternalDeputy:"",
+        decisionRansomware:"Ransom must NOT be paid. Decision to be referred to RPA / insurer immediately. (DfE Academy Trust Handbook 2025 prohibits ransom payments by academies.)",
+        decisionPress:"", decisionPressDeputy:"",
+        decisionICO:"", decisionICODeputy:"",
+        conferenceLine:""
+      },
+      playbooks:{
+        ransomware:{enabled:true, notes:""},
+        dataBreach:{enabled:true, notes:""},
+        accountCompromise:{enabled:true, notes:""},
+        phishing:{enabled:true, notes:""},
+        denialOfService:{enabled:false, notes:""},
+        insiderThreat:{enabled:false, notes:""}
+      },
+      comms:{
+        primaryChannelDown:"",
+        alternateChannel:"",
+        parentTemplate:"",
+        staffTemplate:"",
+        icoTemplate:"",
+        governorTemplate:"",
+        websiteHoldingPage:""
+      },
+      recovery:{
+        rto:"",
+        rpo:"",
+        backupLocations:"",
+        backupOwner:"",
+        backupTestFrequency:"Termly",
+        priorityRestoreOrder:"1. Safeguarding records & access\n2. MIS / SIMS / Bromcom\n3. Finance system\n4. Email & communications\n5. Teaching applications\n6. General file shares",
+        criticalSystems:[]
+      },
+      review:{
+        reviewLead:"",
+        reviewDeadline:"Within 4 weeks of incident closure",
+        formLocation:"",
+        learningProcess:""
+      },
+      maintenance:{
+        owner:"",
+        reviewFrequency:"Annual, plus after any incident or significant change",
+        lastReviewed:"",
+        nextReview:"",
+        distribution:"",
+        offlineCopyLocation:""
+      }
+    }
+  };
+}
+
+function loadState(){
+  // We use sessionStorage to persist across tab navigation within a single session,
+  // but this is browser-only and cleared on tab close. We do NOT use localStorage so
+  // that closing the browser truly wipes the data (per privacy promise).
+  try{
+    const raw = sessionStorage.getItem("cyberResponseState");
+    if(!raw) return null;
+    return JSON.parse(raw);
+  }catch(e){ return null; }
+}
+
+function saveState(){
+  try{ sessionStorage.setItem("cyberResponseState", JSON.stringify(state)); }catch(e){}
+}
+
+function resetAll(){
+  if(!confirm("This will erase all your readiness answers and plan data. Continue?")) return;
+  state = initState();
+  saveState();
+  renderAll();
+  goTab("home");
+}
+
+function exportSession(){
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const schoolSlug = (state.plan.meta.schoolName || "school").replace(/[^a-z0-9]+/gi,"-").toLowerCase().slice(0,40);
+  a.href = url;
+  a.download = `cyber-response-plan-${schoolSlug}-${new Date().toISOString().slice(0,10)}.json`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importSession(ev){
+  const file = ev.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const imported = JSON.parse(e.target.result);
+      // Merge defensively
+      state = Object.assign(initState(), imported);
+      saveState();
+      renderAll();
+      alert("Saved file loaded successfully.");
+    }catch(err){ alert("Could not load file: "+err.message); }
+  };
+  reader.readAsText(file);
+  ev.target.value = "";
+}
+
+/* ============================================================== */
+/* TAB NAVIGATION                                                  */
+/* ============================================================== */
+
+function goTab(name){
+  document.querySelectorAll(".tab-panel").forEach(el => el.classList.add("hidden"));
+  document.getElementById("tab-"+name).classList.remove("hidden");
+  document.querySelectorAll("nav.tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
+  if(name === "output") generatePlan();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+document.getElementById("tabs").addEventListener("click", e => {
+  if(e.target.tagName === "BUTTON") goTab(e.target.dataset.tab);
+});
+
+/* ============================================================== */
+/* RENDER: READINESS                                               */
+/* ============================================================== */
+
+function frameworkBadges(arr){
+  const map = {NCSC:"pill-ncsc", DfE:"pill-dfe", RPA:"pill-rpa"};
+  const labels = {NCSC:"NCSC", DfE:"DfE Std 2030", RPA:"DfE RPA"};
+  return arr.map(f => `<span class="pill ${map[f]}">${labels[f]}</span>`).join(" ");
+}
+
+function ragForScore(s){
+  if(s == null) return null;
+  if(s >= 3) return "green";
+  if(s >= 2) return "amber";
+  return "red";
+}
+
+function renderReadiness(){
+  const container = document.getElementById("readinessQuestions");
+  container.innerHTML = "";
+  READINESS.forEach((q, idx) => {
+    const sel = state.readiness[q.id];
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <div class="qblock" style="border-left-color:${sel != null ? (ragForScore(sel) === 'green' ? 'var(--green)' : ragForScore(sel) === 'amber' ? 'var(--amber)' : 'var(--red)') : 'var(--accent)'}">
+        <div class="qhead">
+          <div>
+            <div class="qid">QUESTION ${idx+1} OF ${READINESS.length} &middot; ${q.id}</div>
+            <div class="badges" style="margin-top:4px">${frameworkBadges(q.frameworks)}</div>
+          </div>
+          ${sel != null ? `<span class="rag ${ragForScore(sel)}"><span class="dot"></span>${ragForScore(sel).toUpperCase()}</span>` : ""}
+        </div>
+        <div class="qtext">${q.text}</div>
+        <div class="qopts">
+          ${q.opts.map((opt, i) => `
+            <label class="${sel === i ? 'selected' : ''}">
+              <input type="radio" name="${q.id}" value="${i}" ${sel === i ? 'checked' : ''} onchange="setReadiness('${q.id}', ${i})">
+              ${opt}
+            </label>
+          `).join("")}
+        </div>
+        ${sel != null && sel < 3 ? `<div class="action"><strong>Suggested action:</strong> ${q.actions[sel] || q.actions[q.actions.length-1]}</div>` : ""}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+  updateReadinessProgress();
+  renderReadinessResult();
+}
+
+function setReadiness(qid, val){
+  state.readiness[qid] = val;
+  saveState();
+  renderReadiness();
+}
+
+function updateReadinessProgress(){
+  const answered = Object.keys(state.readiness).length;
+  const pct = Math.round((answered / READINESS.length) * 100);
+  document.getElementById("readinessProgress").style.width = pct + "%";
+  document.getElementById("readinessStatus").textContent = `${answered} of ${READINESS.length} answered`;
+}
+
+function renderReadinessResult(){
+  const card = document.getElementById("readinessResultCard");
+  const answered = Object.keys(state.readiness).length;
+  if(answered < READINESS.length){
+    card.style.display = "none";
+    return;
+  }
+  card.style.display = "block";
+
+  let total = 0, red = 0, amber = 0, green = 0;
+  READINESS.forEach(q => {
+    const s = state.readiness[q.id] || 0;
+    total += s;
+    if(s >= 3) green++;
+    else if(s >= 2) amber++;
+    else red++;
+  });
+
+  const max = READINESS.length * 3;
+  const pct = Math.round((total / max) * 100);
+  document.getElementById("rScore").textContent = total + " / " + max;
+  document.getElementById("rPct").textContent = pct + "%";
+  document.getElementById("rRed").textContent = red;
+  document.getElementById("rAmber").textContent = amber;
+  document.getElementById("rGreen").textContent = green;
+
+  let banner = "";
+  if(red === 0 && amber <= 2){
+    banner = `<div class="callout info"><h4>Strong readiness</h4><p>Your responses indicate a mature incident response capability. Focus on maintaining and testing the plan, and on closing the small number of remaining gaps.</p></div>`;
+  } else if(red <= 2){
+    banner = `<div class="callout warn"><h4>Reasonable readiness — gaps to address</h4><p>You have foundations in place but a small number of red areas need urgent attention. These are typically the ones that determine how badly an incident hurts.</p></div>`;
+  } else {
+    banner = `<div class="callout warn"><h4>Significant gaps in readiness</h4><p>Several core elements of incident response are missing. The plan builder in this tool will help you draft a baseline plan within a few hours, which is a much better starting point than the absence of one.</p></div>`;
+  }
+  document.getElementById("rOverallBanner").innerHTML = banner;
+
+  // Priority actions (red first, then amber)
+  const actions = [];
+  READINESS.forEach(q => {
+    const s = state.readiness[q.id] || 0;
+    if(s >= 3) return;
+    actions.push({
+      qid: q.id, qtext: q.text, severity: ragForScore(s), action: q.actions[s] || q.actions[q.actions.length-1]
+    });
+  });
+  // Sort red first
+  actions.sort((a,b) => (a.severity === "red" ? 0 : 1) - (b.severity === "red" ? 0 : 1));
+
+  const actionsHtml = actions.length === 0
+    ? `<p class="muted">No priority actions — all areas are green. Maintain your testing schedule.</p>`
+    : actions.map(a => `
+        <div class="qblock" style="border-left-color:${a.severity === 'red' ? 'var(--red)' : 'var(--amber)'}">
+          <div class="qhead">
+            <span class="qid">${a.qid}</span>
+            <span class="rag ${a.severity}"><span class="dot"></span>${a.severity.toUpperCase()}</span>
+          </div>
+          <div style="font-size:13px; color:var(--muted); margin-bottom:4px">${a.qtext}</div>
+          <div class="action">${a.action}</div>
+        </div>
+      `).join("");
+  document.getElementById("rActions").innerHTML = actionsHtml;
+}
+
+/* ============================================================== */
+/* RENDER: PLAN BUILDER                                            */
+/* ============================================================== */
+
+function renderSectionNav(){
+  const nav = document.getElementById("sectionNav");
+  nav.innerHTML = SECTIONS.map((s,i) => `
+    <button data-section="${s.id}" onclick="showSection('${s.id}')">${i+1}. ${s.title}</button>
+  `).join("");
+  showSection(SECTIONS[0].id);
+}
+
+let currentSection = null;
+function showSection(id){
+  currentSection = id;
+  document.querySelectorAll("#sectionNav button").forEach(b => b.classList.toggle("active", b.dataset.section === id));
+  document.querySelectorAll(".plan-section").forEach(el => el.classList.toggle("hidden", el.dataset.section !== id));
+}
+
+function field(label, key, type, hint, options){
+  // key is dot-path like "plan.meta.schoolName"
+  const val = getPath(state, key) || "";
+  const id = "f_" + key.replace(/\./g, "_");
+  if(type === "textarea"){
+    return `
+      <label class="field">
+        <span class="lbl">${label}</span>
+        ${hint ? `<span class="hint">${hint}</span>` : ""}
+        <textarea id="${id}" oninput="setPath(state, '${key}', this.value); saveState()">${escapeHtml(val)}</textarea>
+      </label>`;
+  }
+  if(type === "select"){
+    return `
+      <label class="field">
+        <span class="lbl">${label}</span>
+        ${hint ? `<span class="hint">${hint}</span>` : ""}
+        <select id="${id}" onchange="setPath(state, '${key}', this.value); saveState()">
+          ${options.map(o => `<option value="${escapeHtml(o)}" ${val === o ? 'selected' : ''}>${escapeHtml(o)}</option>`).join("")}
+        </select>
+      </label>`;
+  }
+  return `
+    <label class="field">
+      <span class="lbl">${label}</span>
+      ${hint ? `<span class="hint">${hint}</span>` : ""}
+      <input type="${type}" id="${id}" value="${escapeHtml(val)}" oninput="setPath(state, '${key}', this.value); saveState()">
+    </label>`;
+}
+
+function getPath(obj, path){
+  return path.split(".").reduce((o,k) => (o == null ? undefined : o[k]), obj);
+}
+function setPath(obj, path, val){
+  const keys = path.split(".");
+  const last = keys.pop();
+  const target = keys.reduce((o,k) => o[k] = o[k] || {}, obj);
+  target[last] = val;
+}
+function escapeHtml(s){
+  return String(s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
+}
+
+function renderPlanBuilder(){
+  const root = document.getElementById("planSections");
+  root.innerHTML = SECTIONS.map(s => `<div class="plan-section ${s.id !== currentSection ? 'hidden' : ''}" data-section="${s.id}">${renderSection(s.id)}</div>`).join("");
+}
+
+function renderSection(id){
+  switch(id){
+    case "meta": return renderMeta();
+    case "team": return renderTeam();
+    case "contacts_external": return renderExternal();
+    case "severity": return renderSeverity();
+    case "escalation": return renderEscalation();
+    case "playbooks": return renderPlaybooks();
+    case "comms": return renderComms();
+    case "recovery": return renderRecovery();
+    case "review": return renderReview();
+    case "maintenance": return renderMaintenance();
+  }
+}
+
+function renderMeta(){
+  return `
+    <div class="card">
+      <h2>School details</h2>
+      <p class="muted">Identifying information for the front of your plan.</p>
+      <div class="grid-2">
+        ${field("School / college name","plan.meta.schoolName","text","")}
+        ${field("Trust / federation (if applicable)","plan.meta.trustName","text","")}
+        ${field("URN","plan.meta.urn","text","Unique Reference Number")}
+        ${field("Plan version","plan.meta.planVersion","text","e.g. 1.0, 2.1")}
+        ${field("Plan date","plan.meta.planDate","date","")}
+        ${field("Next review date","plan.meta.nextReview","date","Recommended: annual")}
+        ${field("Approved by (name)","plan.meta.approvedBy","text","Headteacher / CEO / Chair of Governors")}
+        ${field("Approver role","plan.meta.approverRole","text","")}
+      </div>
+    </div>
+  `;
+}
+
+function renderTeam(){
+  return `
+    <div class="card">
+      <h2>Response team</h2>
+      <p class="muted">The internal Cyber Incident Response Team (CIRT). NCSC recommends at least two contact methods per role and named deputies for every key position.</p>
+
+      <h3 style="margin-top:18px">Incident response lead (typically SLT Digital Lead)</h3>
+      <div class="grid-2">
+        ${field("Name","plan.team.leadName","text","")}
+        ${field("Role","plan.team.leadRole","text","")}
+        ${field("Phone (work)","plan.team.leadPhone","tel","")}
+        ${field("Email","plan.team.leadEmail","email","")}
+        ${field("Alternative contact","plan.team.leadAlt","text","Personal mobile, partner's phone, etc — second contact method as required by NCSC")}
+      </div>
+
+      <h3 style="margin-top:18px">Deputy lead</h3>
+      <div class="grid-2">
+        ${field("Name","plan.team.deputyName","text","")}
+        ${field("Role","plan.team.deputyRole","text","")}
+        ${field("Phone","plan.team.deputyPhone","tel","")}
+        ${field("Email","plan.team.deputyEmail","email","")}
+        ${field("Alternative contact","plan.team.deputyAlt","text","")}
+      </div>
+
+      <h3 style="margin-top:18px">Technical lead (in-house IT or external provider)</h3>
+      <div class="grid-2">
+        ${field("Name","plan.team.itLeadName","text","")}
+        ${field("Role / company","plan.team.itLeadRole","text","")}
+        ${field("Phone","plan.team.itLeadPhone","tel","")}
+        ${field("Email","plan.team.itLeadEmail","email","")}
+        ${field("Out-of-hours contact","plan.team.itLeadAlt","text","")}
+      </div>
+
+      <h3 style="margin-top:18px">Data Protection Officer (DPO)</h3>
+      <div class="grid-2">
+        ${field("Name","plan.team.dpoName","text","")}
+        ${field("Organisation","plan.team.dpoOrg","text","If outsourced (LA, MAT, external)")}
+        ${field("Phone","plan.team.dpoPhone","tel","")}
+        ${field("Email","plan.team.dpoEmail","email","")}
+      </div>
+
+      <h3 style="margin-top:18px">Communications lead</h3>
+      <div class="grid-2">
+        ${field("Name","plan.team.commsLeadName","text","")}
+        ${field("Role","plan.team.commsLeadRole","text","")}
+        ${field("Phone","plan.team.commsLeadPhone","tel","")}
+        ${field("Email","plan.team.commsLeadEmail","email","")}
+      </div>
+
+      <h3 style="margin-top:18px">Additional team members</h3>
+      <p class="muted">Add anyone else who would be on the response call — e.g. business manager, headteacher, governor liaison, MIS administrator.</p>
+      ${repeaterMembers()}
+      <button class="btn btn-secondary btn-sm" onclick="addMember()">+ Add team member</button>
+    </div>
+  `;
+}
+
+function repeaterMembers(){
+  const members = state.plan.team.members || [];
+  if(members.length === 0) return `<p class="muted" style="font-style:italic">No additional members added yet.</p>`;
+  return `<div class="repeater">${members.map((m,i) => `
+    <div class="row">
+      <button class="remove" onclick="removeMember(${i})" title="Remove">&times;</button>
+      <div class="grid-2">
+        <label class="field"><span class="lbl">Name</span>
+          <input type="text" value="${escapeHtml(m.name)}" oninput="state.plan.team.members[${i}].name=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Role</span>
+          <input type="text" value="${escapeHtml(m.role)}" oninput="state.plan.team.members[${i}].role=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Phone</span>
+          <input type="tel" value="${escapeHtml(m.phone)}" oninput="state.plan.team.members[${i}].phone=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Email</span>
+          <input type="email" value="${escapeHtml(m.email)}" oninput="state.plan.team.members[${i}].email=this.value; saveState()"></label>
+      </div>
+    </div>
+  `).join("")}</div>`;
+}
+
+function addMember(){
+  state.plan.team.members.push({name:"",role:"",phone:"",email:""});
+  saveState(); renderPlanBuilder();
+}
+function removeMember(i){
+  state.plan.team.members.splice(i,1);
+  saveState(); renderPlanBuilder();
+}
+
+function renderExternal(){
+  return `
+    <div class="card">
+      <h2>External contacts</h2>
+      <p class="muted">Authorities, regulators and service providers you may need to contact during an incident. Contact details for the four UK reporting routes are pre-populated.</p>
+
+      <h3 style="margin-top:18px">IT support provider (primary)</h3>
+      <div class="grid-2">
+        ${field("Provider name","plan.external.itProvider.name","text","")}
+        ${field("Account/contact name","plan.external.itProvider.contact","text","")}
+        ${field("Phone","plan.external.itProvider.phone","tel","")}
+        ${field("Email","plan.external.itProvider.email","email","")}
+        ${field("Out-of-hours / emergency","plan.external.itProvider.outOfHours","text","")}
+      </div>
+
+      <h3 style="margin-top:18px">UK reporting routes</h3>
+      <div class="callout info" style="margin-top:0">
+        <p style="margin:0; font-size:13px"><strong>Important:</strong> If personal data is or may be involved, you must report to the ICO within <strong>72 hours</strong> of becoming aware of the breach.</p>
+      </div>
+      ${field("NCSC incident reporting","plan.external.ncscReport","text","")}
+      ${field("Action Fraud","plan.external.actionFraud","text","")}
+      ${field("ICO (data breach)","plan.external.ico","text","")}
+      ${field("DfE Sector Cyber Lead","plan.external.dfeContact","text","via your DfE contact or RPA")}
+
+      <h3 style="margin-top:18px">Insurance &amp; cover</h3>
+      ${field("Risk Protection Arrangement (RPA)","plan.external.rpa","text","If you are an RPA member: 0800 368 6378 / rpa.claims@aon.co.uk")}
+      ${field("Cyber insurance (if commercial)","plan.external.cyberInsurer","text","Insurer name, policy number, 24/7 incident line")}
+
+      <h3 style="margin-top:18px">Other key contacts</h3>
+      <div class="grid-2">
+        ${field("Local authority","plan.external.localAuthority","text","If applicable — LA cyber lead or SPOC")}
+        ${field("MIS supplier (SIMS, Bromcom, Arbor)","plan.external.miSupplier","text","Support phone + ticket reference if known")}
+        ${field("Broadband / connectivity supplier","plan.external.broadbandSupplier","text","")}
+        ${field("Legal adviser","plan.external.legalAdviser","text","")}
+      </div>
+
+      <h3 style="margin-top:18px">Other suppliers to notify</h3>
+      <p class="muted">Any cloud provider, MIS host, finance provider or other third party whose systems or data may be affected.</p>
+      ${repeaterSuppliers()}
+      <button class="btn btn-secondary btn-sm" onclick="addSupplier()">+ Add supplier</button>
+    </div>
+  `;
+}
+function repeaterSuppliers(){
+  const list = state.plan.external.otherSuppliers || [];
+  if(list.length === 0) return `<p class="muted" style="font-style:italic">No additional suppliers added yet.</p>`;
+  return `<div class="repeater">${list.map((s,i) => `
+    <div class="row">
+      <button class="remove" onclick="removeSupplier(${i})">&times;</button>
+      <div class="grid-2">
+        <label class="field"><span class="lbl">Supplier</span><input type="text" value="${escapeHtml(s.name)}" oninput="state.plan.external.otherSuppliers[${i}].name=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Service / why notify</span><input type="text" value="${escapeHtml(s.service)}" oninput="state.plan.external.otherSuppliers[${i}].service=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Phone</span><input type="tel" value="${escapeHtml(s.phone)}" oninput="state.plan.external.otherSuppliers[${i}].phone=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Email</span><input type="email" value="${escapeHtml(s.email)}" oninput="state.plan.external.otherSuppliers[${i}].email=this.value; saveState()"></label>
+      </div>
+    </div>
+  `).join("")}</div>`;
+}
+function addSupplier(){ state.plan.external.otherSuppliers.push({name:"",service:"",phone:"",email:""}); saveState(); renderPlanBuilder(); }
+function removeSupplier(i){ state.plan.external.otherSuppliers.splice(i,1); saveState(); renderPlanBuilder(); }
+
+function renderSeverity(){
+  return `
+    <div class="card">
+      <h2>Severity &amp; triage</h2>
+      <p class="muted">Severity drives who is involved and how fast. NCSC recommends grading against three axes: <strong>availability</strong> (impact on operations), <strong>confidentiality</strong> (data exposure) and <strong>integrity</strong> (data trust).</p>
+
+      <h3 style="margin-top:14px">Default severity matrix</h3>
+      <p class="muted">You can customise these descriptions to match your school's context. The structure below is suggested as a baseline.</p>
+      <table class="sev">
+        <thead><tr><th>Severity</th><th>Description &amp; criteria</th></tr></thead>
+        <tbody>
+          <tr class="sev-1"><td>1 — Critical</td><td><textarea oninput="state.plan.severity.s1Desc=this.value; saveState()">${escapeHtml(state.plan.severity.s1Desc)}</textarea></td></tr>
+          <tr class="sev-2"><td>2 — Major</td><td><textarea oninput="state.plan.severity.s2Desc=this.value; saveState()">${escapeHtml(state.plan.severity.s2Desc)}</textarea></td></tr>
+          <tr class="sev-3"><td>3 — Moderate</td><td><textarea oninput="state.plan.severity.s3Desc=this.value; saveState()">${escapeHtml(state.plan.severity.s3Desc)}</textarea></td></tr>
+          <tr class="sev-4"><td>4 — Minor</td><td><textarea oninput="state.plan.severity.s4Desc=this.value; saveState()">${escapeHtml(state.plan.severity.s4Desc)}</textarea></td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <h4>Triage rule of thumb</h4>
+        <p style="margin:0; font-size:13px">If <em>any</em> of the following are true, treat the incident as Severity 1 or 2 until disproved: ransomware suspected, MIS or safeguarding system unavailable, evidence of personal data exposure, multiple staff accounts compromised, or you have lost confidence in network integrity.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderEscalation(){
+  return `
+    <div class="card">
+      <h2>Escalation &amp; decision authority</h2>
+      <p class="muted">Critical decisions need named decision-makers — and named deputies for when those people are unavailable. NCSC stresses this is one of the most common single points of failure in real incidents.</p>
+
+      <h3 style="margin-top:14px">Authority to take systems offline</h3>
+      <div class="grid-2">
+        ${field("Primary decision-maker","plan.escalation.decisionTakeOffline","text","Name and role")}
+        ${field("Deputy","plan.escalation.decisionTakeOfflineDeputy","text","")}
+      </div>
+
+      <h3>Authority to engage external incident responders</h3>
+      <div class="grid-2">
+        ${field("Primary decision-maker","plan.escalation.decisionEngageExternal","text","If RPA member: contact RPA first")}
+        ${field("Deputy","plan.escalation.decisionEngageExternalDeputy","text","")}
+      </div>
+
+      <h3>Ransomware / extortion decision</h3>
+      ${field("Policy statement","plan.escalation.decisionRansomware","textarea","")}
+
+      <h3>Authority to communicate with press</h3>
+      <div class="grid-2">
+        ${field("Primary decision-maker","plan.escalation.decisionPress","text","Typically Headteacher / CEO")}
+        ${field("Deputy","plan.escalation.decisionPressDeputy","text","")}
+      </div>
+
+      <h3>Authority to notify the ICO</h3>
+      <div class="grid-2">
+        ${field("Primary decision-maker","plan.escalation.decisionICO","text","Typically DPO with SLT sign-off")}
+        ${field("Deputy","plan.escalation.decisionICODeputy","text","")}
+      </div>
+
+      <h3>Conference call / bridge line</h3>
+      ${field("Always-available conference number","plan.escalation.conferenceLine","text","NCSC requirement: at least one always-available number for urgent incident calls")}
+    </div>
+  `;
+}
+
+function renderPlaybooks(){
+  const pbs = [
+    {key:"ransomware", title:"Ransomware", desc:"The most common high-impact incident type for UK schools. A working ransomware playbook is the single most valuable component of this plan."},
+    {key:"dataBreach", title:"Personal data breach", desc:"Any incident involving suspected exposure of personal data. UK GDPR 72-hour ICO deadline starts from when you become aware."},
+    {key:"accountCompromise", title:"Account compromise (staff)", desc:"Phishing-driven email/Microsoft/Google account takeover. Often the precursor to ransomware or data exfiltration."},
+    {key:"phishing", title:"Phishing campaign", desc:"Targeted phishing against staff, particularly business email compromise (BEC) targeting finance staff."},
+    {key:"denialOfService", title:"Denial of service", desc:"DDoS or other availability attack on school services or website."},
+    {key:"insiderThreat", title:"Insider threat / misuse", desc:"Misuse of access by a current or former staff member, contractor or student."}
+  ];
+  return `
+    <div class="card">
+      <h2>Playbooks</h2>
+      <p class="muted">NCSC recommends starting with playbooks for the top 3-5 most likely incident types. For each playbook, capture the specific local steps your school will take. The plan output will include suggested generic steps where you have not added your own.</p>
+      ${pbs.map(p => `
+        <h3 style="margin-top:18px">${p.title}
+          <label style="float:right; font-size:13px; font-weight:normal">
+            <input type="checkbox" ${state.plan.playbooks[p.key].enabled ? 'checked' : ''} onchange="state.plan.playbooks['${p.key}'].enabled=this.checked; saveState(); renderPlanBuilder()">
+            Include in plan
+          </label>
+        </h3>
+        <p class="muted">${p.desc}</p>
+        ${state.plan.playbooks[p.key].enabled ? `
+          <label class="field">
+            <span class="lbl">Local steps and notes</span>
+            <span class="hint">School-specific actions, contacts and dependencies. Generic steps are added automatically in the output.</span>
+            <textarea oninput="state.plan.playbooks['${p.key}'].notes=this.value; saveState()">${escapeHtml(state.plan.playbooks[p.key].notes)}</textarea>
+          </label>
+        ` : ""}
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderComms(){
+  return `
+    <div class="card">
+      <h2>Communications</h2>
+      <p class="muted">Pre-prepared communication templates save hours during a real incident. Drafting a parent letter while the incident is ongoing is a bad time. Get these reviewed and approved by SLT and the DPO now.</p>
+
+      <h3 style="margin-top:14px">Communication channels during an incident</h3>
+      ${field("Primary channel (likely to be unavailable in a major incident)","plan.comms.primaryChannelDown","text","e.g. school email, internal Teams, MIS messaging")}
+      ${field("Alternate / out-of-band channel","plan.comms.alternateChannel","text","e.g. WhatsApp group, personal email, SMS gateway, phone tree")}
+      ${field("Holding page for school website","plan.comms.websiteHoldingPage","textarea","Short, factual statement that can be put up while the incident is being investigated. Cleared by SLT in advance.")}
+
+      <h3 style="margin-top:18px">Templates</h3>
+
+      ${field("Parent / carer letter template","plan.comms.parentTemplate","textarea","Pre-approved by SLT and DPO. Should explain what happened, what the school is doing, what (if anything) parents need to do, and how updates will be provided.")}
+      ${field("Staff briefing template","plan.comms.staffTemplate","textarea","Internal-only message. Should include what staff can/cannot say externally.")}
+      ${field("ICO notification template","plan.comms.icoTemplate","textarea","For use within 72 hours of becoming aware of a personal data breach. Should cover nature of breach, categories of individuals affected, likely consequences, and measures taken.")}
+      ${field("Governor / trustee briefing template","plan.comms.governorTemplate","textarea","Confidential. Sufficient detail for governance oversight without compromising the response.")}
+
+      <div class="callout warn">
+        <h4>What to avoid in any external communication</h4>
+        <ul style="margin:0; padding-left:20px; font-size:13px">
+          <li>Speculation about who is responsible or what the cause was</li>
+          <li>Specific technical details that could aid the attacker or other attackers</li>
+          <li>Definitive statements before facts are confirmed</li>
+          <li>Anything not cleared by the comms lead, DPO and SLT</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function renderRecovery(){
+  return `
+    <div class="card">
+      <h2>Recovery &amp; backups</h2>
+      <p class="muted">The DfE recommends following the 3-2-1 rule: at least 3 copies of important data, on at least 2 different types of media, with at least 1 stored off-site or immutable. Cyber Essentials and IASME Cyber Assurance both require this.</p>
+
+      <div class="grid-2">
+        ${field("Recovery Time Objective (RTO)","plan.recovery.rto","text","How long you can tolerate being without core systems before it becomes a major problem. e.g. '24 hours for MIS, 48 hours for email'")}
+        ${field("Recovery Point Objective (RPO)","plan.recovery.rpo","text","Maximum acceptable data loss. e.g. '24 hours' means you must be able to restore to within 24 hours of the incident")}
+      </div>
+
+      ${field("Backup locations and types","plan.recovery.backupLocations","textarea","Where backups are held, who hosts them, and which are immutable / air-gapped. Be specific.")}
+      ${field("Backup owner","plan.recovery.backupOwner","text","Named person responsible for backups and restoration testing")}
+      ${field("Backup test frequency","plan.recovery.backupTestFrequency","select","DfE recommends termly minimum",["Weekly","Monthly","Termly","Annually","Not currently tested"])}
+
+      <h3 style="margin-top:14px">Priority restoration order</h3>
+      ${field("Order of system restoration","plan.recovery.priorityRestoreOrder","textarea","List in order of priority — typically safeguarding records first, then MIS, finance, and so on. This avoids debates during the incident.")}
+
+      <h3 style="margin-top:14px">Critical systems inventory</h3>
+      <p class="muted">List your critical systems and their dependencies. This helps both with incident response and with the asset register required by the DfE Cyber Security and Digital Leadership standards.</p>
+      ${repeaterSystems()}
+      <button class="btn btn-secondary btn-sm" onclick="addSystem()">+ Add critical system</button>
+    </div>
+  `;
+}
+function repeaterSystems(){
+  const list = state.plan.recovery.criticalSystems || [];
+  if(list.length === 0) return `<p class="muted" style="font-style:italic">No systems added yet.</p>`;
+  return `<div class="repeater">${list.map((s,i) => `
+    <div class="row">
+      <button class="remove" onclick="removeSystem(${i})">&times;</button>
+      <div class="grid-2">
+        <label class="field"><span class="lbl">System</span><input type="text" placeholder="e.g. SIMS, Office 365, finance system" value="${escapeHtml(s.name)}" oninput="state.plan.recovery.criticalSystems[${i}].name=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Owner / supplier</span><input type="text" value="${escapeHtml(s.owner)}" oninput="state.plan.recovery.criticalSystems[${i}].owner=this.value; saveState()"></label>
+        <label class="field"><span class="lbl">Restore priority</span>
+          <select onchange="state.plan.recovery.criticalSystems[${i}].priority=this.value; saveState()">
+            ${["1 — Critical","2 — High","3 — Medium","4 — Low"].map(p => `<option ${s.priority===p?'selected':''}>${p}</option>`).join("")}
+          </select>
+        </label>
+        <label class="field"><span class="lbl">RTO</span><input type="text" placeholder="e.g. 24h" value="${escapeHtml(s.rto)}" oninput="state.plan.recovery.criticalSystems[${i}].rto=this.value; saveState()"></label>
+      </div>
+    </div>
+  `).join("")}</div>`;
+}
+function addSystem(){ state.plan.recovery.criticalSystems.push({name:"",owner:"",priority:"2 — High",rto:""}); saveState(); renderPlanBuilder(); }
+function removeSystem(i){ state.plan.recovery.criticalSystems.splice(i,1); saveState(); renderPlanBuilder(); }
+
+function renderReview(){
+  return `
+    <div class="card">
+      <h2>Post-incident review</h2>
+      <p class="muted">RPA and NCSC both require lessons learned to be captured and fed back into the plan. The point is not the document — it is the change.</p>
+      <div class="grid-2">
+        ${field("Review lead","plan.review.reviewLead","text","Typically the SLT digital lead")}
+        ${field("Review deadline","plan.review.reviewDeadline","text","")}
+      </div>
+      ${field("Where the review form is stored","plan.review.formLocation","text","Both online and offline locations")}
+      ${field("How learnings are fed back into the plan","plan.review.learningProcess","textarea","Who updates the plan? When does it get re-approved? How is the change communicated?")}
+
+      <div class="callout info">
+        <h4>Standard review questions</h4>
+        <p style="margin:0 0 6px; font-size:13px">A post-incident review should answer at minimum:</p>
+        <ul style="margin:0; padding-left:20px; font-size:13px">
+          <li>What happened, when, and how was it detected?</li>
+          <li>What was the impact (operational, data, reputational, financial)?</li>
+          <li>What worked well in the response?</li>
+          <li>What didn't work, and why?</li>
+          <li>What changes to the plan, controls or training are needed?</li>
+          <li>Who is accountable for each change, and by when?</li>
+        </ul>
+      </div>
+    </div>
+  `;
+}
+
+function renderMaintenance(){
+  return `
+    <div class="card">
+      <h2>Plan maintenance</h2>
+      <p class="muted">A plan that is not maintained is a plan you cannot rely on. The DfE expects this to be reviewed annually as a minimum, and after any incident or significant change.</p>
+      <div class="grid-2">
+        ${field("Plan owner","plan.maintenance.owner","text","Named person responsible")}
+        ${field("Review frequency","plan.maintenance.reviewFrequency","text","")}
+        ${field("Last reviewed","plan.maintenance.lastReviewed","date","")}
+        ${field("Next review due","plan.maintenance.nextReview","date","")}
+      </div>
+      ${field("Distribution list","plan.maintenance.distribution","textarea","Who has a copy and where are they stored?")}
+      ${field("Offline copy location","plan.maintenance.offlineCopyLocation","text","NCSC and DfE both expect a hard copy stored off-network. Where is yours?")}
+
+      <div class="callout warn">
+        <h4>Print and store offline</h4>
+        <p style="margin:0; font-size:13px">When you have completed and approved your plan, print a hard copy and store it somewhere accessible <em>without</em> needing the network — typically a locked office drawer, a senior leader's home, or off-site at a trust hub. Multiple online incidents in UK schools have been worsened by the response plan being inside the encrypted file share.</p>
+      </div>
+    </div>
+  `;
+}
+
+/* ============================================================== */
+/* PLAN OUTPUT GENERATION                                          */
+/* ============================================================== */
+
+function emptyOr(val, placeholder){
+  if(val == null || String(val).trim() === "") return `<span class="empty">[${placeholder || 'to be completed'}]</span>`;
+  return escapeHtml(val).replace(/\n/g,"<br>");
+}
+
+function generatePlan(){
+  const p = state.plan;
+  const out = document.getElementById("planOutput");
+
+  // Helper for contact rows
+  const contactRow = (label, name, role, phone, email, alt) => `
+    <tr>
+      <td><strong>${label}</strong></td>
+      <td>${emptyOr(name)}${role ? `<br><span class="muted">${escapeHtml(role)}</span>` : ""}</td>
+      <td>${emptyOr(phone)}</td>
+      <td>${emptyOr(email)}</td>
+      <td>${emptyOr(alt, "alt contact")}</td>
+    </tr>
+  `;
+
+  out.innerHTML = `
+    <div style="text-align:center; margin-bottom:24px">
+      <div style="font-size:32px">🛡️</div>
+      <h1 style="margin:8px 0 4px">Cyber Incident Response Plan</h1>
+      <p style="font-size:18px; font-weight:600; margin:0">${emptyOr(p.meta.schoolName, "School / college name")}</p>
+      ${p.meta.trustName ? `<p style="margin:2px 0; color:var(--muted)">${escapeHtml(p.meta.trustName)}</p>` : ""}
+      <p class="muted" style="margin:6px 0">URN: ${emptyOr(p.meta.urn, "URN")} · Version ${escapeHtml(p.meta.planVersion)} · Plan date ${emptyOr(p.meta.planDate, "date")}</p>
+      <p class="muted" style="margin:0">Approved by: ${emptyOr(p.meta.approvedBy, "approver")} (${emptyOr(p.meta.approverRole, "role")}) · Next review: ${emptyOr(p.meta.nextReview, "date")}</p>
+    </div>
+
+    <div class="callout warn no-print">
+      <h4>Hard copy reminder</h4>
+      <p style="margin:0; font-size:13px">Print this plan and store a copy off-network. Both NCSC and the DfE specifically warn that an online-only plan can be inaccessible during the very incident it is designed to handle.</p>
+    </div>
+
+    <h2>1. Purpose &amp; scope</h2>
+    <p>This Cyber Incident Response Plan sets out how ${emptyOr(p.meta.schoolName, "the school")} responds to a suspected or confirmed cyber security incident. It is intended to be used by the Cyber Incident Response Team named below and by any staff who detect or are involved in responding to an incident.</p>
+    <p>It maps to the NCSC Incident Management collection, the DfE Cyber Security core standard (one of the six core Digital and Technology Standards by 2030), and the DfE Risk Protection Arrangement (RPA) cyber response plan template.</p>
+    <p><strong>This plan should be used in conjunction with:</strong> the school's Business Continuity and Disaster Recovery Plan, the Data Protection Policy, the Acceptable Use Policy, and any insurer- or RPA-specified incident notification process.</p>
+
+    <h2>2. Cyber Incident Response Team (CIRT)</h2>
+    <table>
+      <thead><tr><th>Role</th><th>Name</th><th>Phone</th><th>Email</th><th>Alternative contact</th></tr></thead>
+      <tbody>
+        ${contactRow("Incident Lead", p.team.leadName, p.team.leadRole, p.team.leadPhone, p.team.leadEmail, p.team.leadAlt)}
+        ${contactRow("Deputy Lead", p.team.deputyName, p.team.deputyRole, p.team.deputyPhone, p.team.deputyEmail, p.team.deputyAlt)}
+        ${contactRow("Technical Lead", p.team.itLeadName, p.team.itLeadRole, p.team.itLeadPhone, p.team.itLeadEmail, p.team.itLeadAlt)}
+        ${contactRow("Data Protection Officer", p.team.dpoName, p.team.dpoOrg, p.team.dpoPhone, p.team.dpoEmail, "")}
+        ${contactRow("Communications Lead", p.team.commsLeadName, p.team.commsLeadRole, p.team.commsLeadPhone, p.team.commsLeadEmail, "")}
+        ${(p.team.members||[]).map(m => contactRow(escapeHtml(m.role||"Team member"), m.name, "", m.phone, m.email, "")).join("")}
+      </tbody>
+    </table>
+
+    <h2>3. External contacts</h2>
+    <h3>3.1 IT support provider</h3>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Provider</th><td>${emptyOr(p.external.itProvider.name)}</td></tr>
+        <tr><th>Account contact</th><td>${emptyOr(p.external.itProvider.contact)}</td></tr>
+        <tr><th>Phone</th><td>${emptyOr(p.external.itProvider.phone)}</td></tr>
+        <tr><th>Email</th><td>${emptyOr(p.external.itProvider.email)}</td></tr>
+        <tr><th>Out-of-hours / emergency</th><td>${emptyOr(p.external.itProvider.outOfHours)}</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.2 UK reporting routes</h3>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">NCSC</th><td>${emptyOr(p.external.ncscReport)}</td></tr>
+        <tr><th>Action Fraud</th><td>${emptyOr(p.external.actionFraud)}</td></tr>
+        <tr><th>Information Commissioner's Office (ICO)</th><td>${emptyOr(p.external.ico)}</td></tr>
+        <tr><th>DfE / Sector Cyber Lead</th><td>${emptyOr(p.external.dfeContact)}</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.3 Insurance &amp; cover</h3>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Risk Protection Arrangement (RPA)</th><td>${emptyOr(p.external.rpa)}</td></tr>
+        <tr><th>Cyber insurance (commercial)</th><td>${emptyOr(p.external.cyberInsurer)}</td></tr>
+      </tbody>
+    </table>
+
+    <h3>3.4 Other key contacts</h3>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Local authority</th><td>${emptyOr(p.external.localAuthority)}</td></tr>
+        <tr><th>MIS supplier</th><td>${emptyOr(p.external.miSupplier)}</td></tr>
+        <tr><th>Broadband / connectivity</th><td>${emptyOr(p.external.broadbandSupplier)}</td></tr>
+        <tr><th>Legal adviser</th><td>${emptyOr(p.external.legalAdviser)}</td></tr>
+      </tbody>
+    </table>
+
+    ${(p.external.otherSuppliers || []).length > 0 ? `
+      <h3>3.5 Other suppliers to notify</h3>
+      <table>
+        <thead><tr><th>Supplier</th><th>Service</th><th>Phone</th><th>Email</th></tr></thead>
+        <tbody>${p.external.otherSuppliers.map(s => `<tr><td>${emptyOr(s.name)}</td><td>${emptyOr(s.service)}</td><td>${emptyOr(s.phone)}</td><td>${emptyOr(s.email)}</td></tr>`).join("")}</tbody>
+      </table>
+    ` : ""}
+
+    <h2>4. Severity classification</h2>
+    <p>Severity drives who is involved and how quickly. The classification considers <strong>availability</strong>, <strong>confidentiality</strong> and <strong>integrity</strong> impact, in line with NCSC guidance.</p>
+    <table>
+      <thead><tr><th style="width:18%">Severity</th><th>Description &amp; criteria</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--red)">1 — Critical</strong></td><td>${emptyOr(p.severity.s1Desc)}</td></tr>
+        <tr><td><strong style="color:var(--amber)">2 — Major</strong></td><td>${emptyOr(p.severity.s2Desc)}</td></tr>
+        <tr><td><strong style="color:#8a6d00">3 — Moderate</strong></td><td>${emptyOr(p.severity.s3Desc)}</td></tr>
+        <tr><td><strong style="color:var(--green)">4 — Minor</strong></td><td>${emptyOr(p.severity.s4Desc)}</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Triage rule of thumb:</strong> if any of the following are true, treat as Severity 1 or 2 until disproved — ransomware suspected, MIS or safeguarding system unavailable, evidence of personal data exposure, multiple staff accounts compromised, or loss of confidence in network integrity.</p>
+
+    <h2>5. Escalation &amp; decision authority</h2>
+    <table>
+      <thead><tr><th>Decision</th><th>Primary</th><th>Deputy</th></tr></thead>
+      <tbody>
+        <tr><td>Take systems offline</td><td>${emptyOr(p.escalation.decisionTakeOffline)}</td><td>${emptyOr(p.escalation.decisionTakeOfflineDeputy)}</td></tr>
+        <tr><td>Engage external incident responders</td><td>${emptyOr(p.escalation.decisionEngageExternal)}</td><td>${emptyOr(p.escalation.decisionEngageExternalDeputy)}</td></tr>
+        <tr><td>Communicate with press / media</td><td>${emptyOr(p.escalation.decisionPress)}</td><td>${emptyOr(p.escalation.decisionPressDeputy)}</td></tr>
+        <tr><td>Notify the ICO</td><td>${emptyOr(p.escalation.decisionICO)}</td><td>${emptyOr(p.escalation.decisionICODeputy)}</td></tr>
+      </tbody>
+    </table>
+    <h3>Ransomware / extortion policy</h3>
+    <p>${emptyOr(p.escalation.decisionRansomware)}</p>
+    <h3>Always-available conference / bridge line</h3>
+    <p>${emptyOr(p.escalation.conferenceLine)}</p>
+
+    <h2>6. Incident response process</h2>
+    <h3>6.1 Detection &amp; reporting (any member of staff)</h3>
+    <ol>
+      <li>If you suspect a cyber incident — <strong>do not power off the device</strong>. Disconnect from the network (unplug the network cable or disable wifi) but leave the device powered on, as evidence may be lost.</li>
+      <li>Report immediately to the IT support team and to a member of SLT. Use voice or in-person if email may be compromised.</li>
+      <li>Stop using the affected device or account until told otherwise.</li>
+      <li>Make a written note of what you saw, when, and what you did.</li>
+    </ol>
+
+    <h3>6.2 Triage &amp; classification (Incident Lead + Technical Lead)</h3>
+    <ol>
+      <li>Confirm the report and gather initial facts: what, where, when, scope.</li>
+      <li>Classify severity using the matrix in section 4.</li>
+      <li>Activate this plan. Notify the relevant CIRT members.</li>
+      <li>Open the incident log (see section 9).</li>
+      <li>For Severity 1 or 2, convene the CIRT on the conference line within 30 minutes.</li>
+    </ol>
+
+    <h3>6.3 Containment</h3>
+    <ol>
+      <li>Isolate affected systems from the network.</li>
+      <li>Disable compromised accounts (reset password, revoke active sessions, disable MFA tokens).</li>
+      <li>Preserve evidence: do not wipe, format or rebuild affected systems before forensic capture, unless explicitly instructed otherwise by an incident response provider.</li>
+      <li>If ransomware is suspected, do <strong>not</strong> reconnect any device to the network until cleared.</li>
+    </ol>
+
+    <h3>6.4 Investigation</h3>
+    <ol>
+      <li>Determine scope: which systems, accounts and data are affected.</li>
+      <li>Determine entry point and lateral movement, if possible.</li>
+      <li>Document evidence and decisions in the incident log.</li>
+      <li>Engage external responders if required (per section 5).</li>
+    </ol>
+
+    <h3>6.5 Eradication &amp; recovery</h3>
+    <ol>
+      <li>Remove malware, attacker access and any persistence mechanisms.</li>
+      <li>Patch or otherwise close the entry vector.</li>
+      <li>Restore systems from clean backups in the priority order set out in section 8.</li>
+      <li>Validate restored systems before returning to production.</li>
+      <li>Reset credentials for all potentially-affected accounts; re-enrol MFA tokens.</li>
+    </ol>
+
+    <h3>6.6 Closure</h3>
+    <ol>
+      <li>Confirm with technical lead that the incident is contained and no residual access remains.</li>
+      <li>Update stakeholders that the incident is closed.</li>
+      <li>Schedule the post-incident review (see section 10).</li>
+    </ol>
+
+    <h2>7. Playbooks</h2>
+    ${generatePlaybooks(p.playbooks)}
+
+    <h2>8. Communications</h2>
+    <h3>8.1 Communication channels</h3>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Primary channel (likely affected)</th><td>${emptyOr(p.comms.primaryChannelDown)}</td></tr>
+        <tr><th>Alternate / out-of-band channel</th><td>${emptyOr(p.comms.alternateChannel)}</td></tr>
+      </tbody>
+    </table>
+    <h3>8.2 Website holding statement</h3>
+    <p>${emptyOr(p.comms.websiteHoldingPage)}</p>
+
+    <h3>8.3 Templates</h3>
+    <h4>Parents / carers</h4><p>${emptyOr(p.comms.parentTemplate)}</p>
+    <h4>Staff briefing</h4><p>${emptyOr(p.comms.staffTemplate)}</p>
+    <h4>ICO notification (within 72 hours of awareness)</h4><p>${emptyOr(p.comms.icoTemplate)}</p>
+    <h4>Governor / trustee briefing</h4><p>${emptyOr(p.comms.governorTemplate)}</p>
+
+    <p style="font-size:13px"><strong>External communications must:</strong> avoid speculation about cause or attacker, omit specific technical details, avoid definitive statements before facts are confirmed, and be cleared by the comms lead, DPO and SLT before issue.</p>
+
+    <h2>9. Recovery &amp; backups</h2>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Recovery Time Objective (RTO)</th><td>${emptyOr(p.recovery.rto)}</td></tr>
+        <tr><th>Recovery Point Objective (RPO)</th><td>${emptyOr(p.recovery.rpo)}</td></tr>
+        <tr><th>Backup locations &amp; types</th><td>${emptyOr(p.recovery.backupLocations)}</td></tr>
+        <tr><th>Backup owner</th><td>${emptyOr(p.recovery.backupOwner)}</td></tr>
+        <tr><th>Restoration test frequency</th><td>${emptyOr(p.recovery.backupTestFrequency)}</td></tr>
+      </tbody>
+    </table>
+    <h3>9.1 Priority restoration order</h3>
+    <p>${emptyOr(p.recovery.priorityRestoreOrder)}</p>
+    ${(p.recovery.criticalSystems||[]).length > 0 ? `
+      <h3>9.2 Critical systems inventory</h3>
+      <table>
+        <thead><tr><th>System</th><th>Owner / supplier</th><th>Priority</th><th>RTO</th></tr></thead>
+        <tbody>${p.recovery.criticalSystems.map(s => `<tr><td>${emptyOr(s.name)}</td><td>${emptyOr(s.owner)}</td><td>${emptyOr(s.priority)}</td><td>${emptyOr(s.rto)}</td></tr>`).join("")}</tbody>
+      </table>
+    ` : ""}
+
+    <h2>10. Post-incident review</h2>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Review lead</th><td>${emptyOr(p.review.reviewLead)}</td></tr>
+        <tr><th>Review deadline</th><td>${emptyOr(p.review.reviewDeadline)}</td></tr>
+        <tr><th>Review form location</th><td>${emptyOr(p.review.formLocation)}</td></tr>
+        <tr><th>Feedback into plan</th><td>${emptyOr(p.review.learningProcess)}</td></tr>
+      </tbody>
+    </table>
+    <h3>Post-incident review form (use for every incident)</h3>
+    <table>
+      <tbody>
+        <tr><td><strong>Incident reference</strong></td><td style="height:30px"></td></tr>
+        <tr><td><strong>Date detected / closed</strong></td><td style="height:30px"></td></tr>
+        <tr><td><strong>Severity</strong></td><td style="height:30px"></td></tr>
+        <tr><td><strong>Summary of what happened</strong></td><td style="height:80px"></td></tr>
+        <tr><td><strong>How it was detected</strong></td><td style="height:60px"></td></tr>
+        <tr><td><strong>Impact (operational / data / reputational / financial)</strong></td><td style="height:80px"></td></tr>
+        <tr><td><strong>What worked well</strong></td><td style="height:80px"></td></tr>
+        <tr><td><strong>What did not work, and why</strong></td><td style="height:80px"></td></tr>
+        <tr><td><strong>Changes required to plan / controls / training</strong></td><td style="height:80px"></td></tr>
+        <tr><td><strong>Owner and target date for each change</strong></td><td style="height:80px"></td></tr>
+        <tr><td><strong>Reported externally? (NCSC / Action Fraud / ICO / RPA / DfE)</strong></td><td style="height:60px"></td></tr>
+      </tbody>
+    </table>
+
+    <h2>11. Plan maintenance</h2>
+    <table>
+      <tbody>
+        <tr><th style="width:30%">Plan owner</th><td>${emptyOr(p.maintenance.owner)}</td></tr>
+        <tr><th>Review frequency</th><td>${emptyOr(p.maintenance.reviewFrequency)}</td></tr>
+        <tr><th>Last reviewed</th><td>${emptyOr(p.maintenance.lastReviewed)}</td></tr>
+        <tr><th>Next review</th><td>${emptyOr(p.maintenance.nextReview)}</td></tr>
+        <tr><th>Distribution list</th><td>${emptyOr(p.maintenance.distribution)}</td></tr>
+        <tr><th>Offline copy location</th><td>${emptyOr(p.maintenance.offlineCopyLocation)}</td></tr>
+      </tbody>
+    </table>
+
+    <h2>12. Mapping to standards &amp; frameworks</h2>
+    <p>This plan is structured to support compliance with the following:</p>
+    <table>
+      <thead><tr><th>Framework</th><th>Coverage</th></tr></thead>
+      <tbody>
+        <tr><td><strong>NCSC Incident Management</strong></td><td>Sections 2 (CIRT roles), 3 (key contacts), 4 (severity), 5 (escalation), 6 (process), 7 (playbooks), 10 (post-incident review)</td></tr>
+        <tr><td><strong>DfE Cyber Security core standard (one of 6 core Digital and Technology Standards by 2030)</strong></td><td>Cyber risk planning, response plan, asset/system inventory, post-incident review, hard-copy storage</td></tr>
+        <tr><td><strong>DfE Risk Protection Arrangement (RPA) cyber response plan</strong></td><td>Sections 3 (external contacts incl. RPA), 6 (incident process), 8 (communication templates), 9 (recovery), 10 (review form)</td></tr>
+        <tr><td><strong>UK GDPR / Data Protection Act 2018</strong></td><td>Section 5 (ICO notification authority), 8.3 (ICO template), 72-hour notification deadline</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:30px; font-size:12px; color:var(--muted); text-align:center; border-top:1px solid var(--line); padding-top:14px">
+      Generated by the Cyber Incident Response Planner — cmaddocks-uk.github.io/cyber-response<br>
+      This plan should be approved by SLT and the governing body before use, validated with your IT support and DPO, and reviewed at least annually.
+    </p>
+  `;
+}
+
+function generatePlaybooks(pbs){
+  const generic = {
+    ransomware: {
+      title:"Ransomware",
+      steps:[
+        "Disconnect affected devices from the network — do not power off (preserve evidence).",
+        "Activate Severity 1 response. Notify CIRT and IT support immediately.",
+        "Do NOT pay the ransom. Refer to the ransomware policy in section 5. Notify RPA / cyber insurer before any external incident responder is engaged (if applicable).",
+        "Identify scope of encryption. Do not reconnect any device until cleared.",
+        "Notify NCSC, Action Fraud, and the ICO if personal data is affected (within 72 hours of awareness).",
+        "Begin restoration from clean, immutable / off-site backups in the priority order set out in section 9.",
+        "Force a full credential reset across the estate before restored systems are returned to production.",
+        "Capture evidence and engage forensic investigation per RPA / insurer requirements before reformatting any device."
+      ]
+    },
+    dataBreach: {
+      title:"Personal data breach",
+      steps:[
+        "Immediately limit further exposure (revoke access, take affected systems offline if necessary).",
+        "Notify the DPO. The 72-hour ICO clock starts when the school becomes aware of the breach.",
+        "Convene CIRT. Determine: what data, how many individuals, sensitivity, likely consequences.",
+        "Document everything in the incident log — facts, decisions, timing.",
+        "DPO assesses notifiability to the ICO; SLT decides on notification of data subjects if there is a high risk to their rights and freedoms.",
+        "Use the ICO notification template in section 8.3 if reportable.",
+        "Communicate with affected individuals using the parent/carer or staff template, as appropriate.",
+        "Capture root cause and feed into post-incident review."
+      ]
+    },
+    accountCompromise: {
+      title:"Account compromise (staff)",
+      steps:[
+        "Disable the affected account. Force password reset, revoke all active sessions and refresh tokens, re-enrol MFA.",
+        "Review mailbox rules, forwarding rules and recently sent items for signs of attacker activity (BEC / data exfiltration).",
+        "Review login activity for the past 30 days — geo, device, IP — and identify what the attacker accessed.",
+        "Determine whether the compromise is isolated or part of a wider phishing campaign — search for similar logins on other accounts.",
+        "Review files and SharePoint/OneDrive access of the affected user. Assume the attacker has read what the user has read.",
+        "If personal data was accessible, escalate to the data breach playbook.",
+        "Notify the user and reset all of their school credentials.",
+        "Capture root cause (phishing email, credential reuse, MFA bypass) and update controls accordingly."
+      ]
+    },
+    phishing: {
+      title:"Phishing campaign",
+      steps:[
+        "Confirm the phishing email — collect headers, sender, subject, content for analysis.",
+        "Search the email environment for other recipients of the same or similar messages and remove them.",
+        "Block the sender, domain and any URLs at the email gateway and web filter.",
+        "Identify any users who clicked, replied or entered credentials. Treat each as a potential account compromise (escalate to that playbook).",
+        "Issue a brief staff alert (using the staff template in section 8.3) noting the lure, what to look out for, and that staff should report any suspicions.",
+        "If the campaign targeted finance staff (BEC) and a fraudulent payment was attempted, contact the bank, Action Fraud and the police.",
+        "Capture in the incident log and post-incident review."
+      ]
+    },
+    denialOfService: {
+      title:"Denial of service",
+      steps:[
+        "Confirm impact — identify affected services and scope.",
+        "Engage your broadband / connectivity supplier and any DDoS-mitigation provider immediately.",
+        "Activate the website holding page from section 8.2 if school services are externally impacted.",
+        "Communicate with parents / carers using the parent template.",
+        "Document the attack pattern (volume, type, source if known).",
+        "Once mitigated, review whether additional DDoS protection is justified."
+      ]
+    },
+    insiderThreat: {
+      title:"Insider threat / misuse",
+      steps:[
+        "Convene a small CIRT including HR and the DPO. Confidentiality is critical at this stage.",
+        "Preserve evidence — system logs, email, file access — before the individual is made aware.",
+        "Take HR / safeguarding advice on next steps.",
+        "Disable access to systems at an agreed point — too early alerts the individual, too late risks further harm.",
+        "If criminal activity is suspected, contact Action Fraud or the police as appropriate.",
+        "Document the investigation. Engage legal advice if required.",
+        "Review root cause — access controls, joiner/mover/leaver process, monitoring."
+      ]
+    }
+  };
+
+  const enabled = Object.keys(pbs).filter(k => pbs[k].enabled);
+  if(enabled.length === 0) return `<p class="empty">No playbooks selected.</p>`;
+
+  return enabled.map(k => {
+    const g = generic[k];
+    return `
+      <h3>${g.title}</h3>
+      <h4>Generic response steps</h4>
+      <ol>${g.steps.map(s => `<li>${s}</li>`).join("")}</ol>
+      <h4>School-specific notes</h4>
+      <p>${emptyOr(pbs[k].notes, "school-specific actions, contacts, dependencies — to be completed")}</p>
+    `;
+  }).join("");
+}
+
+/* ============================================================== */
+/* INIT                                                            */
+/* ============================================================== */
+
+function renderAll(){
+  renderReadiness();
+  renderSectionNav();
+  renderPlanBuilder();
+}
+
+renderAll();
+</script>
+</body>
+</html>
