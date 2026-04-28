@@ -169,6 +169,96 @@
   .plan-doc table th, .plan-doc table td{border:1px solid var(--line); padding:6px 10px; text-align:left}
   .plan-doc table th{background:#f0f4fa; font-weight:700}
   .plan-doc .empty{color:var(--muted); font-style:italic; font-size:13px}
+  /* Home hero (matches DfE Self-Assessment Tool layout) */
+  .home-hero{
+    display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;
+  }
+  @media(max-width:920px){.home-hero{grid-template-columns:1fr}}
+  .home-hero-left{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    border-top:4px solid var(--accent);
+    padding:22px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .feature-pills{display:flex; flex-wrap:wrap; gap:8px}
+  .feature-pill{
+    display:inline-block; padding:6px 14px; border-radius:999px;
+    background:#eaf2fd; color:var(--accent); font-size:13px; font-weight:600;
+    border:1px solid #cdd9ed;
+  }
+  .home-callout{
+    display:flex; gap:14px; padding:18px; background:#f7f9fc;
+    border:1px solid var(--line); border-radius:8px;
+  }
+  .home-status{
+    display:flex; flex-wrap:wrap; align-items:center; gap:6px;
+    padding-top:14px; border-top:1px solid var(--line);
+  }
+  .status-pill{
+    display:inline-block; padding:4px 12px; border-radius:999px;
+    font-size:12px; font-weight:700; letter-spacing:.02em;
+  }
+  .status-ok{background:#e7f5ec; color:var(--green); border:1px solid #c5e6d1}
+  .status-link{
+    display:inline-block; padding:4px 12px; border-radius:999px;
+    font-size:12px; font-weight:600; color:var(--navy-2);
+    background:#fff; border:1px solid var(--line);
+    text-decoration:none;
+    transition:all .15s;
+  }
+  .status-link:hover{background:#f0f4fa; border-color:var(--accent); color:var(--accent); text-decoration:none}
+
+  /* Home hero right column */
+  .home-hero-right{display:flex; flex-direction:column; gap:18px}
+  .get-started{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    border-top:4px solid var(--accent);
+    padding:24px; box-shadow:var(--shadow);
+  }
+  .btn-cta{
+    display:block; width:100%; padding:14px 18px; margin-bottom:10px;
+    background:var(--accent); color:#fff; border:none; border-radius:8px;
+    font-size:16px; font-weight:700; cursor:pointer;
+    transition:background .15s, transform .15s;
+    box-shadow:0 2px 0 #1657b8;
+  }
+  .btn-cta:hover{background:#1657b8; transform:translateY(-1px); box-shadow:0 3px 0 #0d3e8a}
+  .btn-cta-secondary{
+    display:block; width:100%; padding:12px 18px;
+    background:#fff; color:var(--navy); border:1px solid var(--line);
+    border-radius:8px; font-size:14px; font-weight:600; cursor:pointer;
+    transition:all .15s;
+  }
+  .btn-cta-secondary:hover{background:#f0f4fa; border-color:var(--accent); color:var(--accent)}
+  .divider{height:1px; background:var(--line); margin:18px 0}
+  .cat-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+  @media(max-width:480px){.cat-grid{grid-template-columns:1fr}}
+  .cat-tile{
+    display:flex; align-items:center; gap:10px; padding:10px 12px;
+    background:#f7f9fc; border:1px solid var(--line); border-radius:6px;
+    cursor:pointer; font-size:13px; font-weight:600; color:var(--navy-2);
+    transition:all .15s;
+  }
+  .cat-tile:hover{background:#fff; border-color:var(--accent); transform:translateY(-1px); box-shadow:var(--shadow)}
+  .cat-icon{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:26px; height:26px; border-radius:6px; font-size:14px; flex-shrink:0;
+  }
+
+  /* Feedback callout */
+  .feedback-callout{
+    background:#eaf2fd; border:1px solid #cdd9ed; border-radius:12px;
+    padding:18px;
+  }
+  .feedback-callout h3{color:var(--navy)}
+  .btn-feedback{
+    display:block; width:100%; padding:12px 18px; text-align:center;
+    background:var(--accent); color:#fff; border-radius:8px;
+    font-size:14px; font-weight:600; text-decoration:none;
+    transition:background .15s;
+  }
+  .btn-feedback:hover{background:#1657b8; text-decoration:none; color:#fff}
+
   /* Footer */
   footer{padding:20px 0; font-size:12px; color:var(--muted); border-top:1px solid var(--line); background:#fff; margin-top:30px}
   footer a{color:var(--accent)}
@@ -221,63 +311,82 @@
 <!-- ============================================================== -->
 <section id="tab-home" class="tab-panel">
 
-  <div class="card" style="text-align:center; padding:36px 24px">
-    <div style="font-size:42px; margin-bottom:8px">🛡️</div>
-    <h1 style="font-size:32px; margin-bottom:6px">Cyber Incident Response Planner</h1>
-    <div style="font-size:12px; color:var(--muted); margin-bottom:10px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">Version 1.1.0 &middot; <a href="#" onclick="goTab('changelog'); return false">View changelog</a></div>
-    <p style="font-size:15px; color:var(--muted); max-width:640px; margin:0 auto 18px">
-      A free planning tool for UK schools and colleges. Assess your current readiness against NCSC, DfE, RPA and Ofsted expectations &mdash; and generate a tailored <strong style="color:var(--navy)">Cyber Incident Response Plan</strong> ready to print, share with governors, and store offline.
+  <!-- Title -->
+  <div style="text-align:center; padding:24px 0 16px">
+    <div style="font-size:40px; margin-bottom:6px">🛡️</div>
+    <h1 style="font-size:30px; font-weight:800; color:var(--navy); letter-spacing:-.02em; margin:0 0 6px; line-height:1.2">Cyber Incident Response Planner</h1>
+    <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
+      Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div class="badges" style="justify-content:center">
-      <a class="pill pill-ncsc pill-link" href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener">NCSC Incident Management</a>
-      <a class="pill pill-dfe pill-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges/cyber-security-standards-for-schools-and-colleges" target="_blank" rel="noopener">DfE Digital Standards 2030</a>
-      <a class="pill pill-rpa pill-link" href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener">DfE Risk Protection Arrangement</a>
-      <a class="pill pill-ofsted pill-link" href="https://www.gov.uk/government/publications/education-inspection-framework/education-inspection-framework-for-use-from-november-2025" target="_blank" rel="noopener">Ofsted Inspection Toolkit</a>
-    </div>
-    <div class="btn-row" style="justify-content:center; margin-top:20px">
-      <button class="btn btn-primary" onclick="goTab('readiness')">Start readiness check &rarr;</button>
-      <button class="btn btn-secondary" onclick="goTab('plan')">Skip to plan builder</button>
-    </div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.2.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
-  <div class="grid-2">
-    <div class="card">
-      <h3>📋 What this tool does</h3>
-      <p style="font-size:14px">Walks you through the core elements of a working cyber incident response plan &mdash; key contacts, severity grading, escalation, playbooks, communications, recovery and post-incident review.</p>
-      <p style="font-size:14px; margin-bottom:0">Each answer feeds into a printable plan document tailored to your school. There is also a separate readiness check that scores your current state against best practice.</p>
+  <!-- Two-column hero -->
+  <div class="home-hero">
+
+    <!-- LEFT: features + about + status bar -->
+    <div class="home-hero-left">
+      <div class="feature-pills">
+        <span class="feature-pill">✓ Free to use</span>
+        <span class="feature-pill">✓ No account needed</span>
+        <span class="feature-pill">✓ Data cleared on exit</span>
+        <span class="feature-pill">✓ Print plan for governors</span>
+        <span class="feature-pill">✓ Tested against NCSC, DfE, RPA &amp; Ofsted</span>
+      </div>
+
+      <div class="home-callout">
+        <div style="font-size:24px; flex-shrink:0">💡</div>
+        <div>
+          <div style="font-weight:700; color:var(--navy); margin-bottom:6px">A planning tool, not a compliance pass</div>
+          <p style="margin:0 0 8px; font-size:13px; color:var(--text)">Designed to <strong>complement</strong> NCSC, DfE and RPA guidance &mdash; not replace it. Questions and plan sections are <strong style="color:var(--accent)">explicitly tagged to the framework they map to</strong> &mdash; so schools always know exactly which expectation each part addresses. Generates a printable plan, a readiness RAG report, and a governor-ready summary.</p>
+          <p style="margin:0; font-size:13px"><strong>No data stored &mdash; cleared on exit.</strong> <span class="muted">Use alongside your business continuity and disaster recovery plans.</span></p>
+        </div>
+      </div>
+
+      <!-- Status bar with bottom links -->
+      <div class="home-status">
+        <span class="status-pill status-ok">✅ v1.2.0 current</span>
+        <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener">🍺 Buy me a beer</a>
+        <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener">📘 DfE Standards ↗</a>
+        <a class="status-link" href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener">🛡️ NCSC ↗</a>
+        <a class="status-link" href="#" onclick="goTab('changelog'); return false">📝 Changelog</a>
+        <a class="status-link" href="#" onclick="goTab('about'); return false">ℹ️ About</a>
+      </div>
     </div>
-    <div class="card">
-      <h3>🔒 Your data stays in your browser</h3>
-      <p style="font-size:14px">Everything you enter is held locally in your browser session only &mdash; nothing is sent anywhere. You can save your progress to your device and re-import it later.</p>
-      <p style="font-size:14px; margin-bottom:0">If you close the tab without saving, your data is gone. This is by design.</p>
+
+    <!-- RIGHT: Get started panel -->
+    <div class="home-hero-right">
+      <div class="get-started">
+        <h2 style="margin:0 0 4px">Get started</h2>
+        <p class="muted" style="margin:0 0 18px; font-size:13px">Takes around 15&ndash;25 minutes &middot; Readiness check &middot; 10-section plan builder</p>
+
+        <button class="btn-cta" onclick="goTab('readiness')">▶ Start readiness check</button>
+        <button class="btn-cta-secondary" onclick="goTab('plan')">📋 Skip to plan builder</button>
+
+        <div class="divider"></div>
+
+        <div style="font-size:11px; color:var(--muted); letter-spacing:.05em; font-weight:700; margin-bottom:10px">PLAN COVERS 10 SECTIONS</div>
+        <div class="cat-grid">
+          <div class="cat-tile" onclick="goTab('plan'); showSection('meta')"><span class="cat-icon" style="background:#e8efff; color:#1f4ed8">🏫</span> School details</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('team')"><span class="cat-icon" style="background:#e7f5ec; color:var(--green)">👥</span> Response team</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('contacts_external')"><span class="cat-icon" style="background:#fff4e6; color:#a04500">📞</span> External contacts</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('severity')"><span class="cat-icon" style="background:#fbe9e7; color:var(--red)">⚠️</span> Severity &amp; triage</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('escalation')"><span class="cat-icon" style="background:#f3e8ff; color:#6b21a8">🎯</span> Escalation</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('playbooks')"><span class="cat-icon" style="background:#fdf3e2; color:var(--amber)">📖</span> Playbooks</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('comms')"><span class="cat-icon" style="background:#e8efff; color:#1f4ed8">📢</span> Communications</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('recovery')"><span class="cat-icon" style="background:#e7f5ec; color:var(--green)">💾</span> Recovery</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('review')"><span class="cat-icon" style="background:#f0f4fa; color:var(--navy-2)">🔍</span> Post-incident review</div>
+          <div class="cat-tile" onclick="goTab('plan'); showSection('maintenance')"><span class="cat-icon" style="background:#f3e8ff; color:#6b21a8">🔄</span> Plan maintenance</div>
+        </div>
+      </div>
+
+      <!-- Feedback callout -->
+      <div class="feedback-callout">
+        <h3 style="margin:0 0 6px; display:flex; align-items:center; gap:8px">💬 Help us improve this tool</h3>
+        <p style="margin:0 0 12px; font-size:13px">Tried the tool? We'd love to know what you think. Your feedback shapes future versions and helps the school IT community get the most from it.</p>
+        <a class="btn-feedback" href="https://github.com/cmaddocks-uk/cyber-response/issues/new" target="_blank" rel="noopener">💭 Share Your Feedback</a>
+      </div>
     </div>
-  </div>
-
-  <div class="card" style="border-left:4px solid var(--accent)">
-    <h3 style="display:flex; align-items:center; gap:8px">✨ What's new in 1.1.0</h3>
-    <ul style="font-size:14px; padding-left:20px; margin:0 0 8px">
-      <li>Ofsted Inspection Toolkit added as a fourth framework, tagged on questions where cyber response intersects with safeguarding and leadership.</li>
-      <li>Framework tags now use full names and are clickable — tap any tag to open the source guidance.</li>
-      <li>Sequential plan navigation with Next / Previous buttons and a step counter.</li>
-    </ul>
-    <a href="#" onclick="goTab('changelog'); return false" style="font-size:13px; font-weight:600">View full changelog &rarr;</a>
-  </div>
-
-  <div class="card">
-    <h3>Who is this for?</h3>
-    <p style="font-size:14px">Any UK state, independent or further education setting that needs to write or review a cyber incident response plan &mdash; including:</p>
-    <ul style="font-size:14px; padding-left:20px; margin:0">
-      <li>Senior leadership team digital leads</li>
-      <li>Network managers and in-house IT support staff</li>
-      <li>Multi-academy trust IT directors</li>
-      <li>Business managers and bursars working on RPA renewals</li>
-      <li>Governors and trustees seeking assurance on cyber resilience</li>
-    </ul>
-  </div>
-
-  <div class="card" style="background:#f0f4fa; border-color:#cdd9ed">
-    <h3>What this tool is <em>not</em></h3>
-    <p style="font-size:14px; margin-bottom:0">It is not a substitute for the NCSC's incident management guidance, the DfE Cyber Security Standards, or your insurer's specific requirements. It is a structured aid to <em>writing</em> a plan and <em>checking</em> your readiness &mdash; not a guarantee of compliance. Always validate the final plan with your IT support, DPO, SLT and governing body.</p>
   </div>
 
 </section>
@@ -370,6 +479,16 @@
   </div>
 
   <div class="card">
+    <h3>Version 1.2.0 <span class="muted" style="font-weight:normal; font-size:13px">— 28 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Home page redesigned</strong> to mirror the layout of the DfE Digital Standards 2030 — Self-Assessment Tool, so the two tools feel like a proper family. New two-column hero with feature pills, a self-assessment-style highlight callout, status bar with quick links, and a "Get started" panel listing all 10 plan sections as clickable tiles.</li>
+      <li><strong style="color:var(--text)">Direct deep-links</strong> from home page tiles into specific plan builder sections.</li>
+      <li><strong style="color:var(--text)">Feedback callout</strong> added below "Get started", linking to the GitHub repo issues for community feedback.</li>
+      <li><strong style="color:var(--text)">Buy me a beer</strong> moved from the page footer into the status bar on the home page so it's visible without scrolling.</li>
+    </ul>
+  </div>
+
+  <div class="card">
     <h3>Version 1.1.0 <span class="muted" style="font-weight:normal; font-size:13px">— 28 April 2026</span></h3>
     <ul style="padding-left:20px">
       <li><strong style="color:var(--text)">Ofsted Inspection Toolkit added as a fourth framework.</strong> Tagged on questions where cyber response intersects with the November 2025 Ofsted framework (R1, R7, R8, R10) — primarily safeguarding (Met/Not Met) and leadership and management.</li>
@@ -445,7 +564,7 @@
 <footer>
   <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px">
     <div style="text-align:left">
-      Cyber Incident Response Planner v1.1.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
+      Cyber Incident Response Planner v1.2.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
       <a href="https://cmaddocks-uk.github.io/cyber-response" target="_blank" rel="noopener">cmaddocks-uk.github.io/cyber-response</a> &middot;
       <a href="#" onclick="goTab('changelog'); return false">Changelog</a> &middot;
       <a href="#" onclick="goTab('about'); return false">About</a>
