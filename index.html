@@ -75,21 +75,25 @@
   .container{max-width:1280px; margin:0 auto; padding:0 20px}
   /* Top bar */
   header.topbar{
-    background:var(--navy); color:#fff; padding:14px 0; border-bottom:3px solid var(--accent);
+    background:var(--navy); color:#fff; padding:0; border-bottom:3px solid var(--accent);
+    position:sticky; top:0; z-index:40;
   }
-  .topbar-inner{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
-  .brand{display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px; letter-spacing:.01em}
-  .brand .logo{font-size:20px}
+  .topbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px; flex-wrap:wrap; padding:10px 0;
+  }
+  .brand{display:flex; align-items:center; gap:8px; font-weight:700; font-size:14px; color:#fff; letter-spacing:.01em}
+  .brand .logo{font-size:18px}
   .brand .pipe{opacity:.4; padding:0 4px}
-  .brand .sub{opacity:.85; font-weight:500}
+  .brand .sub{opacity:.85; font-weight:500; font-size:13px}
   nav.tabs{display:flex; gap:2px; flex-wrap:wrap}
   nav.tabs button{
-    background:transparent; color:#fff; border:1px solid transparent; border-bottom:none;
-    padding:8px 14px; border-radius:6px 6px 0 0; cursor:pointer; font-size:13px; font-weight:600;
-    transition:background .15s;
+    background:transparent; color:#fff; border:1px solid transparent;
+    padding:7px 12px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;
+    transition:all .15s;
   }
-  nav.tabs button:hover{background:rgba(255,255,255,.08)}
-  nav.tabs button.active{background:var(--bg); color:var(--navy)}
+  nav.tabs button:hover{background:rgba(255,255,255,.1)}
+  nav.tabs button.active{background:#fff; color:var(--navy)}
   /* Main */
   main{padding:28px 0 60px}
   .card{
@@ -365,8 +369,7 @@
   .plan-doc h2{scroll-margin-top:14px}
 
   /* Footer */
-  footer{padding:20px 0; font-size:12px; color:var(--muted); border-top:1px solid var(--line); background:#fff; margin-top:30px}
-  footer a{color:var(--accent)}
+  /* Footer removed in v1.1.3 — version moved to header, links in home status bar */
   .beer-btn{
     position:fixed; bottom:20px; right:20px;
     z-index:50;
@@ -511,7 +514,7 @@
       <span class="logo">🛡️</span>
       <span>Cyber Incident Response Planner</span>
       <span class="pipe">|</span>
-      <span class="sub">UK Schools &amp; Colleges</span>
+      <span class="sub">UK Education Establishments</span>
     </div>
     <nav class="tabs" id="tabs">
       <button data-tab="home" class="active">Home</button>
@@ -541,7 +544,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.1 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.3 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -583,7 +586,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.1 current</span>
+        <span class="status-pill status-ok">✅ v1.1.3 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -755,6 +758,11 @@
 
 </section>
 
+<!-- ============================================================== -->
+<!-- GOVERNOR REPORT                                                 -->
+<!-- ============================================================== -->
+<section id="tab-governor" class="tab-panel hidden">
+
   <div class="card no-print">
     <h2>Governor / Trustee Report</h2>
     <p class="muted">A one-page, plain-English summary of cyber response readiness designed for governing body and trustee meetings. Helps demonstrate assurance against the Ofsted "<em>How do you assure yourselves...</em>" line of questioning during inspection.</p>
@@ -777,6 +785,22 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.3 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Dark navy header restored</strong> with the slim, sticky tab layout introduced in v1.1.2. White-on-navy brand area, light tab pills, active tab fills white. Combines the visual identity of v1.1.1 with the cleaner spacing of v1.1.2.</li>
+      <li><strong style="color:var(--text)">Header strapline broadened to "UK Education Establishments"</strong> &mdash; previously just "UK Schools &amp; Colleges". The framework mappings (DfE Digital Standards 2030, DfE RPA, Ofsted) remain school-and-college-specific where they apply, but the brand-level positioning now signals that any UK education setting can use the readiness check, plan builder, playbooks and First 30 Minutes card.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.2 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Bug fix &mdash; empty card on the Governor Report tab.</strong> When the First 30 Minutes section was added in v1.1.0, the Governor Report section's opening <code>&lt;section&gt;</code> tag was inadvertently dropped. The Governor Report card and its container were leaking onto whatever tab was active. Section structure restored. Same class of bug as the v1.5.2 fix &mdash; lesson learned.</li>
+      <li><strong style="color:var(--text)">Cleaner UI.</strong> Replaced the dark navy header bar with a slim, light, sticky top nav. Active tab highlighted in accent blue rather than reverse-coloured. Removed the bottom footer entirely &mdash; version pill now lives subtly in the top-left, Changelog and About links are already in the home status bar. More vertical space for content, less visual noise.</li>
+    </ul>
   </div>
 
   <div class="card">
@@ -1027,17 +1051,6 @@
 
 </div><!-- /container -->
 </main>
-
-<footer>
-  <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px">
-    <div style="text-align:left">
-      Cyber Incident Response Planner v1.1.1 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
-      <a href="https://cmaddocks-uk.github.io/cyber-response" target="_blank" rel="noopener noreferrer">cmaddocks-uk.github.io/cyber-response</a> &middot;
-      <a href="#" onclick="goTab('changelog'); return false">Changelog</a> &middot;
-      <a href="#" onclick="goTab('about'); return false">About</a>
-    </div>
-  </div>
-</footer>
 
 <!-- Floating Buy Me a Beer button (bottom-right) -->
 <a href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer" class="beer-btn" title="If this tool saved you time, you can say thanks">
