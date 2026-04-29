@@ -368,14 +368,19 @@
   footer{padding:20px 0; font-size:12px; color:var(--muted); border-top:1px solid var(--line); background:#fff; margin-top:30px}
   footer a{color:var(--accent)}
   .beer-btn{
+    position:fixed; bottom:20px; right:20px;
+    z-index:50;
     display:inline-flex; align-items:center; gap:6px;
-    padding:8px 16px; border-radius:999px;
+    padding:10px 18px; border-radius:999px;
     background:#FFDD00; color:#0d1b2a !important;
-    font-weight:700; font-size:13px; text-decoration:none !important;
-    border:2px solid #0d1b2a; transition:transform .15s, box-shadow .15s;
+    font-weight:700; font-size:14px; text-decoration:none !important;
+    border:2px solid #0d1b2a;
+    box-shadow:0 2px 0 #0d1b2a, 0 4px 12px rgba(0,0,0,.15);
+    transition:transform .15s, box-shadow .15s;
     white-space:nowrap;
   }
-  .beer-btn:hover{transform:translateY(-1px); box-shadow:0 3px 0 #0d1b2a; text-decoration:none !important}
+  .beer-btn:hover{transform:translateY(-1px); box-shadow:0 3px 0 #0d1b2a, 0 6px 14px rgba(0,0,0,.2); text-decoration:none !important}
+  @media(max-width:600px){.beer-btn{bottom:14px; right:14px; padding:8px 14px; font-size:13px}}
   /* Print */
   @media print{
     header.topbar, nav.tabs, footer, .no-print, .btn-row, .section-nav, .beer-btn, .plan-toc, .back-to-top{display:none !important}
@@ -505,6 +510,18 @@
           <div class="cat-tile" onclick="goTab('plan'); showSection('review')"><span class="cat-icon" style="background:#f0f4fa; color:var(--navy-2)">🔍</span> Post-incident review</div>
           <div class="cat-tile" onclick="goTab('plan'); showSection('maintenance')"><span class="cat-icon" style="background:#f3e8ff; color:#6b21a8">🔄</span> Plan maintenance</div>
         </div>
+
+        <div class="divider"></div>
+
+        <div style="font-size:11px; color:var(--muted); letter-spacing:.05em; font-weight:700; margin-bottom:10px">COMPANION TOOL</div>
+        <a href="https://cmaddocks-uk.github.io/digital-standards-2030/" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; gap:12px; padding:12px 14px; background:#f0f4fa; border:1px solid #cdd9ed; border-radius:8px; color:var(--text); text-decoration:none">
+          <span style="font-size:22px">🎯</span>
+          <span style="flex:1">
+            <span style="display:block; font-weight:700; color:var(--navy); font-size:13px; margin-bottom:2px">DfE Digital Standards 2030 &mdash; Self-Assessment Tool</span>
+            <span style="display:block; font-size:12px; color:var(--muted); line-height:1.4">The broader self-assessment covering all six DfE Digital and Technology Standards. This tool focuses on the cyber response layer.</span>
+          </span>
+          <span style="color:var(--accent); font-weight:700">&rarr;</span>
+        </a>
       </div>
     </div>
   </div>
@@ -873,11 +890,13 @@
       <a href="#" onclick="goTab('changelog'); return false">Changelog</a> &middot;
       <a href="#" onclick="goTab('about'); return false">About</a>
     </div>
-    <a href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer" class="beer-btn" title="If this tool saved you time, you can say thanks">
-      🍺 Buy me a beer
-    </a>
   </div>
 </footer>
+
+<!-- Floating Buy Me a Beer button (bottom-right) -->
+<a href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer" class="beer-btn" title="If this tool saved you time, you can say thanks">
+  🍺 Buy me a beer
+</a>
 
 <script>
 /* ============================================================== */
