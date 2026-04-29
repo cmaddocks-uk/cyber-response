@@ -541,20 +541,20 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.1 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
-  <!-- Police CyberAlarm transition notice -->
-  <div style="margin:0 auto 16px; max-width:880px; background:#fdf3e2; border:1px solid #f4dba0; border-left:4px solid var(--amber); border-radius:6px; padding:12px 16px">
+  <!-- Police CyberAlarm — current state notice -->
+  <div style="margin:0 auto 16px; max-width:880px; background:#eaf2fd; border:1px solid #cdd9ed; border-left:4px solid var(--accent); border-radius:6px; padding:12px 16px">
     <div style="display:flex; align-items:flex-start; gap:10px">
       <div style="font-size:18px; line-height:1.2">ℹ️</div>
       <div style="flex:1">
-        <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:4px">RPA Cyber Cover &mdash; Police CyberAlarm transition period</div>
+        <div style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:4px">Police CyberAlarm &mdash; current state for RPA cyber cover</div>
         <p style="font-size:13px; color:var(--text); line-height:1.55; margin:0 0 6px">
-          Police CyberAlarm have announced that <a href="https://www.cyberalarm.police.uk/register/" target="_blank" rel="noopener noreferrer">new installations of the data collector are currently paused</a> during a planned transition period. The RPA's cyber cover condition is <em>registration</em> with PCA &mdash; which has historically been possible without installing the collector &mdash; but the practical position during this transition is best confirmed directly.
-          If your school is not already registered, contact the RPA at <a href="mailto:RPA.DFE@education.gov.uk">RPA.DFE@education.gov.uk</a> to confirm how cyber cover can be approved while the PCA service is in transition. <strong>Do not assume cyber cover is unavailable</strong> until you have spoken to them.
+          <a href="https://www.cyberalarm.police.uk/register/" target="_blank" rel="noopener noreferrer">Police CyberAlarm registrations remain open</a>, and free <strong>vulnerability scanning is available</strong> to registered members. Only the on-network data collector is currently paused for new installations during a planned transition period &mdash; the rest of the service continues as usual.
+          The RPA's cyber cover condition is registration with PCA, so registering now still satisfies that requirement. If you're unsure about your specific position, your local <a href="https://www.ncsc.gov.uk/information/regional-organised-crime-units-rocus" target="_blank" rel="noopener noreferrer">Regional Organised Crime Unit (ROCU)</a> Cyber PROTECT team can advise free of charge, or contact the RPA at <a href="mailto:RPA.DFE@education.gov.uk">RPA.DFE@education.gov.uk</a>.
         </p>
-        <p style="font-size:12px; color:var(--muted); margin:0">The other three RPA cyber cover conditions remain in effect: offline backups, annual NCSC cyber security training for all staff and governors with system access, and a documented Cyber Response Plan (which this tool helps you build).</p>
+        <p style="font-size:12px; color:var(--muted); margin:0">The four RPA cyber cover conditions: PCA registration, offline backups, annual NCSC cyber security training for all staff and governors with system access, and a documented Cyber Response Plan (which this tool helps you build).</p>
       </div>
     </div>
   </div>
@@ -583,7 +583,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.0 current</span>
+        <span class="status-pill status-ok">✅ v1.1.1 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -780,14 +780,23 @@
   </div>
 
   <div class="card">
+    <h3>Version 1.1.1 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <p style="margin:0 0 8px">Updates following community feedback from <strong>Sgt Andy Rawlinson (SEROCU Cyber PROTECT, CISM)</strong>.</p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Police CyberAlarm banner rewritten.</strong> Original wording overstated the impact of the transition. Corrected position: PCA registrations <em>are open</em>, vulnerability scanning <em>is available</em> to registered members, and only the on-network data collector is currently paused for new installations. Registration alone still satisfies the RPA cyber cover condition. Banner restyled from amber-warning to informational-blue to match the friendlier reality.</li>
+      <li><strong style="color:var(--text)">Action Fraud renamed to Report Fraud throughout.</strong> The new service launched on 4 December 2025 (replacing Action Fraud) and went into full public launch in January 2026. The phone number stays the same (0300 123 2040), the URL is now <code>reportfraud.police.uk</code>. Updated everywhere in the tool: readiness questions, action items, plan output, communications templates, playbook citations and the First 30 Minutes card.</li>
+    </ul>
+  </div>
+
+  <div class="card">
     <h3>Version 1.1.0 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
     <p style="margin:0 0 8px"><strong>"First 30 Minutes" rapid-response card added.</strong> A one-page printable card designed to be laminated and pinned by the headteacher's office, in the network room and the bursar's drawer &mdash; for use during the actual incident, not for governance.</p>
     <ul style="padding-left:20px">
       <li><strong style="color:var(--text)">Three time-boxed phases</strong> (0&ndash;5 min, 5&ndash;15 min, 15&ndash;30 min) with the next actions for each role &mdash; first responder, SLT digital lead, incident lead</li>
       <li><strong style="color:var(--text)">Auto-populated</strong> from the contacts already entered in the Plan Builder &mdash; SLT digital lead, deputy, IT lead, comms lead, DPO, IT support, RPA insurer, broadband supplier. Missing fields show as <em>[not set]</em></li>
-      <li><strong style="color:var(--text)">Critical phone numbers prominent</strong> &mdash; RPA Cyber Incident 0800 368 6378 and Action Fraud 0300 123 2040 are baked in</li>
+      <li><strong style="color:var(--text)">Critical phone numbers prominent</strong> &mdash; RPA Cyber Incident 0800 368 6378 and Report Fraud 0300 123 2040 are baked in</li>
       <li><strong style="color:var(--text)">"Do NOT" panel</strong> covering the five errors that turn a recoverable incident into a disaster &mdash; ransom payment ban (per DfE Academy Trust Handbook 2025), powering off (loses forensics), contact with attackers, comms via compromised email, premature wipe</li>
-      <li><strong style="color:var(--text)">Escalation chain panel</strong> with the five-step external escalation route (internal &rarr; insurer &rarr; ICO &rarr; Action Fraud &rarr; ROCU)</li>
+      <li><strong style="color:var(--text)">Escalation chain panel</strong> with the five-step external escalation route (internal &rarr; insurer &rarr; ICO &rarr; Report Fraud &rarr; ROCU)</li>
       <li><strong style="color:var(--text)">Optimised print layout</strong> &mdash; A4 portrait, single page, no awkward breaks. Designed to be readable from across a room when laminated</li>
       <li>New tab between Your Plan and Governor Report; new "🚨 First 30 Minutes card" CTA on the home page</li>
     </ul>
@@ -934,7 +943,7 @@
       <div style="padding:12px 14px; background:#e7f5ec; border-left:4px solid #0a6a30; border-radius:0 6px 6px 0">
         <div style="font-weight:700; color:#0a6a30; font-size:13px; margin-bottom:2px">DFE RISK PROTECTION ARRANGEMENT (RPA) &mdash; CYBER RESPONSE PLAN</div>
         <p style="font-size:13px; margin:0 0 6px">Plan structure aligns with the impact assessment, communication templates and recovery event recording required by RPA cyber cover. Schools using RPA can use the generated plan as the working document for their cyber response.</p>
-        <p style="font-size:12px; margin:0 0 6px; padding:8px 10px; background:#fffbf2; border:1px dashed #f4dba0; border-radius:4px; color:var(--text)"><strong>2026 note:</strong> Police CyberAlarm has paused new installations of the data collector during a transition period. The RPA condition is <em>PCA registration</em>, which has historically been possible without installing the collector &mdash; but schools should contact <a href="mailto:RPA.DFE@education.gov.uk">RPA.DFE@education.gov.uk</a> to confirm the practical position during the transition.</p>
+        <p style="font-size:12px; margin:0 0 6px; padding:8px 10px; background:#eaf2fd; border:1px dashed #cdd9ed; border-radius:4px; color:var(--text)"><strong>2026 note:</strong> Police CyberAlarm registrations remain open and vulnerability scanning is available. Only new on-network data collector installations are paused during a transition period. PCA registration still satisfies the RPA cyber cover condition, and your local ROCU Cyber PROTECT team can advise on the practical position.</p>
         <a href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer" style="font-size:12px; font-weight:600">Read the source guidance &rarr;</a>
       </div>
       <div style="padding:12px 14px; background:#f3e8ff; border-left:4px solid #6b21a8; border-radius:0 6px 6px 0">
@@ -1000,7 +1009,7 @@
         <h4 style="margin-bottom:6px">Reporting routes</h4>
         <ul style="padding-left:20px; font-size:13px; margin:0">
           <li><a href="https://report.ncsc.gov.uk/" target="_blank" rel="noopener noreferrer">NCSC &mdash; Report a cyber incident</a></li>
-          <li><a href="https://www.actionfraud.police.uk/" target="_blank" rel="noopener noreferrer">Action Fraud</a></li>
+          <li><a href="https://www.reportfraud.police.uk/" target="_blank" rel="noopener noreferrer">Report Fraud</a></li>
           <li><a href="https://ico.org.uk/for-organisations/report-a-breach/" target="_blank" rel="noopener noreferrer">ICO &mdash; Report a personal data breach</a></li>
           <li><a href="https://www.ncsc.gov.uk/exercise-in-a-box" target="_blank" rel="noopener noreferrer">NCSC &mdash; Exercise in a Box (free testing)</a></li>
         </ul>
@@ -1022,7 +1031,7 @@
 <footer>
   <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px">
     <div style="text-align:left">
-      Cyber Incident Response Planner v1.1.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
+      Cyber Incident Response Planner v1.1.1 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
       <a href="https://cmaddocks-uk.github.io/cyber-response" target="_blank" rel="noopener noreferrer">cmaddocks-uk.github.io/cyber-response</a> &middot;
       <a href="#" onclick="goTab('changelog'); return false">Changelog</a> &middot;
       <a href="#" onclick="goTab('about'); return false">About</a>
@@ -1140,7 +1149,7 @@ const READINESS = [
       "Schedule termly restoration tests and log the result. An untested backup is not a backup."
     ]
   },
-  {id:"R8", text:"Do you know how to report a cyber incident to (a) NCSC, (b) Action Fraud, (c) the ICO if personal data is involved, and (d) the DfE / RPA?",
+  {id:"R8", text:"Do you know how to report a cyber incident to (a) NCSC, (b) Report Fraud, (c) the ICO if personal data is involved, and (d) the DfE / RPA?",
     frameworks:["DfE","RPA","Ofsted"],
     opts:[
       "Do not know the reporting routes",
@@ -1149,7 +1158,7 @@ const READINESS = [
       "All reporting routes documented with timeframes, named reporters, and contact details — including the NCSC reporting service and ICO 72-hour deadline"
     ],
     actions:[
-      "Add the four reporting routes (NCSC, Action Fraud, ICO, DfE/RPA) to the External Contacts section of your plan.",
+      "Add the four reporting routes (NCSC, Report Fraud, ICO, DfE/RPA) to the External Contacts section of your plan.",
       "Document the ICO 72-hour deadline prominently. Missing it is a regulatory breach in its own right.",
       "If you have RPA cover, contact RPA before engaging external IR providers — they may have appointed responders and rules around expense recovery."
     ]
@@ -1251,7 +1260,7 @@ function initState(){
       external:{
         itProvider:{name:"", contact:"", phone:"", email:"", outOfHours:""},
         ncscReport:"https://report.ncsc.gov.uk/ — phone 0300 020 0973",
-        actionFraud:"0300 123 2040 — actionfraud.police.uk",
+        actionFraud:"0300 123 2040 — reportfraud.police.uk",
         ico:"0303 123 1113 — ico.org.uk/for-organisations/report-a-breach (within 72 hours of becoming aware of a personal data breach)",
         rpa:"",
         cyberInsurer:"",
@@ -1901,7 +1910,7 @@ function renderExternal(){
         <p style="margin:0; font-size:13px"><strong>Important:</strong> If personal data is or may be involved, you must report to the ICO within <strong>72 hours</strong> of becoming aware of the breach.</p>
       </div>
       ${field("NCSC incident reporting","plan.external.ncscReport","text","")}
-      ${field("Action Fraud","plan.external.actionFraud","text","")}
+      ${field("Report Fraud","plan.external.actionFraud","text","")}
       ${field("ICO (data breach)","plan.external.ico","text","")}
       ${field("DfE Sector Cyber Lead","plan.external.dfeContact","text","via your DfE contact or RPA")}
 
@@ -2154,7 +2163,7 @@ Affected user communications:
       key:"phishing",
       title:"Phishing campaign",
       desc:"Targeted phishing against staff, particularly business email compromise (BEC) targeting finance staff.",
-      whyMatters:`Phishing &mdash; particularly business email compromise (BEC) targeting bursars and business managers &mdash; remains the highest-volume threat to UK schools. Action Fraud and the regional Cyber PROTECT Network repeatedly highlight invoice-redirection fraud and CEO-impersonation as common patterns in the sector. The NCSC provides <a href="https://www.ncsc.gov.uk/guidance/phishing" target="_blank" rel="noopener noreferrer">specific guidance on defending against phishing</a>. The bank-detail-change verification rule (always verify by phone, on an independently-sourced number) is the single most effective control for BEC.`,
+      whyMatters:`Phishing &mdash; particularly business email compromise (BEC) targeting bursars and business managers &mdash; remains the highest-volume threat to UK schools. Report Fraud and the regional Cyber PROTECT Network repeatedly highlight invoice-redirection fraud and CEO-impersonation as common patterns in the sector. The NCSC provides <a href="https://www.ncsc.gov.uk/guidance/phishing" target="_blank" rel="noopener noreferrer">specific guidance on defending against phishing</a>. The bank-detail-change verification rule (always verify by phone, on an independently-sourced number) is the single most effective control for BEC.`,
       examples:[
         "Who can search and remove emails across all staff mailboxes (M365 Content Search, Google Vault)",
         "Process for blocking sender domains at the email gateway",
@@ -2378,7 +2387,7 @@ Summary: [one-paragraph factual summary of what happened]
 Impact on the school: [operational, data, financial, reputational]
 Action taken so far: [bullet list of actions and decisions]
 Outstanding decisions: [any decisions still required from SLT or governors]
-External notifications: [ICO / NCSC / Action Fraud / RPA / DfE — stated as done or pending]
+External notifications: [ICO / NCSC / Report Fraud / RPA / DfE — stated as done or pending]
 
 Next update: [time/date]`;
 
@@ -2737,7 +2746,7 @@ function generatePlan(){
     <table>
       <tbody>
         <tr><th style="width:30%">NCSC</th><td>${emptyOr(p.external.ncscReport)}</td></tr>
-        <tr><th>Action Fraud</th><td>${emptyOr(p.external.actionFraud)}</td></tr>
+        <tr><th>Report Fraud</th><td>${emptyOr(p.external.actionFraud)}</td></tr>
         <tr><th>Information Commissioner's Office (ICO)</th><td>${emptyOr(p.external.ico)}</td></tr>
         <tr><th>DfE / Sector Cyber Lead</th><td>${emptyOr(p.external.dfeContact)}</td></tr>
       </tbody>
@@ -2911,7 +2920,7 @@ function generatePlan(){
         <tr><td><strong>What did not work, and why</strong></td><td style="height:80px"></td></tr>
         <tr><td><strong>Changes required to plan / controls / training</strong></td><td style="height:80px"></td></tr>
         <tr><td><strong>Owner and target date for each change</strong></td><td style="height:80px"></td></tr>
-        <tr><td><strong>Reported externally? (NCSC / Action Fraud / ICO / RPA / DfE)</strong></td><td style="height:60px"></td></tr>
+        <tr><td><strong>Reported externally? (NCSC / Report Fraud / ICO / RPA / DfE)</strong></td><td style="height:60px"></td></tr>
       </tbody>
     </table>
 
@@ -3054,7 +3063,7 @@ const GOV_PLAIN = {
   },
   R8: {
     label: "Reporting routes",
-    plain: "Whether the school knows how and when to report incidents to NCSC, Action Fraud, the ICO (within 72 hours if personal data is involved), and the DfE / RPA.",
+    plain: "Whether the school knows how and when to report incidents to NCSC, Report Fraud, the ICO (within 72 hours if personal data is involved), and the DfE / RPA.",
     govQ: "How do you assure yourselves that the school knows the four UK reporting routes, including the 72-hour ICO notification deadline for personal data breaches?"
   },
   R9: {
@@ -3183,7 +3192,7 @@ function generateFirst30(){
         <ul>
           <li>If <strong>S1/S2</strong>: call RPA Cyber Incident <strong>0800 368 6378</strong></li>
           <li>If <strong>personal data</strong> involved: start the ICO 72-hour clock</li>
-          <li>If <strong>criminal</strong>: Action Fraud <strong>0300 123 2040</strong></li>
+          <li>If <strong>criminal</strong>: Report Fraud <strong>0300 123 2040</strong></li>
           <li>Brief Headteacher: keep school open or send children home?</li>
           <li>Issue first parent communication — even just "we're aware"</li>
         </ul>
@@ -3215,7 +3224,7 @@ function generateFirst30(){
           <li><strong>Internal:</strong> SLT digital lead → Headteacher → Chair of Governors</li>
           <li><strong>Insurer:</strong> RPA cyber incident line <strong>0800 368 6378</strong></li>
           <li><strong>Regulator:</strong> ICO breach reporting (within 72h if data involved)</li>
-          <li><strong>Crime:</strong> Action Fraud <strong>0300 123 2040</strong> + report to NCSC</li>
+          <li><strong>Crime:</strong> Report Fraud <strong>0300 123 2040</strong> + report to NCSC</li>
           <li><strong>Regional support:</strong> ROCU Cyber PROTECT team (free advice)</li>
         </ol>
       </div>
@@ -3395,7 +3404,7 @@ function generatePlaybooks(pbs){
         "Activate Severity 1 response. Notify CIRT and IT support immediately.",
         "Do NOT pay the ransom. Refer to the ransomware policy in section 5. Notify RPA / cyber insurer before any external incident responder is engaged (if applicable).",
         "Identify scope of encryption. Do not reconnect any device until cleared.",
-        "Notify NCSC, Action Fraud, and the ICO if personal data is affected (within 72 hours of awareness).",
+        "Notify NCSC, Report Fraud, and the ICO if personal data is affected (within 72 hours of awareness).",
         "Begin restoration from clean, immutable / off-site backups in the priority order set out in section 9.",
         "Force a full credential reset across the estate before restored systems are returned to production.",
         "Capture evidence and engage forensic investigation per RPA / insurer requirements before reformatting any device."
@@ -3435,7 +3444,7 @@ function generatePlaybooks(pbs){
         "Block the sender, domain and any URLs at the email gateway and web filter.",
         "Identify any users who clicked, replied or entered credentials. Treat each as a potential account compromise (escalate to that playbook).",
         "Issue a brief staff alert (using the staff template in section 8.3) noting the lure, what to look out for, and that staff should report any suspicions.",
-        "If the campaign targeted finance staff (BEC) and a fraudulent payment was attempted, contact the bank, Action Fraud and the police.",
+        "If the campaign targeted finance staff (BEC) and a fraudulent payment was attempted, contact the bank, Report Fraud and the police.",
         "Capture in the incident log and post-incident review."
       ]
     },
@@ -3457,7 +3466,7 @@ function generatePlaybooks(pbs){
         "Preserve evidence — system logs, email, file access — before the individual is made aware.",
         "Take HR / safeguarding advice on next steps.",
         "Disable access to systems at an agreed point — too early alerts the individual, too late risks further harm.",
-        "If criminal activity is suspected, contact Action Fraud or the police as appropriate.",
+        "If criminal activity is suspected, contact Report Fraud or the police as appropriate.",
         "Document the investigation. Engage legal advice if required.",
         "Review root cause — access controls, joiner/mover/leaver process, monitoring."
       ]
