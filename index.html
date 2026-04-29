@@ -114,8 +114,6 @@
   .pill-dfe{background:#fff4e6; color:#a04500}
   .pill-rpa{background:#e7f5ec; color:#0a6a30}
   .pill-ofsted{background:#f3e8ff; color:#6b21a8}
-  .pill-cyber{background:#fbe9e7; color:#b42318}
-  .pill-leadership{background:#fff4e6; color:#a04500}
   .badges{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px}
   /* RAG badges */
   .rag{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:6px; font-weight:700; font-size:12px}
@@ -166,7 +164,6 @@
   .qblock details{margin-top:8px}
   .qblock details summary{cursor:pointer; font-size:12px; color:var(--accent); font-weight:600; padding:4px 0}
   .qblock details summary:hover{text-decoration:underline}
-  .qblock .tip{margin-top:6px; padding:8px 12px; background:#fff8ec; border-left:2px solid var(--amber); font-size:13px; border-radius:0 4px 4px 0}
   .qblock .action{margin-top:6px; padding:8px 12px; background:#eaf2fd; border-left:2px solid var(--accent); font-size:13px; border-radius:0 4px 4px 0}
   /* Progress bar */
   .progress{height:8px; background:#e3e8ef; border-radius:4px; overflow:hidden; margin:8px 0}
@@ -202,7 +199,6 @@
   .callout{padding:14px 16px; border-radius:8px; margin:14px 0; border-left:4px solid var(--accent); background:#eaf2fd}
   .callout.warn{border-color:var(--amber); background:#fdf3e2}
   .callout.info{border-color:var(--accent); background:#eaf2fd}
-  .callout.note{border-color:var(--muted); background:#f0f4fa}
   .callout h4{margin-top:0}
   /* Plan output */
   .plan-doc{background:#fff; padding:24px 28px; border:1px solid var(--line); border-radius:8px}
@@ -231,10 +227,6 @@
     display:inline-block; padding:6px 14px; border-radius:999px;
     background:#eaf2fd; color:var(--accent); font-size:13px; font-weight:600;
     border:1px solid #cdd9ed;
-  }
-  .home-callout{
-    display:flex; gap:14px; padding:18px; background:#f7f9fc;
-    border:1px solid var(--line); border-radius:8px;
   }
   /* Frameworks panel — visual anchor for the home page left column */
   .frameworks-panel{
@@ -400,8 +392,7 @@
   /* Smooth scroll for in-page plan anchors */
   .plan-doc h2{scroll-margin-top:14px}
 
-  /* Footer */
-  /* Footer removed in v1.1.5 — version moved to header, links in home status bar */
+  /* Floating Buy Me a Beer button */
   .beer-btn{
     position:fixed; bottom:20px; right:20px;
     z-index:50;
@@ -510,7 +501,7 @@
 
   /* Print */
   @media print{
-    header.topbar, nav.tabs, footer, .no-print, .btn-row, .section-nav, .beer-btn, .plan-toc, .back-to-top{display:none !important}
+    header.topbar, nav.tabs, .no-print, .btn-row, .section-nav, .beer-btn, .plan-toc, .back-to-top{display:none !important}
     body{background:#fff}
     .card{box-shadow:none; border:none; padding:0; margin-bottom:18px; page-break-inside:avoid}
     .plan-doc{border:none; padding:0}
@@ -576,7 +567,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.5 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.6 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -629,7 +620,7 @@
             <div class="fw-detail">Cyber security core standard</div>
             <div class="fw-arrow">→</div>
           </a>
-          <a class="fw-card fw-rpa" href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer">
+          <a class="fw-card fw-rpa" href="https://www.gov.uk/guidance/the-risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer">
             <div class="fw-name">DfE RPA</div>
             <div class="fw-detail">Cyber response plan template</div>
             <div class="fw-arrow">→</div>
@@ -650,7 +641,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.5 current</span>
+        <span class="status-pill status-ok">✅ v1.1.6 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -854,6 +845,14 @@
   </div>
 
   <div class="card">
+    <h3>Version 1.1.6 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Fix broken DfE RPA link.</strong> The home page framework card and About page links pointed at <code>/guidance/risk-protection-arrangement-rpa-for-schools</code> &mdash; this is a 404. The current canonical GOV.UK URL is <code>/guidance/the-risk-protection-arrangement-rpa-for-schools</code> (with the "the-" prefix). All four references in the tool now point at the working URL.</li>
+      <li><strong style="color:var(--text)">Dead-code cleanup.</strong> Removed unused CSS classes left over from earlier iterations: <code>.home-callout</code> (replaced by <code>.frameworks-panel</code> in v1.1.4), <code>.qblock .tip</code> (refactored away), <code>.callout.note</code> (variant never used), <code>.pill-cyber</code> and <code>.pill-leadership</code> (forked from the Self-Assessment Tool but never used here). Also removed the dead <code>footer</code> selector from the print rule and the obsolete "footer removed" placeholder comment.</li>
+    </ul>
+  </div>
+
+  <div class="card">
     <h3>Version 1.1.5 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
     <ul style="padding-left:20px">
       <li><strong style="color:var(--text)">First 30 Minutes card width fix.</strong> Previously capped at 1000px and centred, now spans the full container width like the other home/plan blocks. More readable on desktop and removes the awkward floating effect.</li>
@@ -1053,7 +1052,7 @@
         <div style="font-weight:700; color:#0a6a30; font-size:13px; margin-bottom:2px">DFE RISK PROTECTION ARRANGEMENT (RPA) &mdash; CYBER RESPONSE PLAN</div>
         <p style="font-size:13px; margin:0 0 6px">Plan structure aligns with the impact assessment, communication templates and recovery event recording required by RPA cyber cover. Schools using RPA can use the generated plan as the working document for their cyber response.</p>
         <p style="font-size:12px; margin:0 0 6px; padding:8px 10px; background:#eaf2fd; border:1px dashed #cdd9ed; border-radius:4px; color:var(--text)"><strong>2026 note:</strong> Police CyberAlarm registrations remain open and vulnerability scanning is available. Only new on-network data collector installations are paused during a transition period. PCA registration still satisfies the RPA cyber cover condition, and your local ROCU Cyber PROTECT team can advise on the practical position.</p>
-        <a href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer" style="font-size:12px; font-weight:600">Read the source guidance &rarr;</a>
+        <a href="https://www.gov.uk/guidance/the-risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer" style="font-size:12px; font-weight:600">Read the source guidance &rarr;</a>
       </div>
       <div style="padding:12px 14px; background:#f3e8ff; border-left:4px solid #6b21a8; border-radius:0 6px 6px 0">
         <div style="font-weight:700; color:#6b21a8; font-size:13px; margin-bottom:2px">OFSTED INSPECTION TOOLKIT (NOVEMBER 2025)</div>
@@ -1109,7 +1108,7 @@
         <ul style="padding-left:20px; font-size:13px; margin:0">
           <li><a href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener noreferrer">NCSC &mdash; Incident Management</a></li>
           <li><a href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">GOV.UK &mdash; DfE Digital and Technology Standards</a></li>
-          <li><a href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer">GOV.UK &mdash; Risk Protection Arrangement</a></li>
+          <li><a href="https://www.gov.uk/guidance/the-risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer">GOV.UK &mdash; Risk Protection Arrangement</a></li>
           <li><a href="https://www.gov.uk/government/publications/education-inspection-framework/education-inspection-framework-for-use-from-november-2025" target="_blank" rel="noopener noreferrer">Ofsted &mdash; Education Inspection Framework</a></li>
           <li><a href="https://www.ncsc.gov.uk/section/education-skills/schools" target="_blank" rel="noopener noreferrer">NCSC &mdash; Cyber security for schools</a></li>
         </ul>
@@ -1627,7 +1626,7 @@ function frameworkBadges(arr){
   const links = {
     NCSC:"https://www.ncsc.gov.uk/collection/incident-management",
     DfE:"https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges/cyber-security-standards-for-schools-and-colleges",
-    RPA:"https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools",
+    RPA:"https://www.gov.uk/guidance/the-risk-protection-arrangement-rpa-for-schools",
     Ofsted:"https://www.gov.uk/government/publications/education-inspection-framework/education-inspection-framework-for-use-from-november-2025"
   };
   return arr.map(f => `<a class="pill ${map[f]} pill-link" href="${links[f]}" target="_blank" rel="noopener noreferrer" title="Open ${labels[f]} guidance in a new tab">${labels[f]}</a>`).join(" ");
