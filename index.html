@@ -236,6 +236,38 @@
     display:flex; gap:14px; padding:18px; background:#f7f9fc;
     border:1px solid var(--line); border-radius:8px;
   }
+  /* Frameworks panel — visual anchor for the home page left column */
+  .frameworks-panel{
+    background:#fff; border:1px solid var(--line); border-radius:10px;
+    padding:16px 18px;
+  }
+  .frameworks-header{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:12px; margin-bottom:14px;
+  }
+  .frameworks-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;
+  }
+  @media(max-width:480px){.frameworks-grid{grid-template-columns:1fr}}
+  .fw-card{
+    display:grid; grid-template-columns:1fr auto; gap:4px 10px;
+    padding:12px 14px; border-radius:8px; text-decoration:none;
+    border:1px solid; transition:all .15s; align-items:center;
+  }
+  .fw-card:hover{transform:translateY(-1px); box-shadow:0 3px 10px rgba(13,27,42,.08); text-decoration:none}
+  .fw-card .fw-name{font-size:13px; font-weight:800; letter-spacing:.01em; grid-column:1; grid-row:1}
+  .fw-card .fw-detail{font-size:12px; opacity:.85; grid-column:1; grid-row:2; line-height:1.3}
+  .fw-card .fw-arrow{font-size:18px; font-weight:700; opacity:.65; grid-column:2; grid-row:1 / span 2; align-self:center}
+  .fw-card:hover .fw-arrow{opacity:1; transform:translateX(2px)}
+  .fw-ncsc{background:#eaf2fd; border-color:#cdd9ed; color:#1f4ed8}
+  .fw-dfe{background:#fff4e6; border-color:#f4dba0; color:#a04500}
+  .fw-rpa{background:#e7f5ec; border-color:#c5e6d1; color:#0a6a30}
+  .fw-ofsted{background:#f3e8ff; border-color:#dcc7ff; color:#6b21a8}
+  .frameworks-footer{
+    display:flex; gap:10px; align-items:flex-start;
+    padding:10px 12px; background:#f7f9fc; border-radius:6px;
+    font-size:12.5px; color:var(--text); line-height:1.5;
+  }
   .home-status{
     display:flex; flex-wrap:wrap; align-items:center; gap:6px;
     padding-top:14px; border-top:1px solid var(--line);
@@ -369,7 +401,7 @@
   .plan-doc h2{scroll-margin-top:14px}
 
   /* Footer */
-  /* Footer removed in v1.1.3 — version moved to header, links in home status bar */
+  /* Footer removed in v1.1.4 — version moved to header, links in home status bar */
   .beer-btn{
     position:fixed; bottom:20px; right:20px;
     z-index:50;
@@ -544,11 +576,11 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.3 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.4 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
-  <div style="margin:0 auto 16px; max-width:880px; background:#eaf2fd; border:1px solid #cdd9ed; border-left:4px solid var(--accent); border-radius:6px; padding:12px 16px">
+  <div style="margin:0 0 16px; background:#eaf2fd; border:1px solid #cdd9ed; border-left:4px solid var(--accent); border-radius:6px; padding:12px 16px">
     <div style="display:flex; align-items:flex-start; gap:10px">
       <div style="font-size:18px; line-height:1.2">ℹ️</div>
       <div style="flex:1">
@@ -575,18 +607,50 @@
         <span class="feature-pill">✓ Tested against NCSC, DfE, RPA &amp; Ofsted</span>
       </div>
 
-      <div class="home-callout">
-        <div style="font-size:24px; flex-shrink:0">💡</div>
-        <div>
-          <div style="font-weight:700; color:var(--navy); margin-bottom:6px">A planning tool, not a compliance pass</div>
-          <p style="margin:0 0 8px; font-size:13px; color:var(--text)">Designed to <strong>complement</strong> NCSC, DfE and RPA guidance &mdash; not replace it. Questions and plan sections are <strong style="color:var(--accent)">explicitly tagged to the framework they map to</strong> &mdash; so schools always know exactly which expectation each part addresses. Generates a printable plan, a readiness RAG report, and a governor-ready summary.</p>
-          <p style="margin:0; font-size:13px"><strong>No data stored &mdash; cleared on exit.</strong> <span class="muted">Use alongside your business continuity and disaster recovery plans.</span></p>
+      <div class="frameworks-panel">
+        <div class="frameworks-header">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:var(--muted); letter-spacing:.06em; text-transform:uppercase">Mapped to UK Frameworks</div>
+            <div style="font-size:14px; font-weight:700; color:var(--navy); margin-top:2px">Every readiness question and plan section is tagged</div>
+          </div>
+          <div style="font-size:11px; color:var(--muted); text-align:right; line-height:1.4">
+            <div>Sources verified</div>
+            <div style="font-weight:700; color:var(--navy); font-size:12px">29 April 2026</div>
+          </div>
+        </div>
+        <div class="frameworks-grid">
+          <a class="fw-card fw-ncsc" href="https://www.ncsc.gov.uk/collection/incident-management" target="_blank" rel="noopener noreferrer">
+            <div class="fw-name">NCSC</div>
+            <div class="fw-detail">Incident Management collection</div>
+            <div class="fw-arrow">→</div>
+          </a>
+          <a class="fw-card fw-dfe" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges/cyber-security-standards-for-schools-and-colleges" target="_blank" rel="noopener noreferrer">
+            <div class="fw-name">DfE Digital Standards 2030</div>
+            <div class="fw-detail">Cyber security core standard</div>
+            <div class="fw-arrow">→</div>
+          </a>
+          <a class="fw-card fw-rpa" href="https://www.gov.uk/guidance/risk-protection-arrangement-rpa-for-schools" target="_blank" rel="noopener noreferrer">
+            <div class="fw-name">DfE RPA</div>
+            <div class="fw-detail">Cyber response plan template</div>
+            <div class="fw-arrow">→</div>
+          </a>
+          <a class="fw-card fw-ofsted" href="https://www.gov.uk/government/publications/education-inspection-framework/education-inspection-framework-for-use-from-november-2025" target="_blank" rel="noopener noreferrer">
+            <div class="fw-name">Ofsted Toolkit</div>
+            <div class="fw-detail">Nov 2025 inspection framework</div>
+            <div class="fw-arrow">→</div>
+          </a>
+        </div>
+        <div class="frameworks-footer">
+          <span style="font-size:14px">💡</span>
+          <div>
+            <strong>A planning tool, not a compliance pass.</strong> Designed to <strong>complement</strong> the four frameworks above, not replace them. <strong>No data stored &mdash; cleared on exit.</strong> Use alongside your business continuity and disaster recovery plans.
+          </div>
         </div>
       </div>
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.3 current</span>
+        <span class="status-pill status-ok">✅ v1.1.4 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -785,6 +849,16 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.4 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">"Mapped to UK Frameworks" panel</strong> on the home page replaces the previous yellow callout. Shows all four frameworks (NCSC, DfE Digital Standards 2030, RPA, Ofsted) as colour-coded cards in a 2&times;2 grid, each clickable to source guidance. Visually anchors the credibility story instead of burying it in prose.</li>
+      <li><strong style="color:var(--text)">"Sources verified" date stamp</strong> in the panel header &mdash; honest, manually maintained, no false promise of API-driven live updates. Bumped quarterly.</li>
+      <li><strong style="color:var(--text)">"A planning tool, not a compliance pass"</strong> message preserved as a small footer line under the framework grid &mdash; same caveat, less screen real estate.</li>
+      <li><strong style="color:var(--text)">Police CyberAlarm banner alignment fix.</strong> Previous version was capped at 880px wide and floated centred above the columns; now it spans the same full container width as the hero, the feedback callout and everything else on the home page.</li>
+    </ul>
   </div>
 
   <div class="card">
