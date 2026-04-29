@@ -401,7 +401,7 @@
   .plan-doc h2{scroll-margin-top:14px}
 
   /* Footer */
-  /* Footer removed in v1.1.4 — version moved to header, links in home status bar */
+  /* Footer removed in v1.1.5 — version moved to header, links in home status bar */
   .beer-btn{
     position:fixed; bottom:20px; right:20px;
     z-index:50;
@@ -420,7 +420,7 @@
   /* First 30 Minutes rapid-response card */
   .first30-card{
     background:#fff; border:3px solid #0d1b2a; border-radius:10px;
-    padding:20px 22px; max-width:1000px; margin:0 auto;
+    padding:20px 22px; margin:0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     color:#0d1b2a;
   }
@@ -576,7 +576,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.4 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.5 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -650,7 +650,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.4 current</span>
+        <span class="status-pill status-ok">✅ v1.1.5 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -813,9 +813,11 @@
     <p class="muted">A one-page printable card for the moment an incident starts. Print it, laminate it if you can, and put copies <strong>by the headteacher's office, in the network/server room, and in the bursar's drawer</strong>. The full plan is for governance and assurance &mdash; this card is for the first 30 minutes, when nobody has time to read 12 sections.</p>
     <p class="muted" style="font-size:13px"><strong>Auto-populated</strong> from the contacts you've entered in the Plan Builder. If contacts are missing, the card will say <em>[not set]</em> &mdash; fill them in via the Plan Builder and come back here to print.</p>
     <div class="btn-row">
-      <button class="btn btn-primary" onclick="window.print()">🖨️ Print this card (A4, single page)</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print card</button>
+      <button class="btn btn-primary" onclick="downloadFirst30Pdf()">📄 Download as PDF</button>
       <button class="btn btn-secondary" onclick="goTab('plan')">&larr; Back to plan builder</button>
     </div>
+    <p class="muted" style="font-size:12px; margin:8px 0 0">Both buttons open your browser's print dialog &mdash; choose <em>"Save as PDF"</em> in the destination dropdown to get a PDF, or your physical printer to print directly. Format: A4 portrait, single page.</p>
   </div>
 
   <div id="first30Card" class="first30-card"></div>
@@ -849,6 +851,15 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.5 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">First 30 Minutes card width fix.</strong> Previously capped at 1000px and centred, now spans the full container width like the other home/plan blocks. More readable on desktop and removes the awkward floating effect.</li>
+      <li><strong style="color:var(--text)">"Download as PDF" button</strong> added alongside the existing Print button on the First 30 Minutes tab. Both open the browser's print dialog &mdash; the user picks "Save as PDF" or a physical printer in the destination dropdown. The PDF defaults to a sensible filename like <code>Your School &mdash; First 30 Minutes &mdash; 2026-04-29.pdf</code>.</li>
+      <li><strong style="color:var(--text)">No third-party PDF library.</strong> Considered <code>jsPDF</code>/<code>html2pdf</code> for a single-click PDF download but rejected: would require relaxing the CSP, ship 50&ndash;200 KB of code, and produce lower-fidelity output than the browser's native PDF rendering. Word export deferred for the same reasons until a real user specifically asks for it.</li>
+    </ul>
   </div>
 
   <div class="card">
@@ -3180,6 +3191,32 @@ const GOV_PLAIN = {
 /* ============================================================== */
 
 // Helper to render a contact row, falling back gracefully when data missing
+// Triggers the browser's print dialog with a sensible suggested PDF filename.
+// We use window.print() rather than a third-party PDF library because:
+// (1) the print CSS we already wrote produces the cleanest output;
+// (2) a PDF library would weaken the strict CSP for marginal benefit.
+// Most browsers default the "Save as PDF" filename to document.title, so
+// we briefly retitle the document around the print call.
+function downloadFirst30Pdf(){
+  const p = state.plan;
+  const school = (p.meta.schoolName || "school").replace(/[^a-z0-9 _-]/gi, "").trim() || "school";
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const niceTitle = `${school} — First 30 Minutes — ${dateStr}`;
+  const originalTitle = document.title;
+  document.title = niceTitle;
+  // Restore the original title once the print dialog is dismissed (whether the
+  // user saved/printed or cancelled). Most browsers fire afterprint reliably.
+  const restore = () => {
+    document.title = originalTitle;
+    window.removeEventListener("afterprint", restore);
+  };
+  window.addEventListener("afterprint", restore);
+  // Failsafe — if afterprint never fires (rare, but possible on some mobile
+  // browsers), restore after 60s anyway.
+  setTimeout(restore, 60000);
+  window.print();
+}
+
 function f30Contact(label, name, phone){
   const hasName = name && String(name).trim();
   const hasPhone = phone && String(phone).trim();
