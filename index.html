@@ -381,6 +381,98 @@
   }
   .beer-btn:hover{transform:translateY(-1px); box-shadow:0 3px 0 #0d1b2a, 0 6px 14px rgba(0,0,0,.2); text-decoration:none !important}
   @media(max-width:600px){.beer-btn{bottom:14px; right:14px; padding:8px 14px; font-size:13px}}
+
+  /* First 30 Minutes rapid-response card */
+  .first30-card{
+    background:#fff; border:3px solid #0d1b2a; border-radius:10px;
+    padding:20px 22px; max-width:1000px; margin:0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color:#0d1b2a;
+  }
+  .f30-header{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    border-bottom:3px solid #c0392b; padding-bottom:12px; margin-bottom:14px; gap:14px;
+  }
+  .f30-title{font-size:22px; font-weight:900; line-height:1.2; margin:0; color:#c0392b; letter-spacing:-.01em}
+  .f30-title small{display:block; font-size:13px; font-weight:600; color:#0d1b2a; margin-top:2px}
+  .f30-meta{font-size:11px; color:#555; text-align:right; line-height:1.5}
+  .f30-meta strong{color:#0d1b2a; font-size:13px}
+
+  .f30-timeline{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-bottom:14px;
+  }
+  .f30-phase{
+    background:#f7f9fc; border:2px solid #cdd9ed; border-radius:8px;
+    padding:12px 14px; position:relative;
+  }
+  .f30-phase.p1{border-color:#c0392b; background:#fdedec}
+  .f30-phase.p2{border-color:#e67e22; background:#fdf3e2}
+  .f30-phase.p3{border-color:#27ae60; background:#e7f5ec}
+  .f30-clock{
+    display:inline-flex; align-items:center; gap:6px;
+    background:#fff; border:2px solid currentColor; border-radius:999px;
+    padding:3px 10px; font-size:11px; font-weight:800; letter-spacing:.04em;
+    text-transform:uppercase; margin-bottom:8px;
+  }
+  .f30-phase.p1 .f30-clock{color:#c0392b}
+  .f30-phase.p2 .f30-clock{color:#a04500}
+  .f30-phase.p3 .f30-clock{color:#0a6a30}
+  .f30-phase h3{
+    font-size:14px; font-weight:800; margin:0 0 8px; color:#0d1b2a;
+  }
+  .f30-phase ul{
+    list-style:none; padding:0; margin:0; font-size:13px; line-height:1.5;
+  }
+  .f30-phase li{
+    margin-bottom:4px; padding-left:18px; position:relative;
+  }
+  .f30-phase li:before{
+    content:"☐"; position:absolute; left:0; top:-1px;
+    font-size:14px; color:#0d1b2a; font-weight:700;
+  }
+  .f30-contacts{
+    background:#fff; border:1px solid #d0d7e2; border-radius:6px;
+    padding:8px 10px; margin-top:8px; font-size:12px; line-height:1.55;
+  }
+  .f30-contacts .row{display:flex; justify-content:space-between; gap:10px}
+  .f30-contacts .lbl{font-weight:600; color:#374151}
+  .f30-contacts .val{font-weight:700; color:#0d1b2a; text-align:right}
+  .f30-contacts .val.empty{color:#9ca3af; font-style:italic; font-weight:500}
+
+  .f30-row{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px}
+  .f30-block{
+    border:2px solid #cdd9ed; border-radius:8px; padding:12px 14px; background:#fff;
+  }
+  .f30-block h4{
+    font-size:13px; font-weight:800; margin:0 0 8px; color:#0d1b2a;
+    text-transform:uppercase; letter-spacing:.04em; border-bottom:1px solid #e5e7eb;
+    padding-bottom:5px;
+  }
+  .f30-donot{border-color:#c0392b; background:#fdedec}
+  .f30-donot h4{color:#c0392b; border-color:#f5c6c1}
+  .f30-donot ul{list-style:none; padding:0; margin:0; font-size:13px; line-height:1.55; color:#0d1b2a}
+  .f30-donot li{padding-left:22px; position:relative; margin-bottom:4px; font-weight:600}
+  .f30-donot li:before{
+    content:"✗"; position:absolute; left:0; top:-1px;
+    color:#c0392b; font-weight:900; font-size:16px;
+  }
+  .f30-escalation{border-color:#1f4ed8}
+  .f30-escalation h4{color:#1f4ed8; border-color:#cdd9ed}
+  .f30-escalation ol{margin:0; padding-left:18px; font-size:13px; line-height:1.6}
+  .f30-escalation li{margin-bottom:3px}
+  .f30-escalation strong{color:#0d1b2a}
+
+  .f30-footer{
+    display:flex; justify-content:space-between; gap:10px;
+    border-top:2px solid #cdd9ed; padding-top:8px; margin-top:6px;
+    font-size:10.5px; color:#555; line-height:1.5;
+  }
+  .f30-footer strong{color:#0d1b2a}
+  @media(max-width:920px){
+    .f30-timeline{grid-template-columns:1fr}
+    .f30-row{grid-template-columns:1fr}
+  }
+
   /* Print */
   @media print{
     header.topbar, nav.tabs, footer, .no-print, .btn-row, .section-nav, .beer-btn, .plan-toc, .back-to-top{display:none !important}
@@ -388,6 +480,20 @@
     .card{box-shadow:none; border:none; padding:0; margin-bottom:18px; page-break-inside:avoid}
     .plan-doc{border:none; padding:0}
     .plan-layout{grid-template-columns:1fr}
+
+    /* First 30 Minutes — make it fit cleanly on a single A4 sheet */
+    @page{size:A4 portrait; margin:10mm}
+    .first30-card{
+      border-width:2px; padding:14px 16px; max-width:none;
+      page-break-inside:avoid; break-inside:avoid;
+    }
+    .f30-title{font-size:19px}
+    .f30-phase{padding:8px 10px}
+    .f30-phase ul{font-size:11.5px}
+    .f30-contacts{font-size:11px; padding:6px 8px}
+    .f30-block{padding:8px 10px}
+    .f30-donot ul, .f30-escalation ol{font-size:11.5px}
+    .f30-footer{font-size:9.5px}
   }
   /* Hidden */
   .hidden{display:none !important}
@@ -412,6 +518,7 @@
       <button data-tab="readiness">Readiness</button>
       <button data-tab="plan">Plan Builder</button>
       <button data-tab="output">Your Plan</button>
+      <button data-tab="first30">First 30 Minutes</button>
       <button data-tab="governor">Governor Report</button>
       <button data-tab="changelog">Changelog</button>
       <button data-tab="about">About</button>
@@ -434,7 +541,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.0.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm transition notice -->
@@ -476,7 +583,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.0.0 current</span>
+        <span class="status-pill status-ok">✅ v1.1.0 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -495,6 +602,7 @@
         <button class="btn-cta" onclick="goTab('readiness')">▶ Start readiness check</button>
         <button class="btn-cta-secondary" onclick="goTab('plan')">📋 Skip to plan builder</button>
         <button class="btn-cta-secondary" onclick="goTab('governor')" style="margin-top:8px">📊 View governor report</button>
+        <button class="btn-cta-secondary" onclick="goTab('first30')" style="margin-top:6px">🚨 First 30 Minutes card</button>
 
         <div class="divider"></div>
 
@@ -629,9 +737,23 @@
 </section>
 
 <!-- ============================================================== -->
-<!-- GOVERNOR REPORT                                                 -->
+<!-- FIRST 30 MINUTES — RAPID RESPONSE CARD                          -->
 <!-- ============================================================== -->
-<section id="tab-governor" class="tab-panel hidden">
+<section id="tab-first30" class="tab-panel hidden">
+
+  <div class="card no-print">
+    <h2>🚨 First 30 Minutes &mdash; Rapid Response Card</h2>
+    <p class="muted">A one-page printable card for the moment an incident starts. Print it, laminate it if you can, and put copies <strong>by the headteacher's office, in the network/server room, and in the bursar's drawer</strong>. The full plan is for governance and assurance &mdash; this card is for the first 30 minutes, when nobody has time to read 12 sections.</p>
+    <p class="muted" style="font-size:13px"><strong>Auto-populated</strong> from the contacts you've entered in the Plan Builder. If contacts are missing, the card will say <em>[not set]</em> &mdash; fill them in via the Plan Builder and come back here to print.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print this card (A4, single page)</button>
+      <button class="btn btn-secondary" onclick="goTab('plan')">&larr; Back to plan builder</button>
+    </div>
+  </div>
+
+  <div id="first30Card" class="first30-card"></div>
+
+</section>
 
   <div class="card no-print">
     <h2>Governor / Trustee Report</h2>
@@ -655,6 +777,20 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.0 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 29 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>"First 30 Minutes" rapid-response card added.</strong> A one-page printable card designed to be laminated and pinned by the headteacher's office, in the network room and the bursar's drawer &mdash; for use during the actual incident, not for governance.</p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Three time-boxed phases</strong> (0&ndash;5 min, 5&ndash;15 min, 15&ndash;30 min) with the next actions for each role &mdash; first responder, SLT digital lead, incident lead</li>
+      <li><strong style="color:var(--text)">Auto-populated</strong> from the contacts already entered in the Plan Builder &mdash; SLT digital lead, deputy, IT lead, comms lead, DPO, IT support, RPA insurer, broadband supplier. Missing fields show as <em>[not set]</em></li>
+      <li><strong style="color:var(--text)">Critical phone numbers prominent</strong> &mdash; RPA Cyber Incident 0800 368 6378 and Action Fraud 0300 123 2040 are baked in</li>
+      <li><strong style="color:var(--text)">"Do NOT" panel</strong> covering the five errors that turn a recoverable incident into a disaster &mdash; ransom payment ban (per DfE Academy Trust Handbook 2025), powering off (loses forensics), contact with attackers, comms via compromised email, premature wipe</li>
+      <li><strong style="color:var(--text)">Escalation chain panel</strong> with the five-step external escalation route (internal &rarr; insurer &rarr; ICO &rarr; Action Fraud &rarr; ROCU)</li>
+      <li><strong style="color:var(--text)">Optimised print layout</strong> &mdash; A4 portrait, single page, no awkward breaks. Designed to be readable from across a room when laminated</li>
+      <li>New tab between Your Plan and Governor Report; new "🚨 First 30 Minutes card" CTA on the home page</li>
+    </ul>
   </div>
 
   <div class="card">
@@ -886,7 +1022,7 @@
 <footer>
   <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px">
     <div style="text-align:left">
-      Cyber Incident Response Planner v1.0.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
+      Cyber Incident Response Planner v1.1.0 &middot; Free for UK schools &amp; colleges &middot; Data stays in your browser<br>
       <a href="https://cmaddocks-uk.github.io/cyber-response" target="_blank" rel="noopener noreferrer">cmaddocks-uk.github.io/cyber-response</a> &middot;
       <a href="#" onclick="goTab('changelog'); return false">Changelog</a> &middot;
       <a href="#" onclick="goTab('about'); return false">About</a>
@@ -1324,6 +1460,7 @@ function goTab(name){
   document.querySelectorAll("nav.tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === name));
   if(name === "output") generatePlan();
   if(name === "governor") generateGovernorReport();
+  if(name === "first30") generateFirst30();
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
@@ -2941,6 +3078,161 @@ const GOV_PLAIN = {
     govQ: "How do you assure yourselves that every incident — major or minor — triggers a documented review and that lessons learned are incorporated into the next version of the plan?"
   }
 };
+
+/* ============================================================== */
+/* FIRST 30 MINUTES — RAPID RESPONSE CARD                          */
+/* ============================================================== */
+
+// Helper to render a contact row, falling back gracefully when data missing
+function f30Contact(label, name, phone){
+  const hasName = name && String(name).trim();
+  const hasPhone = phone && String(phone).trim();
+  if(!hasName && !hasPhone){
+    return `<div class="row"><span class="lbl">${escapeHtml(label)}:</span><span class="val empty">[not set]</span></div>`;
+  }
+  const v = [hasName ? escapeHtml(name) : "", hasPhone ? escapeHtml(phone) : ""].filter(Boolean).join(" &middot; ");
+  return `<div class="row"><span class="lbl">${escapeHtml(label)}:</span><span class="val">${v}</span></div>`;
+}
+
+function generateFirst30(){
+  const out = document.getElementById("first30Card");
+  if(!out) return;
+  const p = state.plan;
+
+  // Pull team members by role (best-effort matching — these are user-typed strings)
+  const findMember = (re) => (p.team.members || []).find(m => re.test(m.role || ""));
+  const sltLead = findMember(/SLT|digital lead|leadership|head/i) || (p.team.members || [])[0] || {};
+  const deputy = (p.team.members || []).find(m => m !== sltLead && /deputy|second|backup|cover/i.test(m.role || "")) || (p.team.members || [])[1] || {};
+  const itLead = findMember(/IT|network|technical/i) || {};
+  const commsLead = findMember(/comms|communications|press|media/i) || {};
+  const dpo = findMember(/dpo|data protection/i) || {};
+  const sltSponsor = findMember(/sponsor|head|principal|exec/i) || {};
+
+  // External contacts (free-form objects in p.external)
+  const ext = p.external || {};
+  const findExt = (re) => Object.entries(ext).find(([k,v]) => re.test(k) && v && (v.contact || v.phone || v.name));
+
+  const itSupport = findExt(/it.?support|managed.?service|msp/i);
+  const insurer = findExt(/insur|rpa|cover/i);
+  const broadband = findExt(/broadband|connectivity|isp/i);
+  const externalDpo = findExt(/dpo|data.?protection/i);
+
+  const fmtExt = ([key, v]) => {
+    if(!v) return null;
+    const parts = [v.name, v.contact || v.phone, v.email].filter(Boolean);
+    return parts.length ? parts.join(" &middot; ") : null;
+  };
+
+  const itSupportText = itSupport ? fmtExt(itSupport) : null;
+  const insurerText = insurer ? fmtExt(insurer) : null;
+  const broadbandText = broadband ? fmtExt(broadband) : null;
+  const externalDpoText = externalDpo ? fmtExt(externalDpo) : null;
+
+  out.innerHTML = `
+    <div class="f30-header">
+      <div>
+        <h1 class="f30-title">🚨 FIRST 30 MINUTES — Cyber Incident
+          <small>${emptyOr(p.meta.schoolName, "School name not set")}${p.meta.trustName ? ` &middot; ${escapeHtml(p.meta.trustName)}` : ""}</small>
+        </h1>
+      </div>
+      <div class="f30-meta">
+        <strong>Plan version ${escapeHtml(p.meta.planVersion)}</strong><br>
+        Updated ${emptyOr(p.meta.planDate, "[date not set]")}<br>
+        Approved by ${emptyOr(p.meta.approvedBy, "[approver]")}
+      </div>
+    </div>
+
+    <!-- THREE TIME-BOXED PHASES -->
+    <div class="f30-timeline">
+
+      <div class="f30-phase p1">
+        <span class="f30-clock">⏱ 0–5 MIN</span>
+        <h3>First responder (whoever spotted it)</h3>
+        <ul>
+          <li>Disconnect affected device(s) — pull cables, disable WiFi</li>
+          <li><strong>Do NOT power off</strong> (preserves forensic evidence)</li>
+          <li>Stop using the device. Tell colleagues to stop using theirs</li>
+          <li>Call SLT digital lead by <strong>phone</strong> — not email</li>
+        </ul>
+        <div class="f30-contacts">
+          ${f30Contact("SLT digital lead", sltLead.name, sltLead.phone)}
+          ${f30Contact("Deputy", deputy.name, deputy.phone)}
+        </div>
+      </div>
+
+      <div class="f30-phase p2">
+        <span class="f30-clock">⏱ 5–15 MIN</span>
+        <h3>SLT digital lead</h3>
+        <ul>
+          <li>Convene the Cyber Incident Response Team (CIRT) — names below</li>
+          <li>Assess severity: <strong>S1</strong> whole school down · <strong>S2</strong> major impact · <strong>S3</strong> limited · <strong>S4</strong> minor</li>
+          <li>Open the incident log: time, who, what, decisions made</li>
+          <li>Disable any compromised accounts / forced password reset</li>
+        </ul>
+        <div class="f30-contacts">
+          ${f30Contact("IT Lead", itLead.name, itLead.phone)}
+          ${f30Contact("Comms Lead", commsLead.name, commsLead.phone)}
+          ${f30Contact("DPO", dpo.name, dpo.phone)}
+          ${f30Contact("SLT Sponsor", sltSponsor.name, sltSponsor.phone)}
+        </div>
+      </div>
+
+      <div class="f30-phase p3">
+        <span class="f30-clock">⏱ 15–30 MIN</span>
+        <h3>Incident lead</h3>
+        <ul>
+          <li>If <strong>S1/S2</strong>: call RPA Cyber Incident <strong>0800 368 6378</strong></li>
+          <li>If <strong>personal data</strong> involved: start the ICO 72-hour clock</li>
+          <li>If <strong>criminal</strong>: Action Fraud <strong>0300 123 2040</strong></li>
+          <li>Brief Headteacher: keep school open or send children home?</li>
+          <li>Issue first parent communication — even just "we're aware"</li>
+        </ul>
+        <div class="f30-contacts">
+          <div class="row"><span class="lbl">IT support / MSP:</span><span class="val${itSupportText ? "" : " empty"}">${itSupportText || "[not set]"}</span></div>
+          <div class="row"><span class="lbl">Insurer / RPA:</span><span class="val${insurerText ? "" : " empty"}">${insurerText || "[not set]"}</span></div>
+          <div class="row"><span class="lbl">Broadband supplier:</span><span class="val${broadbandText ? "" : " empty"}">${broadbandText || "[not set]"}</span></div>
+          <div class="row"><span class="lbl">External DPO:</span><span class="val${externalDpoText ? "" : " empty"}">${externalDpoText || "[not set]"}</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DO NOT + ESCALATION -->
+    <div class="f30-row">
+      <div class="f30-block f30-donot">
+        <h4>⛔ Do NOT</h4>
+        <ul>
+          <li>Pay any ransom (DfE Academy Trust Handbook 2025 prohibits)</li>
+          <li>Power off affected devices (loses forensic evidence)</li>
+          <li>Contact or negotiate with the attackers</li>
+          <li>Communicate via email systems that may be compromised</li>
+          <li>Wipe or restore systems before forensic snapshot</li>
+        </ul>
+      </div>
+      <div class="f30-block f30-escalation">
+        <h4>📞 Escalation chain</h4>
+        <ol>
+          <li><strong>Internal:</strong> SLT digital lead → Headteacher → Chair of Governors</li>
+          <li><strong>Insurer:</strong> RPA cyber incident line <strong>0800 368 6378</strong></li>
+          <li><strong>Regulator:</strong> ICO breach reporting (within 72h if data involved)</li>
+          <li><strong>Crime:</strong> Action Fraud <strong>0300 123 2040</strong> + report to NCSC</li>
+          <li><strong>Regional support:</strong> ROCU Cyber PROTECT team (free advice)</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="f30-footer">
+      <div>
+        <strong>Print, laminate, post:</strong> by the Head's office, in the network room, in the bursar's drawer.
+      </div>
+      <div style="text-align:right">
+        Cyber Incident Response Planner &middot; cmaddocks-uk.github.io/cyber-response
+      </div>
+    </div>
+  `;
+}
+
 
 function generateGovernorReport(){
   const out = document.getElementById("governorReport");
