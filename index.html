@@ -87,17 +87,17 @@
   }
   .topbar-inner{
     display:flex; align-items:center; justify-content:space-between;
-    gap:12px; flex-wrap:wrap; padding:10px 0;
+    gap:16px; flex-wrap:wrap; padding:8px 0;
   }
-  .brand{display:flex; align-items:center; gap:8px; font-weight:700; font-size:14px; color:#fff; letter-spacing:.01em}
-  .brand .logo{font-size:18px}
+  .brand{display:flex; align-items:center; gap:8px; font-weight:700; font-size:13px; color:#fff; letter-spacing:.01em; white-space:nowrap}
+  .brand .logo{font-size:16px}
   .brand .pipe{opacity:.4; padding:0 4px}
-  .brand .sub{opacity:.85; font-weight:500; font-size:13px}
-  nav.tabs{display:flex; gap:2px; flex-wrap:wrap}
+  .brand .sub{opacity:.85; font-weight:500; font-size:12px}
+  nav.tabs{display:flex; gap:1px; flex-wrap:wrap}
   nav.tabs button{
     background:transparent; color:#fff; border:1px solid transparent;
-    padding:7px 12px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600;
-    transition:all .15s;
+    padding:5px 9px; border-radius:5px; cursor:pointer; font-size:12px; font-weight:600;
+    transition:all .15s; white-space:nowrap;
   }
   nav.tabs button:hover{background:rgba(255,255,255,.1)}
   nav.tabs button.active{background:#fff; color:var(--navy)}
@@ -655,7 +655,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.10 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.11 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -729,7 +729,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.10 current</span>
+        <span class="status-pill status-ok">✅ v1.1.11 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -939,6 +939,13 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.11 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 30 April 2026</span></h3>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Header brand and tabs back on a single row.</strong> Since v1.1.0 the addition of the "First 30 Minutes" tab made the header crowded enough that brand + 8 tabs wrapped onto two rows on most desktops. Slimmed brand text from 14px&rarr;13px, tab buttons from 13px&rarr;12px and tab padding from 7px&times;12px&rarr;5px&times;9px so all 8 tabs fit alongside the brand on a single row at 1280px container width. Still wraps gracefully on genuinely narrow viewports (laptops below 1100px or phones).</li>
+    </ul>
   </div>
 
   <div class="card">
@@ -1293,7 +1300,7 @@
   </div>
   <div class="pf-right">
     <span class="pf-url">cmaddocks-uk.github.io/cyber-response</span>
-    <span class="pf-version">v1.1.10</span>
+    <span class="pf-version">v1.1.11</span>
   </div>
 </div>
 
