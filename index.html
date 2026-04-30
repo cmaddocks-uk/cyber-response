@@ -566,6 +566,15 @@
     }
     .plan-section:first-of-type h2{border-top:none; padding-top:0}
 
+    /* Plan first-page header — compact for print, wastes less paper */
+    #planOutput > div:first-child{
+      text-align:left !important; margin-bottom:14px !important;
+      padding-bottom:10px; border-bottom:2px solid #0d1b2a;
+    }
+    #planOutput > div:first-child > div:first-child{display:none} /* hide the big shield emoji */
+    #planOutput h1{font-size:18pt !important; margin:0 0 4px !important; text-align:left}
+    #planOutput > div:first-child p{text-align:left; font-size:10pt !important; margin:2px 0 !important}
+
     /* ---- First 30 Minutes — single A4 sheet ---- */
     @page :first{margin:10mm} /* tighter for the F30 card specifically */
     .first30-card{
@@ -626,7 +635,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.7 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.8 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -700,7 +709,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.7 current</span>
+        <span class="status-pill status-ok">✅ v1.1.8 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -833,6 +842,9 @@
       <button class="btn btn-secondary" onclick="exportSession()">💾 Save working data</button>
       <button class="btn btn-secondary" onclick="goTab('plan')">&larr; Back to edit</button>
     </div>
+    <p class="muted" style="font-size:12px; margin:8px 0 0">
+      <strong>Tip for the cleanest PDF:</strong> in your browser's print dialog, expand <em>"More settings"</em> and <strong>uncheck</strong> "Headers and footers" &mdash; this hides the browser-added URL and date strip. The plan has its own footer built in.
+    </p>
   </div>
 
   <div class="plan-layout">
@@ -867,7 +879,10 @@
       <button class="btn btn-primary" onclick="downloadFirst30Pdf()">📄 Download as PDF</button>
       <button class="btn btn-secondary" onclick="goTab('plan')">&larr; Back to plan builder</button>
     </div>
-    <p class="muted" style="font-size:12px; margin:8px 0 0">Both buttons open your browser's print dialog &mdash; choose <em>"Save as PDF"</em> in the destination dropdown to get a PDF, or your physical printer to print directly. Format: A4 portrait, single page.</p>
+    <p class="muted" style="font-size:12px; margin:8px 0 0">
+      Both buttons open your browser's print dialog &mdash; choose <em>"Save as PDF"</em> in the destination dropdown to get a PDF, or your physical printer to print directly.
+      <strong>For the cleanest output:</strong> expand <em>"More settings"</em> in the print dialog and <strong>uncheck</strong> "Headers and footers" to hide the browser-added URL strip. Format: A4 portrait, single page.
+    </p>
   </div>
 
   <div id="first30Card" class="first30-card"></div>
@@ -887,6 +902,9 @@
       <button class="btn btn-primary" onclick="window.print()">🖨️ Print governor report</button>
       <button class="btn btn-secondary" onclick="goTab('readiness')">&larr; Back to readiness check</button>
     </div>
+    <p class="muted" style="font-size:12px; margin:8px 0 0">
+      <strong>Tip for the cleanest PDF:</strong> in your browser's print dialog, expand <em>"More settings"</em> and <strong>uncheck</strong> "Headers and footers" &mdash; this hides the browser-added URL and date strip.
+    </p>
   </div>
 
   <div id="governorReport" class="plan-doc"></div>
@@ -901,6 +919,15 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.8 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 30 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>Print/PDF improvements based on real preview screenshots from Edge.</strong></p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Honest print-dialog tip on every print button.</strong> Some browsers (Edge, Chrome, Firefox) auto-add their own page header strip with the URL and document title at the top of every printed page, plus a date/page strip at the bottom. The CSS in v1.1.7 attempted to suppress these, but the user can still re-enable them in their print dialog &mdash; and many browsers default to having them on. Each print button now has a clear note telling the user to expand "More settings" and uncheck "Headers and footers" for the cleanest output. Honest framing: we can't override the user's browser settings, so we tell them how to.</li>
+      <li><strong style="color:var(--text)">Compact print-mode header for the Plan output.</strong> Previously the centred shield logo + title + metadata block ate roughly a third of the first printed page. The print version is now left-aligned, smaller, and uses about a tenth of the page, leaving more room for actual plan content. Screen version unchanged.</li>
+    </ul>
   </div>
 
   <div class="card">
