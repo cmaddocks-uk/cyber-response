@@ -507,14 +507,6 @@
   }
 
   /* ============================================================
-     Title page for the Plan output — print-only.
-     Hidden on screen, fills first A4 page when printing,
-     forces the actual plan content to start on page 2.
-     ============================================================ */
-  .plan-titlepage{display:none}
-  .muted-meta{color:#6b7280; font-weight:500}
-
-  /* ============================================================
      Print footer — repeats on every page using position:fixed.
      Hidden on screen by default; revealed in print media query.
      ============================================================ */
@@ -587,15 +579,6 @@
     }
     .plan-section:first-of-type h2{border-top:none; padding-top:0}
 
-    /* Plan first-page header — compact for print, wastes less paper */
-    #planOutput > div:first-child{
-      text-align:left !important; margin-bottom:14px !important;
-      padding-bottom:10px; border-bottom:2px solid #0d1b2a;
-    }
-    #planOutput > div:first-child > div:first-child{display:none} /* hide the big shield emoji */
-    #planOutput h1{font-size:18pt !important; margin:0 0 4px !important; text-align:left}
-    #planOutput > div:first-child p{text-align:left; font-size:10pt !important; margin:2px 0 !important}
-
     /* ---- First 30 Minutes — single A4 sheet ---- */
     @page :first{margin:10mm} /* tighter for the F30 card specifically */
     .first30-card{
@@ -609,61 +592,6 @@
     .f30-block{padding:8px 10px}
     .f30-donot ul, .f30-escalation ol{font-size:11.5px}
     .f30-footer{font-size:9.5px}
-
-    /* ---- Title page (Plan output only) ----
-       Reveal in print, fill the first A4 page, force plan to start on page 2. */
-    .plan-titlepage{
-      display:flex !important; flex-direction:column;
-      height:265mm; /* A4 height minus our 15mm/15mm margins, approximate */
-      padding:18mm 8mm 12mm; box-sizing:border-box;
-      page-break-after:always; break-after:page;
-      color:#0d1b2a;
-    }
-    .plan-titlepage-top{
-      border-top:6px solid #0d1b2a; padding-top:18mm; margin-bottom:auto;
-    }
-    .plan-titlepage-eyebrow{
-      font-size:11pt; font-weight:600; color:#1f4ed8;
-      letter-spacing:.08em; text-transform:uppercase; margin-bottom:8mm;
-    }
-    .plan-titlepage-title{
-      font-size:36pt; font-weight:800; line-height:1.1;
-      margin-bottom:4mm; letter-spacing:-.02em;
-    }
-    .plan-titlepage-sub{
-      font-size:16pt; font-weight:500; color:#6b7280;
-    }
-    .plan-titlepage-mid{
-      margin:10mm 0 14mm;
-    }
-    .plan-titlepage-stamp{
-      display:inline-block; padding:4px 12px; margin-bottom:8mm;
-      background:#fdedec; color:#c0392b;
-      font-size:9pt; font-weight:700; letter-spacing:.06em;
-      text-transform:uppercase; border-radius:3px;
-    }
-    .plan-titlepage-blurb{
-      font-size:11pt; line-height:1.55; color:#374151; max-width:130mm; margin:0;
-    }
-    .plan-titlepage-meta{
-      border-top:1px solid #cdd9ed; border-bottom:1px solid #cdd9ed;
-      padding:6mm 0; margin-bottom:auto;
-    }
-    .plan-titlepage-meta table{
-      width:100%; border-collapse:collapse; font-size:10pt;
-    }
-    .plan-titlepage-meta th{
-      text-align:left; font-weight:600; color:#6b7280;
-      padding:3mm 8mm 3mm 0; width:40mm; vertical-align:top;
-    }
-    .plan-titlepage-meta td{
-      font-weight:600; color:#0d1b2a; padding:3mm 0;
-    }
-    .plan-titlepage-foot{
-      font-size:9pt; line-height:1.5; color:#6b7280;
-      border-top:2px solid #0d1b2a; padding-top:5mm;
-    }
-    .plan-titlepage-foot div:first-child{font-weight:600; color:#0d1b2a; margin-bottom:2mm}
 
     /* ---- Print footer band (every page) ----
        Uses position:fixed; bottom:0 — most browsers repeat fixed-position
@@ -680,8 +608,6 @@
     .print-footer .pf-doc{font-style:italic}
     .print-footer .pf-version{margin-left:6mm; opacity:.7}
     .print-footer .pf-right{text-align:right}
-    /* Don't show footer on the title page (looks cleaner) */
-    .plan-titlepage ~ * .print-footer{display:none}
   }
   /* Hidden */
   .hidden{display:none !important}
@@ -729,7 +655,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.9 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.10 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -803,7 +729,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.9 current</span>
+        <span class="status-pill status-ok">✅ v1.1.10 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -1013,6 +939,17 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.10 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 30 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>Reverted two PDF experiments after real-world testing.</strong></p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Plan title page removed.</strong> The v1.1.9 cover sheet broke in real browsers &mdash; the fixed <code>height:265mm</code> overflowed the printable area, causing 7 blank pages to be inserted before the actual plan. Removed the entire title-page CSS and HTML; back to a clean printout starting on page 1 with the plan content. A proper title page is doable but needs the height-and-page-break logic to be more robust than my first attempt.</li>
+      <li><strong style="color:var(--text)">Restored original centred plan header.</strong> The v1.1.8 "compact left-aligned print header" replaced the centred shield + title block to recover space &mdash; but on review the original centred header reads better and feels more like a document. Print version now matches the on-screen version, as it always should have.</li>
+      <li><strong style="color:var(--text)">All other v1.1.9 work retained:</strong> Inter typography, footer band on every printed page, the Governor Report empty-state fix, and the Police CyberAlarm wording corrections all stay.</li>
+    </ul>
+    <p style="margin:8px 0 0; font-size:12px; color:var(--muted)"><strong>Lesson logged:</strong> print CSS that uses fixed millimetre heights breaks differently across browsers. Future title-page work should use natural content height with explicit <code>page-break-after</code> rather than forced height.</p>
   </div>
 
   <div class="card">
@@ -1356,7 +1293,7 @@
   </div>
   <div class="pf-right">
     <span class="pf-url">cmaddocks-uk.github.io/cyber-response</span>
-    <span class="pf-version">v1.1.9</span>
+    <span class="pf-version">v1.1.10</span>
   </div>
 </div>
 
@@ -3014,37 +2951,6 @@ function generatePlan(){
   `;
 
   out.innerHTML = `
-    <!-- TITLE PAGE — only renders when printing. Provides a proper cover sheet so
-         the document feels like a deliverable rather than a printout. -->
-    <div class="plan-titlepage" aria-hidden="true">
-      <div class="plan-titlepage-top">
-        <div class="plan-titlepage-eyebrow">Cyber Incident Response Plan</div>
-        <div class="plan-titlepage-title">${emptyOr(p.meta.schoolName, "School / college name")}</div>
-        ${p.meta.trustName ? `<div class="plan-titlepage-sub">${escapeHtml(p.meta.trustName)}</div>` : ""}
-      </div>
-      <div class="plan-titlepage-mid">
-        <div class="plan-titlepage-stamp">CONFIDENTIAL &mdash; for internal use only</div>
-        <p class="plan-titlepage-blurb">
-          This document sets out the school's response procedures for a suspected or confirmed
-          cyber security incident. It should be reviewed at least annually and after any incident
-          or significant operational change.
-        </p>
-      </div>
-      <div class="plan-titlepage-meta">
-        <table>
-          <tr><th>School URN</th><td>${emptyOr(p.meta.urn, "[URN]")}</td></tr>
-          <tr><th>Plan version</th><td>${escapeHtml(p.meta.planVersion)}</td></tr>
-          <tr><th>Plan date</th><td>${emptyOr(p.meta.planDate, "[date]")}</td></tr>
-          <tr><th>Approved by</th><td>${emptyOr(p.meta.approvedBy, "[approver]")}${p.meta.approverRole ? ` <span class="muted-meta">(${escapeHtml(p.meta.approverRole)})</span>` : ""}</td></tr>
-          <tr><th>Next review</th><td>${emptyOr(p.meta.nextReview, "[date]")}</td></tr>
-        </table>
-      </div>
-      <div class="plan-titlepage-foot">
-        <div>Mapped to NCSC &middot; DfE Digital Standards 2030 &middot; DfE RPA &middot; Ofsted</div>
-        <div class="muted-meta">Generated using the Cyber Incident Response Planner &middot; cmaddocks-uk.github.io/cyber-response</div>
-      </div>
-    </div>
-
     <div style="text-align:center; margin-bottom:24px">
       <div style="font-size:32px">🛡️</div>
       <h1 style="margin:8px 0 4px">Cyber Incident Response Plan</h1>
