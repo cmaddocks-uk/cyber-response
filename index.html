@@ -499,18 +499,77 @@
     .f30-row{grid-template-columns:1fr}
   }
 
-  /* Print */
+  /* =========================================================
+     Print styles — designed for A4 portrait, professional output
+     =========================================================
+     Goals:
+     1. Suppress browser default page headers/footers (URL, page title)
+     2. Use full-page margins controlled by us, with page numbers
+     3. Better visual hierarchy — sections flow as one document
+     4. Sensible empty-state styling so blank reports don't look broken
+     5. Avoid awkward page breaks mid-section
+     Note: page header suppression is a strong hint — the user can
+     still override via the browser's print dialog "More settings".
+     ========================================================= */
+  @page{
+    size:A4 portrait;
+    margin:18mm 14mm 20mm 14mm;
+    /* Empty content strings tell the browser we're handling headers
+       ourselves — most browsers will then suppress their defaults.
+       The user can still override in the print dialog if they want them. */
+    @top-left{content:""} @top-center{content:""} @top-right{content:""}
+    @bottom-left{content:""} @bottom-center{content:""} @bottom-right{content:""}
+  }
+  /* First page can have a slightly different style if needed */
+  @page :first{margin-top:14mm}
+
   @media print{
-    header.topbar, nav.tabs, .no-print, .btn-row, .section-nav, .beer-btn, .plan-toc, .back-to-top{display:none !important}
-    body{background:#fff}
-    .card{box-shadow:none; border:none; padding:0; margin-bottom:18px; page-break-inside:avoid}
-    .plan-doc{border:none; padding:0}
+    /* Hide all the chrome */
+    header.topbar, nav.tabs, .no-print, .btn-row, .section-nav,
+    .beer-btn, .plan-toc, .back-to-top{display:none !important}
+
+    /* Reset body & page background to crisp white */
+    body{background:#fff; color:#000; font-size:11pt; line-height:1.45}
+    .container{max-width:none; padding:0}
+
+    /* Cards become flowing document sections rather than boxed UI cards */
+    .card{
+      box-shadow:none; border:none; padding:0; margin:0 0 14px;
+      page-break-inside:avoid; break-inside:avoid; background:transparent;
+    }
+    .plan-doc{border:none; padding:0; background:transparent}
     .plan-layout{grid-template-columns:1fr}
 
-    /* First 30 Minutes — make it fit cleanly on a single A4 sheet */
-    @page{size:A4 portrait; margin:10mm}
+    /* Avoid orphaned headings at the bottom of pages */
+    h1, h2, h3, h4{page-break-after:avoid; break-after:avoid}
+    /* Avoid table rows splitting */
+    tr, li{page-break-inside:avoid; break-inside:avoid}
+    /* Keep links visible (default print is often blue underline — keep but tone down) */
+    a{color:#0d1b2a; text-decoration:none}
+    a[href]:after{content:""} /* don't auto-append URL to links — too noisy */
+
+    /* ---- Governor Report — flow as one continuous document ---- */
+    #governorReport{padding:0}
+    /* Strengthen the verdict / priority area / questions hierarchy */
+    #governorReport h1{font-size:18pt; margin:0 0 8px}
+    #governorReport h2{font-size:13pt; margin:14px 0 6px; padding-bottom:4px;
+      border-bottom:1px solid #cdd9ed}
+    /* Hide the empty-state placeholders when no readiness data — covered
+       in JS too, but belt-and-braces */
+    .gov-empty-hide{display:none !important}
+
+    /* ---- Plan output — multi-page, needs sensible breaks ---- */
+    .plan-section{page-break-inside:auto}
+    .plan-section h2{
+      page-break-before:auto; page-break-after:avoid;
+      padding-top:6px; border-top:1px solid #e5e7eb;
+    }
+    .plan-section:first-of-type h2{border-top:none; padding-top:0}
+
+    /* ---- First 30 Minutes — single A4 sheet ---- */
+    @page :first{margin:10mm} /* tighter for the F30 card specifically */
     .first30-card{
-      border-width:2px; padding:14px 16px; max-width:none;
+      border-width:2px; padding:14px 16px; max-width:none; margin:0;
       page-break-inside:avoid; break-inside:avoid;
     }
     .f30-title{font-size:19px}
@@ -567,7 +626,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.6 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.7 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -641,7 +700,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.6 current</span>
+        <span class="status-pill status-ok">✅ v1.1.7 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -842,6 +901,20 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.7 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 30 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>Print / PDF output polished.</strong> When users print or save as PDF, the result now looks more like a professional document and less like a printed web page.</p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Browser default headers/footers suppressed.</strong> The ugly auto-added page title, URL and date strip at the top and bottom of every printed page now hidden by default. Achieved via <code>@page</code> margin-box content overrides &mdash; users can still re-enable headers in their browser print dialog if they explicitly want them.</li>
+      <li><strong style="color:var(--text)">Better page margins.</strong> A4 portrait with 18mm/14mm/20mm/14mm margins for the Governor Report and full Plan output, tighter 10mm for the single-page First 30 Minutes card.</li>
+      <li><strong style="color:var(--text)">Cleaner section flow.</strong> Cards no longer print as boxed UI elements with shadows and borders &mdash; they flow as document sections. Headings get subtle horizontal rules instead, links lose the noisy auto-appended URL.</li>
+      <li><strong style="color:var(--text)">Sensible page breaks.</strong> Headings can no longer be orphaned at the bottom of a page; list items and table rows can no longer split across pages; major sections in the full plan break onto new pages where it helps readability.</li>
+      <li><strong style="color:var(--text)">Empty-state Governor Report.</strong> Previously, opening the Governor Report tab before completing the readiness check rendered a half-populated layout with empty placeholder panels &mdash; looked broken when printed. Now shows a clean "Readiness check not yet started" message with a clear next-step button (which is hidden on print).</li>
+      <li><strong style="color:var(--text)">Edge case fix.</strong> If the readiness check is partially complete and all answered questions are currently green, the Governor Questions panel now shows a sensible message ("X of 12 answered, all currently green &mdash; complete the rest to surface specific assurance questions") rather than rendering an empty <code>&lt;ol&gt;</code>.</li>
+    </ul>
+    <p style="margin:8px 0 0; font-size:12px; color:var(--muted)"><strong>Note:</strong> some print details (default browser headers, page numbers in margins) depend on browser and user print-dialog settings. The CSS now signals our preferences strongly, but the user can override them via their print dialog if they wish.</p>
   </div>
 
   <div class="card">
@@ -3417,6 +3490,34 @@ function generateGovernorReport(){
   // Governor questions — only for non-green (or welcome message if all green)
   const governorQuestionIds = scores.filter(s => s.rag !== "green" && s.rag !== "unanswered").map(s => s.id);
 
+  // If the readiness check hasn't been started, render a clean empty-state
+  // page rather than a half-populated layout with placeholder panels —
+  // looks much better when printed and gives the user a clear next step.
+  if(totalAnswered === 0){
+    out.innerHTML = `
+      <div style="margin-bottom:24px; padding-bottom:18px; border-bottom:3px solid var(--navy)">
+        <h1 style="font-size:22px; font-weight:800; color:var(--navy); margin:0 0 4px">Cyber Incident Response &mdash; Governor Summary</h1>
+        <p style="font-size:13px; color:var(--muted); margin:0">${emptyOr(p.meta.schoolName, "School / college name")}${p.meta.trustName ? ` &middot; ${escapeHtml(p.meta.trustName)}` : ""}</p>
+      </div>
+      <div style="background:#f7f9fc; border-radius:10px; padding:32px 28px; border-left:5px solid var(--accent); text-align:center">
+        <div style="font-size:42px; margin-bottom:12px">📋</div>
+        <h2 style="font-size:18px; font-weight:700; color:var(--navy); margin:0 0 10px">Readiness check not yet started</h2>
+        <p style="font-size:14px; color:var(--text); line-height:1.6; margin:0 0 20px; max-width:520px; margin-left:auto; margin-right:auto">
+          To generate a meaningful Governor / Trustee Report, complete the 12-question readiness check first.
+          The report will then summarise readiness levels, surface priority areas, and produce Ofsted-style
+          assurance questions for governors to ask at the next meeting.
+        </p>
+        <div class="no-print" style="margin-top:8px">
+          <button class="btn btn-primary" onclick="goTab('readiness')">▶ Start the readiness check</button>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin:20px 0 0; font-style:italic">
+          Typically takes 15&ndash;25 minutes &middot; Mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted
+        </p>
+      </div>
+    `;
+    return;
+  }
+
   out.innerHTML = `
     <!-- HEADER -->
     <div style="margin-bottom:24px; padding-bottom:18px; border-bottom:3px solid var(--navy)">
@@ -3473,8 +3574,11 @@ function generateGovernorReport(){
       <h2 style="font-size:13px; font-weight:700; color:var(--navy); margin:0 0 8px; text-transform:uppercase; letter-spacing:.04em">Questions Governors Should Ask at the Next Meeting</h2>
       <p style="font-size:12px; color:var(--muted); margin:0 0 10px; font-style:italic">Phrased to support the Ofsted-style "How do you assure yourselves..." line of inquiry.</p>
       <ol style="padding-left:20px; margin:0; display:flex; flex-direction:column; gap:8px">
-        ${governorQuestionIds.length === 0 && totalAnswered === READINESS.length ? `
-          <li style="font-size:13px; color:var(--green); font-weight:600; line-height:1.6">All twelve readiness areas are currently green. Governors should still seek assurance that testing, training and the response plan itself are reviewed at least annually and that lessons from any incident are incorporated.</li>
+        ${governorQuestionIds.length === 0 ? `
+          <li style="font-size:13px; color:var(--green); font-weight:600; line-height:1.6">${totalAnswered === READINESS.length
+            ? "All twelve readiness areas are currently green. Governors should still seek assurance that testing, training and the response plan itself are reviewed at least annually and that lessons from any incident are incorporated."
+            : `${totalAnswered} of ${READINESS.length} readiness questions answered, all currently green. Complete the remaining questions to surface any specific assurance questions for governors.`
+          }</li>
         ` : governorQuestionIds.map(id => {
           const gp = GOV_PLAIN[id];
           return `<li style="font-size:13px; color:var(--text); line-height:1.6"><strong style="color:var(--navy)">${gp.label}:</strong> ${gp.govQ}</li>`;
