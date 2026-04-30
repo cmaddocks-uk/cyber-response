@@ -630,6 +630,7 @@
     <nav class="tabs" id="tabs">
       <button data-tab="home" class="active">Home</button>
       <button data-tab="readiness">Readiness</button>
+      <button data-tab="action">Action Plan</button>
       <button data-tab="plan">Plan Builder</button>
       <button data-tab="output">Your Plan</button>
       <button data-tab="first30">First 30 Minutes</button>
@@ -655,7 +656,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.11 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.2.0 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -729,7 +730,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.11 current</span>
+        <span class="status-pill status-ok">✅ v1.2.0 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -747,7 +748,8 @@
 
         <button class="btn-cta" onclick="goTab('readiness')">▶ Start readiness check</button>
         <button class="btn-cta-secondary" onclick="goTab('plan')">📋 Skip to plan builder</button>
-        <button class="btn-cta-secondary" onclick="goTab('governor')" style="margin-top:8px">📊 View governor report</button>
+        <button class="btn-cta-secondary" onclick="goTab('action')" style="margin-top:6px">🎯 Prioritised action plan</button>
+        <button class="btn-cta-secondary" onclick="goTab('governor')" style="margin-top:6px">📊 View governor report</button>
         <button class="btn-cta-secondary" onclick="goTab('first30')" style="margin-top:6px">🚨 First 30 Minutes card</button>
 
         <div class="divider"></div>
@@ -822,6 +824,29 @@
       <button class="btn btn-secondary" onclick="window.print()">🖨️ Print readiness report</button>
     </div>
   </div>
+
+</section>
+
+<!-- ============================================================== -->
+<!-- ACTION PLAN — prioritised remediation roadmap from readiness    -->
+<!-- ============================================================== -->
+<section id="tab-action" class="tab-panel hidden">
+
+  <div class="card no-print">
+    <h2>📋 Prioritised Action Plan</h2>
+    <p class="muted">Auto-generated from your readiness check. Lists every red and amber item, ordered by priority, with the suggested next-step action and the framework it maps to.</p>
+    <p class="muted" style="font-size:13px"><strong>Designed to be printed, taken into an SLT or IT planning meeting, and used to assign owners and target dates by hand.</strong> The tool deliberately doesn't ask you to enter owners and dates here &mdash; that work happens in your normal action tracker, not in another web form.</p>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ Print action plan</button>
+      <button class="btn btn-secondary" onclick="goTab('readiness')">&larr; Back to readiness check</button>
+      <button class="btn btn-secondary" onclick="goTab('plan')">Plan Builder &rarr;</button>
+    </div>
+    <p class="muted" style="font-size:12px; margin:8px 0 0">
+      <strong>Tip for the cleanest PDF:</strong> in your browser's print dialog, expand <em>"More settings"</em> and <strong>uncheck</strong> "Headers and footers" to hide the browser-added URL strip.
+    </p>
+  </div>
+
+  <div id="actionPlan" class="plan-doc"></div>
 
 </section>
 
@@ -939,6 +964,21 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.2.0 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 30 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>Prioritised Action Plan tab added.</strong> The missing functional layer between "we identified the gaps" (readiness check) and "we have a plan for incidents" (plan builder).</p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Auto-generated from the readiness check.</strong> Every red and amber question becomes a row in a printable table, ordered by priority (red first, then amber).</li>
+      <li><strong style="color:var(--text)">Each row shows:</strong> the area name, plain-English description, the recommended action for the user's current score, and the framework(s) it maps to.</li>
+      <li><strong style="color:var(--text)">Three blank columns &mdash; Owner, Target date, Status &mdash;</strong> deliberately left empty for the user to fill in by hand on the printed copy. The tool doesn't ask the user to enter owners and dates here because that work belongs in their normal action tracker, not in another web form.</li>
+      <li><strong style="color:var(--text)">Suggested timescales</strong> footer based on RPA/NCSC guidance: red items within one term, amber items within the academic year.</li>
+      <li><strong style="color:var(--text)">Empty states</strong> for "readiness check not yet started" and "all green &mdash; nothing outstanding" handled cleanly so the printed page never looks broken.</li>
+      <li><strong style="color:var(--text)">Surfaced from the home page</strong> as a "🎯 Prioritised action plan" CTA, and from the Governor Report's "For SLT" next-step ("Review the Prioritised Action Plan...").</li>
+      <li><strong style="color:var(--text)">Inherits the v1.1.7&ndash;v1.1.11 print polish</strong> &mdash; Inter typography, footer band on every page, sensible page breaks, browser-header suppression.</li>
+    </ul>
+    <p style="margin:8px 0 0; font-size:12px; color:var(--muted)"><strong>Why a minor version bump (v1.2.0):</strong> this is a new feature, not a fix. v1.1.x is the consolidated launch line; v1.2.0 starts the post-launch feature-additions line.</p>
   </div>
 
   <div class="card">
@@ -1300,7 +1340,7 @@
   </div>
   <div class="pf-right">
     <span class="pf-url">cmaddocks-uk.github.io/cyber-response</span>
-    <span class="pf-version">v1.1.11</span>
+    <span class="pf-version">v1.2.0</span>
   </div>
 </div>
 
@@ -1730,6 +1770,7 @@ function goTab(name){
   if(name === "output") generatePlan();
   if(name === "governor") generateGovernorReport();
   if(name === "first30") generateFirst30();
+  if(name === "action") generateActionPlan();
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
@@ -3547,6 +3588,154 @@ function generateFirst30(){
 }
 
 
+/* ============================================================== */
+/* ACTION PLAN — prioritised remediation roadmap from readiness    */
+/* ============================================================== */
+
+function generateActionPlan(){
+  const out = document.getElementById("actionPlan");
+  if(!out) return;
+  const p = state.plan;
+  const r = state.readiness;
+  const totalAnswered = Object.keys(r).length;
+
+  // Empty state — readiness not started
+  if(totalAnswered === 0){
+    out.innerHTML = `
+      <div style="margin-bottom:24px; padding-bottom:18px; border-bottom:3px solid var(--navy)">
+        <h1 style="font-size:22px; font-weight:800; color:var(--navy); margin:0 0 4px">Prioritised Action Plan</h1>
+        <p style="font-size:13px; color:var(--muted); margin:0">${emptyOr(p.meta.schoolName, "School / college name")}${p.meta.trustName ? ` &middot; ${escapeHtml(p.meta.trustName)}` : ""}</p>
+      </div>
+      <div style="background:#f7f9fc; border-radius:10px; padding:32px 28px; border-left:5px solid var(--accent); text-align:center">
+        <div style="font-size:42px; margin-bottom:12px">📋</div>
+        <h2 style="font-size:18px; font-weight:700; color:var(--navy); margin:0 0 10px">Readiness check not yet started</h2>
+        <p style="font-size:14px; color:var(--text); line-height:1.6; margin:0 0 20px; max-width:520px; margin-left:auto; margin-right:auto">
+          The action plan is auto-generated from your readiness check. Complete the 12-question check first
+          and any red or amber items will appear here as a prioritised list of remediation actions.
+        </p>
+        <div class="no-print" style="margin-top:8px">
+          <button class="btn btn-primary" onclick="goTab('readiness')">▶ Start the readiness check</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Build the prioritised list — red items first, then amber, in question order within each
+  const items = READINESS.map(q => {
+    const score = r[q.id];
+    if(score == null) return null;
+    let rag;
+    if(score >= 3) rag = "green";
+    else if(score >= 2) rag = "amber";
+    else rag = "red";
+    if(rag === "green") return null;
+    return { q, score, rag };
+  }).filter(Boolean);
+
+  items.sort((a, b) => {
+    if(a.rag === b.rag) return 0;
+    return a.rag === "red" ? -1 : 1;
+  });
+
+  const redCount = items.filter(i => i.rag === "red").length;
+  const amberCount = items.filter(i => i.rag === "amber").length;
+
+  // All-green case
+  if(items.length === 0){
+    out.innerHTML = `
+      <div style="margin-bottom:24px; padding-bottom:18px; border-bottom:3px solid var(--navy)">
+        <h1 style="font-size:22px; font-weight:800; color:var(--navy); margin:0 0 4px">Prioritised Action Plan</h1>
+        <p style="font-size:13px; color:var(--muted); margin:0">${emptyOr(p.meta.schoolName, "School / college name")}${p.meta.trustName ? ` &middot; ${escapeHtml(p.meta.trustName)}` : ""} &middot; ${emptyOr(p.meta.planDate, "report date")}</p>
+      </div>
+      <div style="background:#e7f5ec; border-radius:10px; padding:32px 28px; border-left:5px solid var(--green); text-align:center">
+        <div style="font-size:42px; margin-bottom:12px">✅</div>
+        <h2 style="font-size:18px; font-weight:700; color:var(--green); margin:0 0 10px">No remediation actions outstanding</h2>
+        <p style="font-size:14px; color:var(--text); line-height:1.6; margin:0; max-width:520px; margin-left:auto; margin-right:auto">
+          ${totalAnswered === READINESS.length
+            ? "All twelve readiness areas are currently rated green. Continue annual review and testing — and re-run this assessment after any significant operational change."
+            : `${totalAnswered} of ${READINESS.length} readiness questions answered, all currently green. Complete the remaining questions to confirm full coverage.`}
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  // Render the action table
+  out.innerHTML = `
+    <div style="margin-bottom:24px; padding-bottom:18px; border-bottom:3px solid var(--navy)">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:12px">
+        <div>
+          <h1 style="font-size:22px; font-weight:800; color:var(--navy); margin:0 0 4px">Prioritised Action Plan</h1>
+          <p style="font-size:13px; color:var(--muted); margin:0">${emptyOr(p.meta.schoolName, "School / college name")}${p.meta.trustName ? ` &middot; ${escapeHtml(p.meta.trustName)}` : ""} &middot; ${emptyOr(p.meta.planDate, "report date")}</p>
+        </div>
+        <div style="text-align:right; font-size:12px; line-height:1.5">
+          <div style="font-size:24px; font-weight:800; color:var(--navy); line-height:1">${items.length}</div>
+          <div style="color:var(--muted); margin-top:2px">action${items.length === 1 ? "" : "s"} outstanding</div>
+          <div style="margin-top:6px"><strong style="color:var(--red)">${redCount} red</strong> &middot; <strong style="color:var(--amber)">${amberCount} amber</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#eaf2fd; border:1px solid #cdd9ed; border-radius:8px; padding:12px 16px; margin-bottom:20px">
+      <p style="font-size:13px; color:var(--text); line-height:1.55; margin:0">
+        <strong>How to use this:</strong> print and take to your next SLT or IT planning meeting.
+        Assign each action an <strong>owner</strong>, a <strong>target date</strong>, and a <strong>status</strong> using the columns on the right.
+        Red items typically need attention within one term; amber items within the academic year.
+      </p>
+    </div>
+
+    <table style="width:100%; border-collapse:collapse; font-size:12px; margin-bottom:24px">
+      <thead>
+        <tr style="background:var(--navy); color:#fff">
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy); width:40px">#</th>
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy); width:60px">RAG</th>
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy)">Area &amp; recommended action</th>
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy); width:90px">Framework</th>
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy); width:100px">Owner</th>
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy); width:90px">Target date</th>
+          <th style="padding:8px 10px; text-align:left; font-size:11px; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--navy); width:90px">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${items.map((item, idx) => {
+          const ragColor = item.rag === "red" ? "var(--red)" : "var(--amber)";
+          const ragBg = item.rag === "red" ? "var(--red-bg)" : "var(--amber-bg)";
+          const action = (item.q.actions && item.q.actions[item.score]) || "Review this area and document next steps.";
+          const gp = GOV_PLAIN[item.q.id] || {label: item.q.id, plain: ""};
+          const fwString = (item.q.frameworks || []).join(" &middot; ") || "&mdash;";
+          return `
+            <tr>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top; font-weight:700; color:var(--navy)">${idx + 1}</td>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top; background:${ragBg}">
+                <span style="display:inline-block; padding:2px 8px; background:${ragColor}; color:#fff; font-size:10px; font-weight:700; border-radius:4px; letter-spacing:.04em; text-transform:uppercase">${item.rag}</span>
+              </td>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top">
+                <div style="font-weight:700; color:var(--navy); margin-bottom:4px; font-size:13px">${escapeHtml(gp.label || item.q.id)}</div>
+                <div style="font-size:12px; color:var(--text); line-height:1.5; margin-bottom:6px">${escapeHtml(gp.plain)}</div>
+                <div style="font-size:12px; color:var(--text); line-height:1.5; padding:6px 10px; background:#f7f9fc; border-left:2px solid var(--accent); border-radius:0 4px 4px 0"><strong>Action:</strong> ${escapeHtml(action)}</div>
+              </td>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top; font-size:11px; color:var(--muted)">${fwString}</td>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top">&nbsp;</td>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top">&nbsp;</td>
+              <td style="padding:10px; border:1px solid #cdd9ed; vertical-align:top">&nbsp;</td>
+            </tr>
+          `;
+        }).join("")}
+      </tbody>
+    </table>
+
+    <div style="background:#f7f9fc; border:1px solid var(--line); border-radius:8px; padding:14px 16px; font-size:12px; color:var(--text); line-height:1.6">
+      <strong style="color:var(--navy)">Suggested timescales (RPA / NCSC guidance):</strong>
+      <ul style="margin:6px 0 0; padding-left:20px">
+        <li><strong style="color:var(--red)">Red items</strong> &mdash; within one term (12 weeks). RPA cyber cover conditions and NCSC fundamentals.</li>
+        <li><strong style="color:var(--amber)">Amber items</strong> &mdash; within the academic year. Maturity improvements that strengthen the response capability.</li>
+        <li><strong style="color:var(--green)">All actions</strong> &mdash; re-run the readiness check after each closure to confirm the gap is closed and not just paper-resolved.</li>
+      </ul>
+    </div>
+  `;
+}
+
 function generateGovernorReport(){
   const out = document.getElementById("governorReport");
   if(!out) return;
@@ -3700,7 +3889,7 @@ function generateGovernorReport(){
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
         <div style="background:rgba(255,255,255,.08); border-radius:8px; padding:12px 14px">
           <div style="font-size:11px; font-weight:700; color:#7fb4ff; margin-bottom:4px; letter-spacing:.04em">FOR SLT</div>
-          <p style="font-size:12px; color:rgba(255,255,255,.85); line-height:1.5; margin:0">Review the full readiness check and Cyber Incident Response Plan. Present a written response to governors at the next available meeting with planned actions and timescales for each area not currently rated green.</p>
+          <p style="font-size:12px; color:rgba(255,255,255,.85); line-height:1.5; margin:0">Review the full readiness check and the <strong>Prioritised Action Plan</strong> (see Action Plan tab) which lists every red and amber item in priority order. Present a written response to governors at the next available meeting with assigned owners and timescales for each.</p>
         </div>
         <div style="background:rgba(255,255,255,.08); border-radius:8px; padding:12px 14px">
           <div style="font-size:11px; font-weight:700; color:#7fb4ff; margin-bottom:4px; letter-spacing:.04em">FOR GOVERNORS</div>
