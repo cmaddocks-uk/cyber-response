@@ -24,7 +24,7 @@
   Everything else (fetch, remote scripts, frames) is still blocked.
   GoatCounter dashboard: https://cyber-response.goatcounter.com
 -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cyber-response.goatcounter.com; connect-src https://cyber-response.goatcounter.com; form-action 'none'; frame-ancestors 'none'; base-uri 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://cyber-response.goatcounter.com; connect-src https://cyber-response.goatcounter.com; form-action 'none'; frame-ancestors 'none'; base-uri 'none';">
 
 <!-- Other defence-in-depth headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
@@ -33,6 +33,12 @@
 
 <title>Cyber Incident Response Planner — for UK Schools &amp; Colleges</title>
 <meta name="description" content="A free planning tool for UK schools and colleges to assess cyber response readiness and generate a tailored Cyber Incident Response Plan, mapped to NCSC, DfE Digital Standards 2030, DfE RPA and Ofsted inspection guidance.">
+
+<!-- Inter font for crisper, more authoritative typography. Loaded from Google Fonts;
+     CSP allows fonts.googleapis.com (CSS) and fonts.gstatic.com (font binaries). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
 
 <!-- Open Graph / LinkedIn / Facebook -->
 <meta property="og:type" content="website">
@@ -66,7 +72,8 @@
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    font-feature-settings:"cv11","ss01","ss03"; /* Inter's modern alternates — slightly nicer 1, ß, etc */
     background:var(--bg); color:var(--text); line-height:1.55;
     -webkit-font-smoothing:antialiased;
   }
@@ -412,7 +419,7 @@
   .first30-card{
     background:#fff; border:3px solid #0d1b2a; border-radius:10px;
     padding:20px 22px; margin:0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
     color:#0d1b2a;
   }
   .f30-header{
@@ -499,6 +506,20 @@
     .f30-row{grid-template-columns:1fr}
   }
 
+  /* ============================================================
+     Title page for the Plan output — print-only.
+     Hidden on screen, fills first A4 page when printing,
+     forces the actual plan content to start on page 2.
+     ============================================================ */
+  .plan-titlepage{display:none}
+  .muted-meta{color:#6b7280; font-weight:500}
+
+  /* ============================================================
+     Print footer — repeats on every page using position:fixed.
+     Hidden on screen by default; revealed in print media query.
+     ============================================================ */
+  .print-footer{display:none}
+
   /* =========================================================
      Print styles — designed for A4 portrait, professional output
      =========================================================
@@ -513,7 +534,7 @@
      ========================================================= */
   @page{
     size:A4 portrait;
-    margin:18mm 14mm 20mm 14mm;
+    margin:18mm 14mm 22mm 14mm;
     /* Empty content strings tell the browser we're handling headers
        ourselves — most browsers will then suppress their defaults.
        The user can still override in the print dialog if they want them. */
@@ -588,6 +609,79 @@
     .f30-block{padding:8px 10px}
     .f30-donot ul, .f30-escalation ol{font-size:11.5px}
     .f30-footer{font-size:9.5px}
+
+    /* ---- Title page (Plan output only) ----
+       Reveal in print, fill the first A4 page, force plan to start on page 2. */
+    .plan-titlepage{
+      display:flex !important; flex-direction:column;
+      height:265mm; /* A4 height minus our 15mm/15mm margins, approximate */
+      padding:18mm 8mm 12mm; box-sizing:border-box;
+      page-break-after:always; break-after:page;
+      color:#0d1b2a;
+    }
+    .plan-titlepage-top{
+      border-top:6px solid #0d1b2a; padding-top:18mm; margin-bottom:auto;
+    }
+    .plan-titlepage-eyebrow{
+      font-size:11pt; font-weight:600; color:#1f4ed8;
+      letter-spacing:.08em; text-transform:uppercase; margin-bottom:8mm;
+    }
+    .plan-titlepage-title{
+      font-size:36pt; font-weight:800; line-height:1.1;
+      margin-bottom:4mm; letter-spacing:-.02em;
+    }
+    .plan-titlepage-sub{
+      font-size:16pt; font-weight:500; color:#6b7280;
+    }
+    .plan-titlepage-mid{
+      margin:10mm 0 14mm;
+    }
+    .plan-titlepage-stamp{
+      display:inline-block; padding:4px 12px; margin-bottom:8mm;
+      background:#fdedec; color:#c0392b;
+      font-size:9pt; font-weight:700; letter-spacing:.06em;
+      text-transform:uppercase; border-radius:3px;
+    }
+    .plan-titlepage-blurb{
+      font-size:11pt; line-height:1.55; color:#374151; max-width:130mm; margin:0;
+    }
+    .plan-titlepage-meta{
+      border-top:1px solid #cdd9ed; border-bottom:1px solid #cdd9ed;
+      padding:6mm 0; margin-bottom:auto;
+    }
+    .plan-titlepage-meta table{
+      width:100%; border-collapse:collapse; font-size:10pt;
+    }
+    .plan-titlepage-meta th{
+      text-align:left; font-weight:600; color:#6b7280;
+      padding:3mm 8mm 3mm 0; width:40mm; vertical-align:top;
+    }
+    .plan-titlepage-meta td{
+      font-weight:600; color:#0d1b2a; padding:3mm 0;
+    }
+    .plan-titlepage-foot{
+      font-size:9pt; line-height:1.5; color:#6b7280;
+      border-top:2px solid #0d1b2a; padding-top:5mm;
+    }
+    .plan-titlepage-foot div:first-child{font-weight:600; color:#0d1b2a; margin-bottom:2mm}
+
+    /* ---- Print footer band (every page) ----
+       Uses position:fixed; bottom:0 — most browsers repeat fixed-position
+       elements on every printed page. Falls back gracefully where not. */
+    .print-footer{
+      display:flex !important;
+      position:fixed; bottom:0; left:0; right:0;
+      padding:4mm 8mm; box-sizing:border-box;
+      border-top:1px solid #cdd9ed; background:#fff;
+      font-size:8.5pt; color:#6b7280; line-height:1.4;
+      justify-content:space-between; gap:10mm;
+    }
+    .print-footer .pf-school{font-weight:700; color:#0d1b2a; margin-right:4mm}
+    .print-footer .pf-doc{font-style:italic}
+    .print-footer .pf-version{margin-left:6mm; opacity:.7}
+    .print-footer .pf-right{text-align:right}
+    /* Don't show footer on the title page (looks cleaner) */
+    .plan-titlepage ~ * .print-footer{display:none}
   }
   /* Hidden */
   .hidden{display:none !important}
@@ -635,7 +729,7 @@
     <p style="font-size:14px; color:var(--muted); max-width:620px; margin:0 auto">
       Free planning tool for UK schools and colleges. Build a Cyber Incident Response Plan mapped to NCSC, DfE Digital Standards 2030, RPA and Ofsted guidance.
     </p>
-    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.8 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
+    <div style="font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.04em; text-transform:uppercase; font-weight:600">v1.1.9 &middot; <a href="#" onclick="goTab('changelog'); return false">changelog</a></div>
   </div>
 
   <!-- Police CyberAlarm — current state notice -->
@@ -709,7 +803,7 @@
 
       <!-- Status bar with bottom links -->
       <div class="home-status">
-        <span class="status-pill status-ok">✅ v1.1.8 current</span>
+        <span class="status-pill status-ok">✅ v1.1.9 current</span>
         <a class="status-link" href="#" onclick="shareTool(this); return false">🔗 Share</a>
         <a class="status-link" href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer">🍺 Buy me a beer</a>
         <a class="status-link" href="https://www.gov.uk/guidance/meeting-digital-and-technology-standards-in-schools-and-colleges" target="_blank" rel="noopener noreferrer">📘 DfE Standards ↗</a>
@@ -919,6 +1013,18 @@
   <div class="card">
     <h2>Changelog</h2>
     <p class="muted">What's changed in the Cyber Incident Response Planner. Most recent first.</p>
+  </div>
+
+  <div class="card">
+    <h3>Version 1.1.9 <span class="muted" style="font-weight:normal; font-size:13px">&mdash; 30 April 2026</span></h3>
+    <p style="margin:0 0 8px"><strong>PDF output lifted from "plain printout" to "deliverable document".</strong></p>
+    <ul style="padding-left:20px">
+      <li><strong style="color:var(--text)">Title page added to the Plan output.</strong> A proper cover sheet now opens the PDF/print version: school name as the dominant title, eyebrow label, "CONFIDENTIAL &mdash; for internal use only" stamp, document description, metadata table (URN, version, plan date, approver, next review), framework-mapping footer. Forces the actual plan to start on page 2. Hidden on screen &mdash; only renders when printing.</li>
+      <li><strong style="color:var(--text)">Footer band on every printed page.</strong> Bottom of every page now shows: school name, document name (e.g. "Cyber Incident Response Plan"), tool URL, and version. Populated dynamically from the active tab and current school data via a <code>beforeprint</code> handler. Browsers repeat the <code>position:fixed</code> footer on every printed page (Chrome, Edge, Firefox tested; Safari support partial). Hidden on the title page itself for a cleaner cover.</li>
+      <li><strong style="color:var(--text)">Inter typography.</strong> Loaded from Google Fonts (weights 400/600/700/800) for crisper, more authoritative typography across both screen and print. System font stack remains as fallback if Google Fonts blocked. Uses Inter's stylistic alternates for a slightly nicer "1", "ß" etc.</li>
+      <li><strong style="color:var(--text)">CSP relaxation.</strong> <code>style-src</code> now allows <code>https://fonts.googleapis.com</code>, <code>font-src</code> now allows <code>https://fonts.gstatic.com</code>. Both are Google Fonts endpoints &mdash; widely trusted, cookie-free for the CSS endpoint, no other CSP changes. The strict <code>connect-src</code> remains locked to GoatCounter only.</li>
+      <li><strong style="color:var(--text)">Footer band leaves room.</strong> Bottom page margin increased from 20mm to 22mm so the footer band has breathing room without crowding content.</li>
+    </ul>
   </div>
 
   <div class="card">
@@ -1240,6 +1346,19 @@
 <a href="https://buymeacoffee.com/cmaddocks" target="_blank" rel="noopener noreferrer" class="beer-btn" title="If this tool saved you time, you can say thanks">
   🍺 Buy me a beer
 </a>
+
+<!-- Print-only footer that renders on every page (using position:fixed; bottom).
+     Populated by JS just before the print dialog opens so school name and date are current. -->
+<div class="print-footer" id="printFooter" aria-hidden="true">
+  <div class="pf-left">
+    <span class="pf-school" id="pfSchool"></span>
+    <span class="pf-doc" id="pfDoc"></span>
+  </div>
+  <div class="pf-right">
+    <span class="pf-url">cmaddocks-uk.github.io/cyber-response</span>
+    <span class="pf-version">v1.1.9</span>
+  </div>
+</div>
 
 <script>
 /* ============================================================== */
@@ -2895,6 +3014,37 @@ function generatePlan(){
   `;
 
   out.innerHTML = `
+    <!-- TITLE PAGE — only renders when printing. Provides a proper cover sheet so
+         the document feels like a deliverable rather than a printout. -->
+    <div class="plan-titlepage" aria-hidden="true">
+      <div class="plan-titlepage-top">
+        <div class="plan-titlepage-eyebrow">Cyber Incident Response Plan</div>
+        <div class="plan-titlepage-title">${emptyOr(p.meta.schoolName, "School / college name")}</div>
+        ${p.meta.trustName ? `<div class="plan-titlepage-sub">${escapeHtml(p.meta.trustName)}</div>` : ""}
+      </div>
+      <div class="plan-titlepage-mid">
+        <div class="plan-titlepage-stamp">CONFIDENTIAL &mdash; for internal use only</div>
+        <p class="plan-titlepage-blurb">
+          This document sets out the school's response procedures for a suspected or confirmed
+          cyber security incident. It should be reviewed at least annually and after any incident
+          or significant operational change.
+        </p>
+      </div>
+      <div class="plan-titlepage-meta">
+        <table>
+          <tr><th>School URN</th><td>${emptyOr(p.meta.urn, "[URN]")}</td></tr>
+          <tr><th>Plan version</th><td>${escapeHtml(p.meta.planVersion)}</td></tr>
+          <tr><th>Plan date</th><td>${emptyOr(p.meta.planDate, "[date]")}</td></tr>
+          <tr><th>Approved by</th><td>${emptyOr(p.meta.approvedBy, "[approver]")}${p.meta.approverRole ? ` <span class="muted-meta">(${escapeHtml(p.meta.approverRole)})</span>` : ""}</td></tr>
+          <tr><th>Next review</th><td>${emptyOr(p.meta.nextReview, "[date]")}</td></tr>
+        </table>
+      </div>
+      <div class="plan-titlepage-foot">
+        <div>Mapped to NCSC &middot; DfE Digital Standards 2030 &middot; DfE RPA &middot; Ofsted</div>
+        <div class="muted-meta">Generated using the Cyber Incident Response Planner &middot; cmaddocks-uk.github.io/cyber-response</div>
+      </div>
+    </div>
+
     <div style="text-align:center; margin-bottom:24px">
       <div style="font-size:32px">🛡️</div>
       <h1 style="margin:8px 0 4px">Cyber Incident Response Plan</h1>
@@ -3290,6 +3440,24 @@ const GOV_PLAIN = {
 /* ============================================================== */
 
 // Helper to render a contact row, falling back gracefully when data missing
+// Populate the print footer text just before printing — picks up current school
+// name and identifies which document is being printed based on the active tab.
+window.addEventListener("beforeprint", function(){
+  const p = state.plan;
+  const school = (p.meta.schoolName || "[School / college name]");
+  const activeTab = (document.querySelector("nav.tabs button.active") || {}).dataset || {};
+  const docNames = {
+    output: "Cyber Incident Response Plan",
+    first30: "First 30 Minutes Card",
+    governor: "Governor / Trustee Report"
+  };
+  const docName = docNames[activeTab.tab] || "";
+  const schoolEl = document.getElementById("pfSchool");
+  const docEl = document.getElementById("pfDoc");
+  if(schoolEl) schoolEl.textContent = school;
+  if(docEl) docEl.textContent = docName ? "· " + docName : "";
+});
+
 // Triggers the browser's print dialog with a sensible suggested PDF filename.
 // We use window.print() rather than a third-party PDF library because:
 // (1) the print CSS we already wrote produces the cleanest output;

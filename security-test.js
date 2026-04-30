@@ -147,6 +147,28 @@ setTimeout(() => {
       const unexpected = allowed.filter(s => !expected.includes(s));
       if(unexpected.length > 0) issues.push(`CSP script-src has unexpected entries: ${unexpected.join(", ")}`);
     }
+
+    // style-src should only include 'self', 'unsafe-inline' and Google Fonts CSS
+    const styleMatch = content.match(/style-src ([^;]+);/);
+    if(!styleMatch) issues.push("CSP has no style-src directive");
+    else {
+      const styleSrc = styleMatch[1].trim();
+      const allowed = styleSrc.split(/\s+/);
+      const expected = ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"];
+      const unexpected = allowed.filter(s => !expected.includes(s));
+      if(unexpected.length > 0) issues.push(`CSP style-src has unexpected entries: ${unexpected.join(", ")}`);
+    }
+
+    // font-src should only include 'self' and Google Fonts binaries
+    const fontMatch = content.match(/font-src ([^;]+);/);
+    if(!fontMatch) issues.push("CSP has no font-src directive");
+    else {
+      const fontSrc = fontMatch[1].trim();
+      const allowed = fontSrc.split(/\s+/);
+      const expected = ["'self'", "https://fonts.gstatic.com"];
+      const unexpected = allowed.filter(s => !expected.includes(s));
+      if(unexpected.length > 0) issues.push(`CSP font-src has unexpected entries: ${unexpected.join(", ")}`);
+    }
   }
 
   // ---- 9. All target=_blank links have noopener noreferrer ----
